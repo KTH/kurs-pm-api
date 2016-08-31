@@ -1,0 +1,53 @@
+{
+  "//": "The production flag is added in the jenkins build script",
+  "name": "node-api",
+  "version": "2.2.1",
+  "description": "Node.js based API template application",
+  "main": "app.js",
+  "private": true,
+  "scripts": {
+    "test": "tape \"test/**/*.js\" | tap-spec",
+    "test:coverage": "istanbul cover tape -- \"test/**/*.js\"",
+    "codecheck": "standard",
+    "preversion": "npm run codecheck && npm run test",
+    "postversion": "git push && git push --tags",
+    "nodeInspector": "node-inspector --web-port 8890",
+    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 && tail -f .",
+    "installAndStart": "npm install && npm start",
+    "start": "cross-env NODE_ENV=development nodemon app.js",
+    "debug": "cross-env NODE_ENV=development concurrently --kill-others \"node --debug-brk app.js\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "co": "^4.6.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "kth-node-access-log": "git+ssh://git@gita.sys.kth.se:Infosys/kth-node-access-log.git#v1.0.2",
+    "kth-node-api-key-strategy": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-api-key-strategy.git#v1.1.2",
+    "kth-node-configuration": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-configuration.git#v2.0.0",
+    "kth-node-log": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-log.git#v2.0.1",
+    "kth-node-mongo": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-mongo.git#v1.0.3",
+    "kth-node-response": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-response.git#v1.0.1",
+    "kth-node-server": "git+ssh://git@gita.sys.kth.se:Infosys/kth-node-server.git#v1.1.1",
+    "mongoose": "^4.5.8",
+    "passport": "^0.3.2",
+    "swagger-ui": "^2.1.5"
+  },
+  "devDependencies": {
+    "concurrently": "^2.2.0",
+    "cross-env": "^2.0.0",
+    "istanbul": "^0.4.4",
+    "proxyquire": "^1.7.10",
+    "standard": "^7.1.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0"
+  },
+  "optionalDependencies": {
+    "node-inspector": "^0.12.8",
+    "nodemon": "^1.10.0"
+  },
+  "engines": {
+    "node": "4.3.1"
+  }
+}

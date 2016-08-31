@@ -1,0 +1,29 @@
+﻿module.exports = {
+  secure: {
+    api_keys: [{name: 'devClient', apikey: '1234', scope: ['write', 'read']}],
+    db: {
+      username: '',
+      password: '',
+      uri: '',
+      authDatabase: '',
+      // attributes below are used for mongodb 3 with SSL
+      caCerts: [ '' ],
+      ssl: false
+    }
+  },
+  ssl: {
+    pfx: '',       // path to cert
+    passphrase: '' // passphrase for pfx-cert
+  },
+  logging: {
+    logstash: {
+      host: '', // log server host
+      port: 5000,
+      maxQueueSize: 1000,
+      caCerts: [
+        'Digicert_CA.pem',
+        'TERENA_SSL_CA_3.pem'
+      ]
+    }
+  }
+}

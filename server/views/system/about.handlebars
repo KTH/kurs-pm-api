@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>About {{appName}}</title>
+    <link rel="shortcut icon" id="favicon" href="//www.kth.se/img/icon/favicon.ico" />
+  </head>
+  <body>
+    <h1>About {{appName}}</h1>
+    <hr>
+    <table>
+      <tbody>
+        <tr>
+          <th>Version</th>
+          <td>{{appVersion}}</td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td>{{appDescription}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <p>
+      <a href="{{monitorUri}}">Monitor</a>
+      <span>|</span>
+      <a href="{{robotsUri}}">robots.txt</a>
+    </p>
+  </body>
+</html>
