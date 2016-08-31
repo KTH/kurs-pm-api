@@ -23,7 +23,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
-    "kth-node-access-log": "git+ssh://git@gita.sys.kth.se:Infosys/kth-node-access-log.git#v1.0.2",
+    "kth-node-access-log": "git+ssh://git@github.com:KTH/kth-node-access-log.git#v1.0.0",
     "kth-node-api-key-strategy": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-api-key-strategy.git#v1.1.2",
     "kth-node-configuration": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-configuration.git#v2.0.0",
     "kth-node-log": "git+ssh://git@gita.sys.kth.se/Infosys/kth-node-log.git#v2.0.1",
