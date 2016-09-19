@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs-api:1.3
+FROM kthse/kth-nodejs-api:1.4
 
 # Maintainer
 MAINTAINER Webmaster "webmaster@kth.se"
