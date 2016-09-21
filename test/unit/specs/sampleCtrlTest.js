@@ -30,7 +30,7 @@ MockSample.prototype.save = function () {
   return Promise.reject(new Error('error'))
 }
 
-const sample = proxyquire('../../../server/controllers/sample-ctrl', {
+const sample = proxyquire('../../../server/controllers/sampleCtrl', {
   '../models': {
     sample: {
       Sample: MockSample
