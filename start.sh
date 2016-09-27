@@ -30,7 +30,7 @@ else
     MONGO_LOG="$LOG_DIR/$MONGO_LOG_FILE"
 
     echo "Starting MongoDB. Logging to $MONGO_LOG"
-    $SERVICE --fork --logpath $MONGO_LOG
+    # $SERVICE --fork --logpath $MONGO_LOG
 
     npm run installAndStart
 fi
