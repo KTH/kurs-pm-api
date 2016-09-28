@@ -26,5 +26,6 @@ WORKDIR /application
 ADD [".", "."]
 
 RUN cp -a /npm/node_modules /application
+RUN cp -a /application/config/secretSettings.js /application/config/localSettings.js
 
 ENTRYPOINT ["node", "app.js"]
