@@ -2,8 +2,8 @@
 
 module.exports = {
   // Do not remove the System controller!
-  System: require('./system-ctrl'),
+  System: require('./systemCtrl'),
 
   // Replace with actual API controller
-  Sample: require('./sample-ctrl')
+  Sample: require('./sampleCtrl')
 }

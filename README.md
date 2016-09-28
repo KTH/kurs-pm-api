@@ -55,7 +55,7 @@ the template projects in the template projects themselves.
    ```
 
 8. Solve merge conflicts and commit/push to your cloned repository.
-9. Remove any sample code (e.g. `server/controllers/sample-ctrl.js`).
+9. Remove any sample code (e.g. `server/controllers/sampleCtrl.js`).
 
 To keep your cloned repository up to date with the upstream
 repository, just repeat steps 5-7 from above. Make sure to
@@ -68,7 +68,7 @@ If your application is going to be proxied on
 make sure you set the following paths and properties.
 
 Make sure you add the proxy prefix path in your paths in
-`/config/commonSettings.js` 
+`/config/commonSettings.js`
 
 ```
 module.exports = {
@@ -113,20 +113,20 @@ custom project.
   You can safely remove the `sample.js` file and add your own
   mongoose-based schemas and models.
 
-- `server/init/routing/sample-routes.js`
+- `server/init/routing/sampleRoutes.js`
 
   This file contains routing config for the sample controller.
   You can either rename or remove this file. Other files in this
   folder should only be edited in the template project. The paths
   for the routes come from the `swagger.json` file.
 
-- `server/controllers/sample-ctrl.js`
+- `server/controllers/sampleCtrl.js`
 
   This file contains the sample controller. You can either rename
   or remove this file. You can add your own controllers to this
   folder. Remember to add your custom controllers to the `index.js`
   file.
-  
+
 - `swagger.json`
 
   This file contains the API configuration and documentation.
@@ -156,7 +156,7 @@ custom project.
 
   Here you can put custom code that does not fit in any other
   place. Though do not edit the `routing.js` file.
-  
+
 - `config/`
 
   Any and all configuration goes here. In particular you must
@@ -185,5 +185,5 @@ or need tests, a simple `echo "ok"` will suffice.
 [api]: https://github.com/KTH/node-api
 [web]: https://github.com/KTH/node-web
 [tape]: https://github.com/substack/tape
-[sample-test]: test/unit/specs/sample-ctrl-test.js
+[sample-test]: test/unit/specs/sampleCtrl-test.js
 [swagger]: http://swagger.io/

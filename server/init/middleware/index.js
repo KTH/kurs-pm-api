@@ -7,6 +7,6 @@ const log = require('kth-node-log')
  * middleware and routing the ordering here is important.
  */
 require('./parsers')
-require('./access-log')
+require('./accessLog')
 
 log.info('Middleware initialized')
