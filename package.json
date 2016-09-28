@@ -12,10 +12,11 @@
     "preversion": "npm run codecheck && npm run test",
     "postversion": "git push && git push --tags",
     "nodeInspector": "node-inspector --web-port 8890",
-    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 && tail -f .",
+    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 &2>/dev/null",
     "installAndStart": "npm install && npm start",
     "start": "cross-env NODE_ENV=development nodemon app.js",
-    "debug": "cross-env NODE_ENV=development concurrently --kill-others \"node --debug-brk app.js\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+    "startDebug": "node --debug-brk app.js",
+    "debug": "cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
   },
   "dependencies": {
     "body-parser": "^1.15.2",
