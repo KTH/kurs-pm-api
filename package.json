@@ -1,8 +1,8 @@
 {
-  "//": "The production flag is added in the jenkins build script",
+  "//": "The production flag is added in the jenkins build script.",
   "name": "node-api",
   "version": "1.0.0",
-  "description": "Node.js based API template application",
+  "description": "Node.js based API template application.",
   "main": "app.js",
   "private": true,
   "scripts": {
@@ -26,7 +26,7 @@
     "express-handlebars": "^3.0.0",
     "kth-node-access-log": "https://github.com/KTH/kth-node-access-log.git#v1.0.0",
     "kth-node-api-key-strategy": "https://github.com/KTH/kth-node-api-key-strategy.git#v1.0.0",
-    "kth-node-configuration": "https://github.com/KTH/kth-node-configuration.git#v1.0.0",
+    "kth-node-configuration": "https://github.com/KTH/kth-node-configuration.git#v1.0.1",
     "kth-node-log": "https://github.com/KTH/kth-node-log.git#v1.0.0",
     "kth-node-mongo": "https://github.com/KTH/kth-node-mongo.git#v1.0.0",
     "kth-node-response": "https://github.com/KTH/kth-node-response.git#v1.0.0",
