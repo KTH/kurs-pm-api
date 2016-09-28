@@ -3,6 +3,9 @@
 const getEnv = require('kth-node-configuration').getEnv
 
 module.exports = {
+  useSsl: getEnv('SERVER_USE_SSL', false),
+  hostUrl: getEnv('SERVER_HOST_URL', 'http://localhost:3000'),
+  port: getEnv('SERVER_PORT', 3001),
   secure: {
     api_keys: [{name: 'devClient', apikey: getEnv('API_KEY'), scope: ['write', 'read']}],
     db: {
@@ -19,5 +22,9 @@ module.exports = {
     pfx: '',       // path to cert
     passphrase: '' // passphrase for pfx-cert
   },
-  logging: {}
+  logging: {
+    log: {
+      level: getEnv('LOGGING_LEVEL', 'info')
+    }
+  }
 }
