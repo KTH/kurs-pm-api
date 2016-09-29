@@ -4,6 +4,10 @@ const getEnv = require('kth-node-configuration').getEnv
 
 module.exports = {
   useSsl: getEnv('SERVER_USE_SSL', false),
+  ssl: {
+    pfx: getEnv('SERVER_CERT_FILE', '/certs/localhost.p12'),
+    passphrase: getEnv('SERVER_CERT_PASSPHRASE', '/certs/localhost.pass')
+  },
   hostUrl: getEnv('SERVER_HOST_URL', 'http://localhost:3000'),
   port: getEnv('SERVER_PORT', 3001),
   secure: {
@@ -14,13 +18,8 @@ module.exports = {
       uri: getEnv('DB_URI'),
       authDatabase: getEnv('DB_AUTH_DATABASE'),
       // attributes below are used for mongodb 3 with SSL
-      // caCerts: [ 'Digicert_CA.pem', 'TERENA_SSL_CA_3.pem' ],
       ssl: getEnv('DB_SSL', false)
     }
-  },
-  ssl: {
-    pfx: '',       // path to cert
-    passphrase: '' // passphrase for pfx-cert
   },
   logging: {
     log: {
