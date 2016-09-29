@@ -16,14 +16,16 @@ if (!dbUri && config.full.db) {
 
 let useSsl = config.secure.db.ssl
 
-if (useSsl && Array.isArray(config.secure.db.caCerts)) {
-  certs = config.secure.db.caCerts.map(cert => {
-    if (cert.indexOf('/') === 0) {
-      return fs.readFileSync(cert)
-    }
+if (useSsl) {
+  if (Array.isArray(config.secure.db.caCerts)) {
+    certs = config.secure.db.caCerts.map(cert => {
+      if (cert.indexOf('/') === 0) {
+        return fs.readFileSync(cert)
+      }
 
-    return fs.readFileSync(path.join(__dirname, '/../../../config/', cert))
-  })
+      return fs.readFileSync(path.join(__dirname, '/../../../config/', cert))
+    })
+  }
 
   sslOptions = {
     ssl: useSsl,

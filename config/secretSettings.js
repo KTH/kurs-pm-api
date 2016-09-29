@@ -12,9 +12,9 @@ module.exports = {
       username: getEnv('DB_USERNAME'),
       password: getEnv('DB_PASSWORD'),
       uri: getEnv('DB_URI'),
-      authDatabase: '',
+      authDatabase: getEnv('DB_AUTH_DATABASE'),
       // attributes below are used for mongodb 3 with SSL
-      caCerts: [ '' ],
+      // caCerts: [ 'Digicert_CA.pem', 'TERENA_SSL_CA_3.pem' ],
       ssl: getEnv('DB_SSL', false)
     }
   },
