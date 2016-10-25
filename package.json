@@ -9,6 +9,7 @@
     "test": "tape \"test/**/*.js\" | tap-spec",
     "test:coverage": "istanbul cover tape -- \"test/**/*.js\"",
     "codecheck": "standard",
+    "codefix": "standard --fix",
     "preversion": "npm run codecheck && npm run test",
     "postversion": "git push && git push --tags",
     "nodeInspector": "node-inspector --web-port 8890",
