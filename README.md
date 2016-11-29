@@ -170,6 +170,14 @@ custom project.
 
 - `.gitignore`
 
+#### Common errors
+
+When trying to run node-api as a standalone you might encounter the following error:
+```
+return binding.open(pathModule._makeLong(path), stringToFlags(flags), mode);
+```
+This is because the SSL information is incorrect in localSettings.js. Set ```useSsl: false``` to avoid this.
+
 
 #### Testing
 
