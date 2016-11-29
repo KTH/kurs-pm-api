@@ -5,8 +5,8 @@ const log = require('kth-node-log')
 const nodeMongo = require('kth-node-mongo')
 
 const mongoOptions = {
-  dbUsername: config.secure.db.username,
-  dbPassword: config.secure.db.password,
+  user: config.secure.db.username,
+  pass: config.secure.db.password,
   server: {
     authenticationDatabase: config.secure.db.authDatabase,
     ssl: config.secure.db.ssl
