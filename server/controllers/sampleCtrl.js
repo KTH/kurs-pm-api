@@ -14,7 +14,12 @@ module.exports = {
 
 function * getData (req, res, next) {
   try {
-    const doc = yield Sample.findById(req.params.id)
+    let doc = {}
+    if (process.env.NODE_MOCK) {
+      doc = yield {_id: 0, name: 'mockdata'}
+    } else {
+      doc = yield Sample.findById(req.params.id)
+    }
 
     if (!doc) {
       return next()
