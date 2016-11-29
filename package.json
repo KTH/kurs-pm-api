@@ -17,6 +17,7 @@
     "installAndStart": "npm install && npm start",
     "start": "cross-env NODE_ENV=development nodemon app.js",
     "startDebug": "node --debug-brk app.js",
+    "startMock": "NODE_MOCK=1 npm start",
     "debug": "cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
   },
   "dependencies": {
