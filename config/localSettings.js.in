@@ -18,6 +18,12 @@
     passphrase: '' // pass phrase for pfx-cert
   },
   logging: {
+    stdout: {
+      enabled: false
+    },
+    console: {
+      enabled: true
+    },
     log: {
       level: 'info'
     },
