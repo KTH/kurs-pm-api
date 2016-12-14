@@ -1,6 +1,7 @@
 'use strict'
 
 const packageFile = require('../../package.json')
+const config = require('../init/configuration').full
 const paths = require('../init/routing/paths')
 const db = require('kth-node-mongo')
 
@@ -13,6 +14,7 @@ module.exports = {
   about: getAbout,
   robotsTxt: getRobotsTxt,
   paths: getPaths,
+  checkAPIKey: checkAPIKey,
   swagger: getSwagger
 }
 
@@ -62,4 +64,9 @@ function getRobotsTxt (req, res) {
  */
 function getPaths (req, res) {
   res.json(paths)
+}
+
+
+function checkAPIKey (req, res) {
+  res.end()
 }

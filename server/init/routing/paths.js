@@ -34,6 +34,18 @@ module.exports = {
     swagger: {
       uri: routing.prefix('/swagger.json'),
       method: 'GET'
+    },
+
+    checkAPIKey: {
+      uri: routing.prefix('/_checkAPIKey'),
+      method: 'GET',
+      apikey: {
+        scope_required: true,
+        scopes: [
+          'read'
+        ],
+        type: 'api_key'
+      }
     }
   },
 
