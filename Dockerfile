@@ -22,6 +22,6 @@ RUN cp -a /npm/node_modules /application  && \
 
 ENV NODE_PATH /application
 
-EXPOSE 3000
+EXPOSE 3001
 
 ENTRYPOINT ["node", "app.js"]
