@@ -10,4 +10,4 @@ services:
     
     # Port published from inside the Docker image
     ports:
-      - 3000
+      - 3001
