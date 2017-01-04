@@ -10,7 +10,7 @@ WORKDIR /npm
 
 COPY ["package.json", "package.json"]
 
-RUN npm install
+RUN npm install --production --no-optional
 
 # Add the code and copy over the node_modules
 
