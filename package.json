@@ -32,7 +32,7 @@
     "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
     "kth-node-mongo": "KTH/kth-node-mongo.git#v1.0.3",
     "kth-node-response": "KTH/kth-node-response.git#v1.0.0",
-    "kth-node-server": "KTH/kth-node-server.git#v1.0.0",
+    "kth-node-server": "KTH/kth-node-server.git#v3.0.1",
     "mongoose": "^4.5.8",
     "passport": "^0.3.2",
     "swagger-ui": "^2.1.5"

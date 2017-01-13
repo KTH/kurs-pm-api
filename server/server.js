@@ -4,14 +4,14 @@ const server = require('kth-node-server')
 const config = require('./init/configuration')
 const log = require('kth-node-log')
 
-// initialize logger
-require('./init/logging')
-
-server.setConfig(config)
-server.setLog(log)
-server.setInitCallback(() => {
-  require('./init')
-  // additional startup code
+server.start({
+  pfx:config.full.ssl.pfx,
+  passphrase:config.full.ssl.passphrase,
+  key:config.full.ssl.key,
+  ca:config.full.ssl.ca,
+  cert: config.full.ssl.cert,
+  port:3333,
+  log
 })
 
 module.exports = server
