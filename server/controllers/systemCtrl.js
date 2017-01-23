@@ -5,6 +5,10 @@ const config = require('../init/configuration').full
 const paths = require('../init/routing/paths')
 const db = require('kth-node-mongo')
 
+const Promise = require('bluebird')
+const registry = require('component-registry').globalRegistry
+const { IHealthCheck } = require('kth-node-monitor').interfaces
+
 /**
  * System controller for functions such as about and monitor.
  * Avoid making changes here in sub-projects.
@@ -45,8 +49,34 @@ function getAbout (req, res) {
  * Monitor page
  */
 function getMonitor (req, res) {
-  res.type('text').render('system/monitor', {
-    dbStatus: db.isOk() ? 'OK' : 'ERROR'
+  // Check MongoDB
+  const mongodbHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-mongodb')
+  const subSystems = [mongodbHealthUtil.status(db, { required: true })]
+
+  // If we need local system checks, such as memory or disk, we would add it here.
+  // Make sure it returns a promise which resolves with an object containing:
+  // {statusCode: ###, message: '...'}
+  // The property statusCode should be standard HTTP status codes.
+  const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
+
+  /* -- You will normally not change anything below this line -- */
+
+  // Determine system health based on the results of the checks above. Expects
+  // arrays of promises as input. This returns a promise
+  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
+  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+
+  systemStatus.then((status) => {
+    // Return the result either as JSON or text
+    if (req.headers['accept'] === 'application/json') {
+      let outp = systemHealthUtil.renderJSON(status)
+      res.status(status.statusCode).json(outp)
+    } else {
+      let outp = systemHealthUtil.renderText(status)
+      res.type('text').status(status.statusCode).send(outp)
+    }
+  }).catch((err) => {
+    res.type('text').status(500).send(err)
   })
 }
 

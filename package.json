@@ -21,8 +21,10 @@
     "debug": "cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "co": "^4.6.0",
+    "component-registry": "^0.2.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
@@ -31,10 +33,12 @@
     "kth-node-configuration": "KTH/kth-node-configuration.git#v1.0.1",
     "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
     "kth-node-mongo": "KTH/kth-node-mongo.git#v1.0.3",
+    "kth-node-monitor": "https://github.com/KTH/kth-node-monitor.git#v0.1.2",
     "kth-node-response": "KTH/kth-node-response.git#v1.0.0",
     "kth-node-server": "KTH/kth-node-server.git#v3.0.1",
     "mongoose": "^4.5.8",
     "passport": "^0.3.2",
+    "safe-utils": "0.1.0",
     "swagger-ui": "^2.1.5"
   },
   "devDependencies": {
