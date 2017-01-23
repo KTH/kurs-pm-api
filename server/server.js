@@ -5,12 +5,12 @@ const config = require('./init/configuration')
 const log = require('kth-node-log')
 
 server.start({
-  pfx:config.full.ssl.pfx,
-  passphrase:config.full.ssl.passphrase,
-  key:config.full.ssl.key,
-  ca:config.full.ssl.ca,
+  pfx: config.full.ssl.pfx,
+  passphrase: config.full.ssl.passphrase,
+  key: config.full.ssl.key,
+  ca: config.full.ssl.ca,
   cert: config.full.ssl.cert,
-  port:3333,
+  port: config.full.port,
   log
 })
 
