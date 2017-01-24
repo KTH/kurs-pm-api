@@ -1,24 +1,13 @@
 {
   "//": "The production flag is added in the jenkins build script.",
   "name": "node-api",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node.js based API template application.",
   "main": "app.js",
   "private": true,
   "scripts": {
-    "test": "tape \"test/**/*.js\" | tap-spec",
-    "test:coverage": "istanbul cover tape -- \"test/**/*.js\"",
-    "codecheck": "standard",
-    "codefix": "standard --fix",
-    "preversion": "npm run codecheck && npm run test",
-    "postversion": "git push && git push --tags",
-    "nodeInspector": "node-inspector --web-port 8890",
-    "openDebugBrowser": "sleep 2s && open http://127.0.0.1:8890/\\?port\\=5858 &2>/dev/null",
-    "installAndStart": "npm install && npm start",
-    "start": "cross-env NODE_ENV=development nodemon app.js",
-    "startDebug": "node --debug-brk app.js",
-    "startMock": "NODE_MOCK=1 npm start",
-    "debug": "cross-env NODE_ENV=development concurrently --kill-others \"npm run startDebug\" \"npm run nodeInspector\" \"npm run openDebugBrowser\""
+    "test": "echo \"ok\"",
+    "start": "cross-env NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
     "bluebird": "^3.4.6",
@@ -26,11 +15,12 @@
     "co": "^4.6.0",
     "component-registry": "^0.2.0",
     "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "kth-node-access-log": "KTH/kth-node-access-log.git#v1.0.0",
     "kth-node-api-key-strategy": "KTH/kth-node-api-key-strategy.git#v1.0.2",
-    "kth-node-configuration": "KTH/kth-node-configuration.git#v1.0.1",
+    "kth-node-configuration": "KTH/kth-node-configuration.git#v1.3.1",
     "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
     "kth-node-mongo": "KTH/kth-node-mongo.git#v1.0.3",
     "kth-node-monitor": "https://github.com/KTH/kth-node-monitor.git#v0.1.2",
@@ -45,16 +35,13 @@
     "concurrently": "^2.2.0",
     "cross-env": "^2.0.0",
     "istanbul": "^0.4.4",
+    "nodemon": "^1.10.0",
     "proxyquire": "^1.7.10",
     "standard": "^7.1.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.0"
   },
-  "optionalDependencies": {
-    "node-inspector": "^0.12.8",
-    "nodemon": "^1.10.0"
-  },
   "engines": {
-    "node": "4.3.1"
+    "node": "6.9.1"
   }
 }

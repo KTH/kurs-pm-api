@@ -3,7 +3,7 @@
 const log = require('kth-node-log')
 const server = require('../server')
 const passport = require('passport')
-const proxyPrefixPath = require('../init/configuration').full.proxyPrefixPath.uri
+const proxyPrefixPath = require('../init/configuration').server.proxyPrefixPath.uri
 const url = require('url')
 
 module.exports = {

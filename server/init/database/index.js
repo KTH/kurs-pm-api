@@ -1,18 +1,18 @@
 'use strict'
 
-const config = require('../configuration')
+const config = require('../configuration').server
 const log = require('kth-node-log')
 const nodeMongo = require('kth-node-mongo')
 
 const mongoOptions = {
-  user: config.secure.db.username,
-  pass: config.secure.db.password,
+  user: config.db.username,
+  pass: config.db.password,
   server: {
-    authenticationDatabase: config.secure.db.authDatabase,
-    ssl: config.secure.db.ssl
+    authenticationDatabase: config.db.authDatabase,
+    ssl: config.db.ssl
   },
   maxPoolSize: 5,
-  dbUri: config.secure.db.uri,
+  dbUri: config.db.uri,
   logger: log
 }
 

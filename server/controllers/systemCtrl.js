@@ -1,7 +1,7 @@
 'use strict'
 
 const packageFile = require('../../package.json')
-const config = require('../init/configuration').full
+const config = require('../init/configuration').server
 const paths = require('../init/routing/paths')
 const db = require('kth-node-mongo')
 
