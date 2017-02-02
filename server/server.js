@@ -5,6 +5,7 @@ const config = require('./init/configuration').server
 const log = require('kth-node-log')
 
 server.start({
+  useSsl: config.useSsl,
   pfx: config.ssl.pfx,
   passphrase: config.ssl.passphrase,
   key: config.ssl.key,
