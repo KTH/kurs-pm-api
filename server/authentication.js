@@ -1,9 +1,9 @@
 'use strict'
 
 const log = require('kth-node-log')
-const config = require('../configuration').server
+const config = require('./configuration').server
 const passport = require('passport')
-const server = require('../../server')
+const server = require('./server')
 const apiKey = require('kth-node-api-key-strategy')
 
 const ApiKeyStrategy = apiKey.Strategy

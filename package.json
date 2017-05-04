@@ -21,6 +21,7 @@
     "kth-node-access-log": "KTH/kth-node-access-log.git#v1.0.0",
     "kth-node-api-key-strategy": "KTH/kth-node-api-key-strategy.git#v1.0.2",
     "kth-node-configuration": "^1.3.2",
+    "kth-node-express-routing": "^0.2.3",
     "kth-node-log": "KTH/kth-node-log.git#v1.0.1",
     "kth-node-mongo": "KTH/kth-node-mongo.git#v1.0.3",
     "kth-node-monitor": "https://github.com/KTH/kth-node-monitor.git#v0.1.2",

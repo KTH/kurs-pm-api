@@ -1,6 +1,6 @@
 'use strict'
 
-const config = require('../configuration').server
+const config = require('./configuration').server
 const log = require('kth-node-log')
 const nodeMongo = require('kth-node-mongo')
 

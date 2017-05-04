@@ -1,8 +1,8 @@
 'use strict'
 
 const packageFile = require('../../package.json')
-const config = require('../init/configuration').server
-const paths = require('../init/routing/paths')
+const config = require('../configuration').server
+const server = require('../server')
 const db = require('kth-node-mongo')
 
 const Promise = require('bluebird')
@@ -93,7 +93,7 @@ function getRobotsTxt (req, res) {
  * Return all paths for the system
  */
 function getPaths (req, res) {
-  res.json(paths)
+  res.json(server.getPaths())
 }
 
 
