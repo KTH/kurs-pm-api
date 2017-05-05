@@ -9,7 +9,7 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 }
 // Now read the server config etc.
 const config = require('./configuration').server
-const AppRouter = require('kth-node-express-routing').Router
+const AppRouter = require('kth-node-express-routing').PageRouter
 const getPaths = require('kth-node-express-routing').getPaths
 
 // Expose the server and paths
@@ -117,14 +117,11 @@ require('./database')
  * **********************************
  */
 const addPaths = require('kth-node-express-routing').addPaths
-const createApiPaths = require('./createApiPaths')
+const { createApiPaths, createSwaggerRedirectHandler, notFoundHandler, errorHandler } = require('kth-node-api-common')
 const swaggerData = require('../swagger.json')
 const { System } = require('./controllers')
 
-// Add api endpoint definitions from swagger
-addPaths('api', createApiPaths(swaggerData))
-
-// System routes
+// System pages routes
 const systemRoute = AppRouter()
 systemRoute.get('system.monitor', config.proxyPrefixPath.uri + '/_monitor', System.monitor)
 systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.about)
@@ -143,56 +140,34 @@ systemRoute.get({
 }, config.proxyPrefixPath.uri + '/swagger.json', System.checkAPIKey)
 server.use('/', systemRoute.getRouter())
 
-// Force URL query param to be set for index.html
-// TODO: This looks like crap...
+// Swagger UI
 const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
-server.use(swaggerUrl, (req, res, next) => {
-  if ((req.url !== '/' && req.url !== '/index.html') || req.query[ 'url' ]) {
-    next()
-    return
-  }
-  res.redirect(`${swaggerUrl}?url=${config.proxyPrefixPath.uri + '/swagger.json'}`)
-})
+server.use(swaggerUrl, createSwaggerRedirectHandler(swaggerUrl, config.proxyPrefixPath.uri))
 server.use(swaggerUrl, express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
 
-// App routes
-// TODO: This looks like crap...
+// Add API endpoints defined in swagger to path definitions so we can use them to register API enpoint handlers
+addPaths('api', createApiPaths({
+  swagger: swaggerData,
+  proxyPrefixPathUri: config.proxyPrefixPath.uri
+}))
+
+// Application specific API enpoints
 const { Sample } = require('./controllers')
+const ApiRouter = require('kth-node-express-routing').ApiRouter
+const apiRoute = ApiRouter()
 const paths = getPaths()
 
-function setApiScope (apiKeyScopes) {
-  return function (req, res, next) {
-    req.scope = apiKeyScopes // path.apikey.scopes
-    next()
-  }
-}
-server[paths.api.getDataById.method.toLowerCase()](paths.api.getDataById.uri, passport.authenticate('apikey', { session: false }), setApiScope(paths.api.getDataById.apikey.scopes), Sample.getData)
-server[paths.api.postDataById.method.toLowerCase()](paths.api.postDataById.uri, passport.authenticate('apikey', { session: false }), setApiScope(paths.api.postDataById.apikey.scopes), Sample.postData)
+// Middleware to protect enpoints with apiKey
+const authByApiKey = passport.authenticate('apikey', { session: false })
 
-// Not found etc
-// If the request ends up here none of the rules above have returned any response
-// TODO: Figure out why we set error.status = 404 and then status = 500 below
-// TODO: This looks like crap...
-server.use(function (req, res, next) {
-  const error = new Error(`Not Found: ${req.originalUrl}`)
-  error.status = 404
-  next(error)
-})
+// Api enpoints
+apiRoute.register(paths.api.getDataById, authByApiKey, Sample.getData)
+apiRoute.register(paths.api.postDataById, authByApiKey, Sample.postData)
+server.use('/', apiRoute.getRouter())
 
-// handle any errors thrown or forwarded through the next callback
-server.use(function (err, req, res, next) {
-  let status = err.status
-
-  if (!status) {
-    if (err.errors) {
-      status = 400
-    } else {
-      status = 500
-    }
-  }
-
-  res.status(status).json({ message: err.message, errors: err.errors, code: err.code })
-})
+// Catch not found and errors
+server.use(notFoundHandler)
+server.use(errorHandler)
 
 /* ****************************
  * ******* SERVER START *******
