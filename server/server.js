@@ -57,32 +57,6 @@ server.set('view engine', 'handlebars')
 const accessLog = require('kth-node-access-log')
 server.use(accessLog(config.logging.accessLog))
 
-/* ****************************
- * ******* STATIC FILES *******
- * ****************************
- */
-const express = require('express')
-
-// helper
-function setCustomCacheControl (res, path) {
-  if (express.static.mime.lookup(path) === 'text/html') {
-    // Custom Cache-Control for HTML files
-    res.setHeader('Cache-Control', 'no-cache')
-  }
-}
-
-// Files/statics routes--
-// Map components HTML files as static content, but set custom cache control header, currently no-cache to force If-modified-since/Etag check.
-server.use(config.proxyPrefixPath.uri + '/static/js/components', express.static('./dist/js/components', { setHeaders: setCustomCacheControl }))
-// Map static content like images, css and js.
-server.use(config.proxyPrefixPath.uri + '/static', express.static('./dist'))
-// Return 404 if static file isn't found so we don't go through the rest of the pipeline
-server.use(config.proxyPrefixPath.uri + '/static', function (req, res, next) {
-  var error = new Error('File not found: ' + req.originalUrl)
-  error.statusCode = 404
-  next(error)
-})
-
 // QUESTION: Should this really be set here?
 // http://expressjs.com/en/api.html#app.set
 server.set('case sensitive routing', true)
@@ -110,7 +84,8 @@ server.use(passport.session())
  * ******* DATABASE *******
  * ************************
  */
-require('./database')
+// Just connect the database
+require('./database').connect()
 
 /* **********************************
  * ******* APPLICATION ROUTES *******
@@ -141,6 +116,7 @@ systemRoute.get({
 server.use('/', systemRoute.getRouter())
 
 // Swagger UI
+const express = require('express')
 const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
 server.use(swaggerUrl, createSwaggerRedirectHandler(swaggerUrl, config.proxyPrefixPath.uri))
 server.use(swaggerUrl, express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
