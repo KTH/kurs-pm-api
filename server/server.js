@@ -6,6 +6,11 @@ const path = require('path')
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
 if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
   require('dotenv').config()
+} else if (!process.env.SERVICE_PUBLISH) {
+  // This is an ANSIBLE machine which doesn't set env-vars atm
+  // so read localSettings.js which we now use to fake env-vars
+  // because it already exists in our Ansible setup.
+  require('../config/localSettings')
 }
 // Now read the server config etc.
 const config = require('./configuration').server
@@ -41,13 +46,7 @@ log.init(logConfiguration)
  */
 const exphbs = require('express-handlebars')
 server.set('views', path.join(__dirname, '/views'))
-server.set('layouts', path.join(__dirname, '/views/layouts'))
-server.set('partials', path.join(__dirname, '/views/partials'))
-server.engine('handlebars', exphbs({
-  defaultLayout: 'publicLayout',
-  layoutsDir: server.settings.layouts,
-  partialsDir: server.settings.partials,
-}))
+server.engine('handlebars', exphbs())
 server.set('view engine', 'handlebars')
 
 /* ******************************
@@ -112,13 +111,13 @@ systemRoute.get({
     ],
     type: 'api_key'
   }
-}, config.proxyPrefixPath.uri + '/swagger.json', System.checkAPIKey)
+}, config.proxyPrefixPath.uri + '/_checkAPIKey', System.checkAPIKey)
 server.use('/', systemRoute.getRouter())
 
 // Swagger UI
 const express = require('express')
 const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
-server.use(swaggerUrl, createSwaggerRedirectHandler(swaggerUrl, config.proxyPrefixPath.uri))
+server.use(swaggerUrl, createSwaggerRedirectHandler(`${swaggerUrl}?url=${config.proxyPrefixPath.uri + '/swagger.json'}`))
 server.use(swaggerUrl, express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API enpoint handlers

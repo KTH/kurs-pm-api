@@ -25,4 +25,3 @@ module.exports.connect = function () {
       log.error({ err: err }, 'MongoDB: ERROR connecting DB')
     })
 }
-

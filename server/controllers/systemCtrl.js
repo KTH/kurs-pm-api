@@ -35,6 +35,7 @@ function getSwagger (req, res) {
  * About page
  */
 function getAbout (req, res) {
+  const paths = server.getPaths()
   res.render('system/about', {
     appName: packageFile.name,
     appVersion: packageFile.version,
