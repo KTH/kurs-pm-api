@@ -144,19 +144,4 @@ server.use('/', apiRoute.getRouter())
 server.use(notFoundHandler)
 server.use(errorHandler)
 
-/* ****************************
- * ******* SERVER START *******
- * ****************************
- */
-server.start({
-  useSsl: config.useSsl,
-  pfx: config.ssl.pfx,
-  passphrase: config.ssl.passphrase,
-  key: config.ssl.key,
-  ca: config.ssl.ca,
-  cert: config.ssl.cert,
-  port: config.port,
-  logger: log
-})
-
 module.exports = server
