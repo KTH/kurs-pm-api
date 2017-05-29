@@ -2,7 +2,7 @@
 
 const packageFile = require('../../package.json')
 const config = require('../configuration').server
-const server = require('../server')
+const getPaths = require('kth-node-express-routing').getPaths
 const db = require('kth-node-mongo')
 
 const Promise = require('bluebird')
@@ -17,7 +17,7 @@ module.exports = {
   monitor: getMonitor,
   about: getAbout,
   robotsTxt: getRobotsTxt,
-  paths: getPaths,
+  paths: getPathsHandler,
   checkAPIKey: checkAPIKey,
   swagger: getSwagger
 }
@@ -35,7 +35,7 @@ function getSwagger (req, res) {
  * About page
  */
 function getAbout (req, res) {
-  const paths = server.getPaths()
+  const paths = getPaths()
   res.render('system/about', {
     appName: packageFile.name,
     appVersion: packageFile.version,
@@ -93,8 +93,8 @@ function getRobotsTxt (req, res) {
  * GET /_paths
  * Return all paths for the system
  */
-function getPaths (req, res) {
-  res.json(server.getPaths())
+function getPathsHandler (req, res) {
+  res.json(getPaths())
 }
 
 
