@@ -5,12 +5,42 @@
     "description": "Template API project for Node.js",
     "version": "1.0.0"
   },
-  "basePath": "/api/node/v1",
+  "basePath": "/api/node",
   "produces": [
     "application/json"
   ],
   "paths": {
-    "/data/{id}": {
+    "/_checkAPIkey": {
+      "get": {
+        "operationId": "checkAPIkey",
+        "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
+        "description": "",
+        "parameters": [],
+        "tags": [
+          "system"
+        ],
+        "responses": {
+          "200": {
+            "description": "An empty response",
+            "schema": {
+              "$ref": "#/definitions/UserList"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": [
+            "read"
+          ]
+        }
+      }
+    },
+    "/v1/data/{id}": {
       "get": {
         "operationId": "getDataById",
         "summary": "Get data",
