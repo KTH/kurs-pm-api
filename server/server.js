@@ -102,16 +102,6 @@ systemRoute.get('system.about', config.proxyPrefixPath.uri + '/_about', System.a
 systemRoute.get('system.paths', config.proxyPrefixPath.uri + '/_paths', System.paths)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 systemRoute.get('system.swagger', config.proxyPrefixPath.uri + '/swagger.json', System.swagger)
-systemRoute.get({
-  namespace: 'system.checkAPIKey',
-  apikey: {
-    scope_required: true,
-    scopes: [
-      'read'
-    ],
-    type: 'api_key'
-  }
-}, config.proxyPrefixPath.uri + '/_checkAPIKey', System.checkAPIKey)
 server.use('/', systemRoute.getRouter())
 
 // Swagger UI
@@ -137,6 +127,8 @@ const paths = getPaths()
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Api enpoints
+apiRoute.register(paths.api.checkAPIkey, authByApiKey, System.checkAPIKey)
+
 apiRoute.register(paths.api.getDataById, authByApiKey, Sample.getData)
 apiRoute.register(paths.api.postDataById, authByApiKey, Sample.postData)
 server.use('/', apiRoute.getRouter())
