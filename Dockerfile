@@ -1,4 +1,4 @@
-FROM kthse/kth-nodejs-api:2.0-alpine
+FROM kthse/kth-nodejs-api:2.3
 
 MAINTAINER KTH Webb "cortina.developers@kth.se"
 
