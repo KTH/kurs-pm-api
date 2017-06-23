@@ -1,8 +1,8 @@
+/* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 'use strict'
-
-const test = require('tape')
 const proxyquire = require('proxyquire')
-
+const expect = require('chai').expect
 function MockSample (doc) {
   this._id = doc._id
   this.name = doc.name
@@ -38,144 +38,133 @@ const sample = proxyquire('../../../server/controllers/sampleCtrl', {
   }
 })
 
-test('getData ok', (t) => {
-  t.plan(1)
-
-  const req = {
-    params: {
-      id: '123'
+describe('Tests', function () {
+  it('should getData ok', () => {
+    const req = {
+      params: {
+        id: '123'
+      }
     }
-  }
 
-  const res = {
-    json: (obj) => {
-      t.equal(obj.id, '123', 'should have the expected id')
+    const res = {
+      json: (obj) => {
+        expect(obj.id).to.equal('123')
+      }
     }
-  }
 
-  const next = (err) => {
-    t.error(err, 'should not pass an error')
-  }
-
-  sample.getData(req, res, next)
-})
-
-test('getData not found', (t) => {
-  t.plan(2)
-
-  const req = {
-    params: {
-      id: 'abc'
+    const next = (err) => {
+      expect(err).to.be.undefined
     }
-  }
 
-  const res = {
-    json: () => {
-      t.fail('should not call res.json')
+    sample.getData(req, res, next)
+  })
+
+  it('should handle getData not found', () => {
+    const req = {
+      params: {
+        id: 'abc'
+      }
     }
-  }
 
-  const next = (err) => {
-    t.error(err, 'should not pass error')
-    t.pass('should call next without param')
-  }
-
-  sample.getData(req, res, next)
-})
-
-test('getData fail', (t) => {
-  t.plan(1)
-
-  const req = {
-    params: {
-      id: 'fail'
+    const res = {
+      json: (data) => {
+        expect(data).to.be.undefined
+      }
     }
-  }
 
-  const res = {
-    json: () => {
-      t.fail('should not call res.json')
+    const next = (err) => {
+      expect(err).to.be.undefined
     }
-  }
 
-  const next = (err) => {
-    t.ok(err, 'should pass error')
-  }
+    sample.getData(req, res, next)
+  })
 
-  sample.getData(req, res, next)
-})
-
-test('postData update ok', (t) => {
-  t.plan(1)
-
-  const req = {
-    params: {
-      id: '123'
-    },
-    body: {
-      name: 'foo'
+  it('should handle getData fail', () => {
+    const req = {
+      params: {
+        id: 'fail'
+      }
     }
-  }
 
-  const res = {
-    json: (obj) => {
-      t.equal(obj.id, '123', 'should have the expected id')
+    const res = {
+      json: (data) => {
+        expect(data).to.be.undefined
+      }
     }
-  }
 
-  const next = (err) => {
-    t.error(err, 'should not pass error')
-  }
-
-  sample.postData(req, res, next)
-})
-
-test('postData create ok', (t) => {
-  t.plan(1)
-
-  const req = {
-    params: {
-      id: 'abc'
-    },
-    body: {
-      name: 'foo'
+    const next = (err) => {
+      expect(err).to.be.not.undefined
     }
-  }
 
-  const res = {
-    json: (obj) => {
-      t.equal(obj.id, 'abc', 'should have the expected id')
+    sample.getData(req, res, next)
+  })
+
+  it('should postData update ok', () => {
+    const req = {
+      params: {
+        id: '123'
+      },
+      body: {
+        name: 'foo'
+      }
     }
-  }
 
-  const next = (err) => {
-    t.error(err, 'should not pass error')
-  }
-
-  sample.postData(req, res, next)
-})
-
-test('postData fail', (t) => {
-  t.plan(1)
-
-  const req = {
-    params: {
-      id: 'fail'
-    },
-    body: {
-      name: 'foo'
+    const res = {
+      json: (obj) => {
+        expect(obj.id).to.equal('123')
+      }
     }
-  }
 
-  const res = {
-    json: () => {
-      t.fail('should not call res.json')
+    const next = (err) => {
+      expect(err).to.be.undefined
     }
-  }
 
-  const next = (err) => {
-    t.ok(err, 'should pass error')
-  }
+    sample.postData(req, res, next)
+  })
 
-  sample.postData(req, res, next)
+  it('should postData create ok', () => {
+    const req = {
+      params: {
+        id: 'abc'
+      },
+      body: {
+        name: 'foo'
+      }
+    }
+
+    const res = {
+      json: (obj) => {
+        expect(obj.id).to.equal('abc')
+      }
+    }
+
+    const next = (err) => {
+      expect(err).to.be.undefined
+    }
+
+    sample.postData(req, res, next)
+  })
+
+  it('should handle postData fail', () => {
+    const req = {
+      params: {
+        id: 'fail'
+      },
+      body: {
+        name: 'foo'
+      }
+    }
+
+    const res = {
+      json: (data) => {
+        expect(data).to.be.undefined
+      }
+    }
+
+    const next = (err) => {
+      expect(err).to.be.not.undefined
+    }
+
+    sample.postData(req, res, next)
+  })
 })

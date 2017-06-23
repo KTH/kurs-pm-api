@@ -22,7 +22,7 @@ module.exports = {
   proxyPrefixPath: {
     uri: getEnv('SERVICE_PUBLISH', devPrefixPath)
   },
-  useSsl: safeGet(() => getEnv('SERVER_SSL', devSsl + '').toLowerCase() == 'true'),
+  useSsl: safeGet(() => getEnv('SERVER_SSL', devSsl + '').toLowerCase() === 'true'),
   port: getEnv('SERVER_PORT', devPort),
 
   ssl: {

@@ -1,7 +1,6 @@
 'use strict'
 
 const packageFile = require('../../package.json')
-const config = require('../configuration').server
 const getPaths = require('kth-node-express-routing').getPaths
 const db = require('kth-node-mongo')
 
@@ -96,7 +95,6 @@ function getRobotsTxt (req, res) {
 function getPathsHandler (req, res) {
   res.json(getPaths())
 }
-
 
 function checkAPIKey (req, res) {
   res.end()

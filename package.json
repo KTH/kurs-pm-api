@@ -6,7 +6,8 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "test": "echo \"ok\"",
+    "test": "mocha test/**/*.js",
+    "precommit":"standard && npm run test",
     "start": "cross-env NODE_ENV=development nodemon app.js"
   },
   "dependencies": {
@@ -34,9 +35,12 @@
     "swagger-ui": "^2.1.5"
   },
   "devDependencies": {
+    "chai": "^4.0.2",
     "concurrently": "^2.2.0",
     "cross-env": "^2.0.0",
+    "husky": "^0.14.0",
     "istanbul": "^0.4.4",
+    "mocha": "^3.4.2",
     "nodemon": "^1.10.0",
     "proxyquire": "^1.7.10",
     "standard": "^7.1.2",

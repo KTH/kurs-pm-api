@@ -1,6 +1,5 @@
 'use strict'
 const server = require('kth-node-server')
-const { safeGet } = require('safe-utils')
 const path = require('path')
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
