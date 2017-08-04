@@ -78,13 +78,6 @@ require('./authentication')
 server.use(passport.initialize())
 server.use(passport.session())
 
-/* ************************
- * ******* DATABASE *******
- * ************************
- */
-// Just connect the database
-require('./database').connect()
-
 /* **********************************
  * ******* APPLICATION ROUTES *******
  * **********************************
