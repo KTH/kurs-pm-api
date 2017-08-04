@@ -6,12 +6,13 @@
   "main": "app.js",
   "private": true,
   "scripts": {
+    "codecheck": "standard",
     "test": "mocha test/**/*.js",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
   "pre-push": [
-    "standard",
+    "codecheck",
     "test"
   ],
   "dependencies": {
