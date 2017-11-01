@@ -116,20 +116,20 @@ addPaths('api', createApiPaths({
   proxyPrefixPathUri: config.proxyPrefixPath.uri
 }))
 
-// Application specific API enpoints
-const { Sample } = require('./controllers')
-const ApiRouter = require('kth-node-express-routing').ApiRouter
-const apiRoute = ApiRouter()
-const paths = getPaths()
-
 // Middleware to protect enpoints with apiKey
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
-// Api enpoints
-apiRoute.register(paths.api.checkAPIkey, authByApiKey, System.checkAPIKey)
+// Application specific API enpoints
+const { Sample } = require('./controllers')
+const ApiRouter = require('kth-node-express-routing').ApiRouter
+const apiRoute = ApiRouter(authByApiKey)
+const paths = getPaths()
 
-apiRoute.register(paths.api.getDataById, authByApiKey, Sample.getData)
-apiRoute.register(paths.api.postDataById, authByApiKey, Sample.postData)
+// Api enpoints
+apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
+
+apiRoute.register(paths.api.getDataById, Sample.getData)
+apiRoute.register(paths.api.postDataById, Sample.postData)
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors
