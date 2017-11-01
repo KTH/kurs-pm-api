@@ -7,14 +7,14 @@
  * *************************************************
  *
  */
-const { getEnv, unpackMongodbConfig } = require('kth-node-configuration')
+const { getEnv, unpackMongodbConfig, unpackApiKeysConfig, devDefaults } = require('kth-node-configuration')
 const { safeGet } = require('safe-utils')
 
 // DEFAULT SETTINGS used for dev, if you want to override these for you local environment, use env-vars in .env
-const devPrefixPath = '/api/node'
-const devSsl = false
-const devPort = 3001
-const devMongodb = 'mongodb://localhost:27017/node'
+const devPrefixPath = devDefaults('/api/node')
+const devSsl = devDefaults(false)
+const devPort = devDefaults(3001)
+const devMongodb = devDefaults('mongodb://localhost:27017/node')
 // END DEFAULT SETTINGS
 
 module.exports = {
@@ -32,11 +32,7 @@ module.exports = {
   },
 
   // API keys
-  api_keys: [{
-    name: 'devClient',
-    apikey: getEnv('NODE_API_KEY', '1234'),
-    scope: ['write', 'read']
-  }],
+  api_keys: unpackApiKeysConfig('API_KEYS', devApiKeys),
 
   // Services
   db: unpackMongodbConfig('MONGODB_URI', devMongodb),
