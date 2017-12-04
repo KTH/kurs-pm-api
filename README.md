@@ -1,4 +1,4 @@
-## node-api template project
+## node-api template project!
 
 In an attempt to simplify the process of starting up new
 Node.js based projects, there exists two template projects
