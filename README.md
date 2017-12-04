@@ -1,4 +1,5 @@
-## node-api template project!
+# Node-api
+## Template project for KTH RESTful JSON based API:s
 
 In an attempt to simplify the process of starting up new
 Node.js based projects, there exists two template projects
