@@ -28,7 +28,6 @@ logs/*
 node_modules/*
 
 # Docker
-docker-compose*.yml
 *.env
 
 # Generated with npm dependencies.
