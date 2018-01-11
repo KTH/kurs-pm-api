@@ -7,6 +7,7 @@ RUN mkdir -p /npm && \
 
 # We do this to avoid npm install when we're only changing code
 WORKDIR /npm
+COPY ["package-lock.json", "package-lock.json"]
 COPY ["package.json", "package.json"]
 RUN npm install --production --no-optional
 
@@ -17,6 +18,7 @@ RUN cp -a /npm/node_modules /application && \
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
+
 COPY ["package.json", "package.json"]
 
 # Copy source files, so changes does not trigger gulp.
