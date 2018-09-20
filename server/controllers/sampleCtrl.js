@@ -16,7 +16,7 @@ function * getData (req, res, next) {
   try {
     let doc = {}
     if (process.env.NODE_MOCK) {
-      doc = yield {_id: 0, name: 'mockdata'}
+      doc = yield { _id: 0, name: 'mockdata' }
     } else {
       doc = yield Sample.findById(req.params.id)
     }
