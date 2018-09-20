@@ -5,18 +5,16 @@ In an attempt to simplify the process of starting up new
 Node.js based projects, there exists two template projects
 to use as a foundation.
 
-The two projects are [node-web][web], a web server with
-express, and [node-api][api], a RESTful API. Both of them
-use OpenID Connect and/or CAS as a mechanism for
-authorisation and authentication.
+The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API. 
+The node-web project use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.
 
 #### Where can I find the template projects?
 
 - [https://github.com/KTH/node-api.git][api]
 - [https://github.com/KTH/node-web.git][web]
 
-It's important that we try to make changes that affect
-the template projects in the template projects themselves.
+It's important that we try to make changes that affect the template projects in the template projects themselves 
+to make sure that all other projects based on the templates get the good stuff.
 
 #### How do I use this template project for a project of my own?
 
@@ -24,60 +22,21 @@ the template projects in the template projects themselves.
 2. Clone the newly created repository locally by using:
 
    ```bash
-   git clone https://github.com/KTH/REPOSITORY
-   or
-   git clone https://gita.sys.kth.se/REPOSITORY.git
+   git clone git@github.com:KTH/node-api.git NEW_REPOSITORY_NAME
    ```
+  Make sure that your .git/config file is pointing to the new NEW_REPOSITORY_NAME
 
 3. Navigate to the cloned project directory
-4. Add node-web or node-api as the upstream repository to use:
 
-   ```bash
-   git remote add upstream https://github.com/KTH/node-[web/api].git
-   ```
-
-5. Fetch the latest changes/branches for the upstream
-   repository (use your KTH login if prompted):
-
-   ```bash
-   git fetch upstream
-   ```
-
-6. Checkout the branch you want to use:
-
-   ```bash
-   git checkout master
-   ```
-
-7. Merge the changes from node-api into your cloned repository:
-
-   ```bash
-   git merge upstream/master
-   ```
-
-8. Solve merge conflicts and commit/push to your cloned repository.
-9. Remove any sample code (e.g. `server/controllers/sampleCtrl.js`).
-
-To keep your cloned repository up to date with the upstream
-repository, just repeat steps 5-7 from above. Make sure to
-commit and push your existing changes before you merge!
-
-#### How do I set proxy path?
-
-If your application is going to be proxied on
-`www.kth.se/api/your-api-path`
-make sure you set the following paths and properties.
-
-Make sure you add the proxy prefix path in your paths in
-`/config/commonSettings.js`
+### How to configure the applications
 
 ```
-module.exports = {
-  // The proxy prefix path if the application is proxied. E.g /api/node
-  proxyPrefixPath: {
-    uri: '/api/node'
-  }
-}
+# LDAP settings
+LDAP_URI=ldaps://system-infosys@ref.ug.kth.se@ldap.ref.ug.kth.se
+LDAP_PASSWORD=XXXXXX
+
+# Logging
+LOGGING_ACCESS_LOG=/Users/hoyce/repos/github/node-api/logs
 ```
 
 Set your basePath property in `swagger.json`:
