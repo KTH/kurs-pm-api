@@ -31,10 +31,6 @@ to make sure that all other projects based on the templates get the good stuff.
 ### How to configure the applications
 
 ```
-# LDAP settings
-LDAP_URI=ldaps://system-infosys@ref.ug.kth.se@ldap.ref.ug.kth.se
-LDAP_PASSWORD=XXXXXX
-
 # Logging
 LOGGING_ACCESS_LOG=/Users/hoyce/repos/github/node-api/logs
 ```
