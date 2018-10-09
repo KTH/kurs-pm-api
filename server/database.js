@@ -7,12 +7,8 @@ const nodeMongo = require('kth-node-mongo')
 const mongoOptions = {
   user: config.db.username,
   pass: config.db.password,
-  server: {
-    authenticationDatabase: config.db.authDatabase,
-    ssl: config.db.ssl
-  },
-  maxPoolSize: 5,
-  dbUri: config.db.uri,
+  ssl: config.db.ssl,
+  dbUri: config.db.authDatabase !== '' ? config.db.uri + `?authSource=${config.db.authDatabase}` : config.db.uri,
   logger: log
 }
 

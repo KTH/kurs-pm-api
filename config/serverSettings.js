@@ -17,7 +17,7 @@ const devPort = devDefaults(3001)
 const devMongodb = devDefaults('mongodb://localhost:27017/node')
 
 // EXAMPLE: const devApiKeys = devDefaults('?name=devClient&apiKey=SET_YOUR_API_KEY&scope=write&scope=read')
-const devApiKeys = devDefaults('')
+const devApiKeys = devDefaults('?name=devClient&apiKey=1234&scope=write&scope=read')
 
 // END DEFAULT SETTINGS
 
