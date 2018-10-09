@@ -9,7 +9,6 @@
     "codecheck": "standard",
     "codefix": "standard --fix",
     "test": "mocha --exit test/**/*.js",
-    "prepush": "npm run codecheck && npm run test",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
@@ -47,5 +46,10 @@
   },
   "engines": {
     "node": "8.12.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run codecheck && npm run test"
+    }
   }
 }
