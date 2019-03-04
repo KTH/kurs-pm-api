@@ -21,10 +21,7 @@
         ],
         "responses": {
           "200": {
-            "description": "An empty response",
-            "schema": {
-              "$ref": "#/definitions/UserList"
-            }
+            "description": "An empty response"
           },
           "default": {
             "description": "Unexpected error",
@@ -33,11 +30,13 @@
             }
           }
         },
-        "security": {
-          "api_key": [
-            "read"
-          ]
-        }
+        "security": [
+          {
+            "api_key": [
+              "read"
+            ]
+          }
+        ]
       }
     },
     "/v1/data/{id}": {
@@ -71,11 +70,11 @@
             }
           }
         },
-        "security": {
+        "security": [{
           "api_key": [
             "read"
           ]
-        }
+        }]
       },
       "post": {
         "operationId": "postDataById",
@@ -113,11 +112,11 @@
             }
           }
         },
-        "security": {
+        "security": [{
           "api_key": [
             "write"
           ]
-        }
+        }]
       }
     }
   },
@@ -146,6 +145,20 @@
       }
     },
     "Error": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string"
+        }
+      }
+    },
+    "UserList": {
       "properties": {
         "code": {
           "type": "integer",

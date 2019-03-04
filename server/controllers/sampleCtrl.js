@@ -3,22 +3,20 @@
 /**
  * Sample API controller. Can safely be removed.
  */
-
 const Sample = require('../models').sample.Sample
-const co = require('co')
 
 module.exports = {
-  getData: co.wrap(getData),
-  postData: co.wrap(postData)
+  getData: getData,
+  postData: postData
 }
 
-function * getData (req, res, next) {
+async function getData (req, res, next) {
   try {
     let doc = {}
     if (process.env.NODE_MOCK) {
-      doc = yield { _id: 0, name: 'mockdata' }
+      doc = await { _id: 0, name: 'mockdata' }
     } else {
-      doc = yield Sample.findById(req.params.id)
+      doc = await Sample.findById(req.params.id)
     }
 
     if (!doc) {
@@ -31,9 +29,9 @@ function * getData (req, res, next) {
   }
 }
 
-function * postData (req, res, next) {
+async function postData (req, res, next) {
   try {
-    let doc = yield Sample.findById(req.params.id)
+    let doc = await Sample.findById(req.params.id)
 
     if (!doc) {
       doc = new Sample({
@@ -44,7 +42,7 @@ function * postData (req, res, next) {
       doc.name = req.body.name
     }
 
-    yield doc.save()
+    await doc.save()
     res.json({ id: doc._id, name: doc.name })
   } catch (err) {
     next(err)

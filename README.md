@@ -1,8 +1,7 @@
 # Node-api
 ## Template project for RESTful API:s
 
-In an attempt to simplify the process of starting up new
-Node.js based projects, there exists two template projects
+In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects
 to use as a foundation.
 
 The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API. 
@@ -29,6 +28,10 @@ to make sure that all other projects based on the templates get the good stuff.
 3. Navigate to the cloned project directory
 
 ### How to configure the applications
+
+Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone and start the following database repo on your local machine: https://gita.sys.kth.se/infosys/kth-node-backend
+
+
 
 ```
 # Logging
