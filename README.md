@@ -18,15 +18,18 @@ to make sure that all other projects based on the templates get the good stuff.
 #### How do I use this template project for a project of my own?
 
 1. Create a new repository on Gita or Github.
-2. Clone the newly created repository locally by using:
+2. Clone the node-api repository by using:
 
    ```bash
    git clone git@github.com:KTH/node-api.git NEW_REPOSITORY_NAME
    ```
-  Make sure that your .git/config file is pointing to the new NEW_REPOSITORY_NAME
-
 3. Navigate to the cloned project directory
 
+4. Change remote repo
+
+   ```bash
+   git remote add origin https://github.com/KTH/<NEW_REPOSITORY_NAME>.git
+   ```
 ### How to configure the applications
 
 Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone and start the following database repo on your local machine: https://gita.sys.kth.se/infosys/kth-node-backend
