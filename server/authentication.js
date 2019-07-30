@@ -8,7 +8,7 @@ const apiKey = require('kth-node-api-key-strategy')
 const ApiKeyStrategy = apiKey.Strategy
 const options = { log: log }
 const verify = (req, apikey, done) => {
-  apiKey.verifyApiKey(req, apikey, config.api_keys, done)
+  apiKey.verifyApiKey(req, apikey, config.kurs_pm_api_keys, done)
 }
 const strategy = new ApiKeyStrategy(options, verify)
 
