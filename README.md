@@ -1,19 +1,23 @@
 # Kurs-pm-api
 ## Api to store information about uploaded course memos to be used in course development and course info projects
 
-In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects
-to use as a foundation.
+This API is made within course information projekt(kip) to support micro services `kursutveckling-web`, `kurs-pm-web` and `kurs-pm-admin-web`
 
-The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API. 
-The node-web project use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.
+The two projects are [kurs-pm-web][web], a web server with express, and [kurs-pm-api][api], a RESTful API. 
+The kurs-pm-web project use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.
 
-#### Where can I find the template projects?
+#### Where can I find all connected projects which depends on this API?
 
-- [https://github.com/KTH/node-api.git][api]
-- [https://github.com/KTH/node-web.git][web]
+- [https://github.com/KTH/kurs-pm-web.git][api]
+- [https://github.com/KTH/kurs-pm-admin-web.git][web]
+- [https://github.com/KTH/kursutveckling-web.git][web]
 
-It's important that we try to make changes that affect the template projects in the template projects themselves 
-to make sure that all other projects based on the templates get the good stuff.
+
+#### Where can I find all connected projects which logically connected with this API?
+- [https://github.com/KTH/kursinfo-admin-web.git][web]
+- [https://github.com/KTH/kursinfo-web.git][web]
+
+This API is independent and will not break other projects but it is important remember it is logically connected to the bigger picture of course information.
 
 #### How do I use this template project for a project of my own?
 
