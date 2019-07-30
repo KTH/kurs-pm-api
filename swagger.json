@@ -77,7 +77,7 @@
         }]
       },
       "post": {
-        "operationId": "courseMemoDocumentDataById",
+        "operationId": "postCourseMemoDocumentDataById",
         "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
@@ -244,15 +244,15 @@
         "courseMemoFileName": {
           "type": "string",
           "description": "Uploaded courseMemo file"
+        },
+        "ugKeys": {
+          "type": "array",
+          "description": "UG Keys for access to edit course memos???"
+        },
+        "changedAfterPublishedDate": {
+          "type": "array",
+          "description": "Date for changes made after published???"
         }
-      },
-      "ugKeys": {
-        "type": "array",
-        "description": "UG Keys for access to edit course memos???"
-      },
-      "changedAfterPublishedDate": {
-        "type": "array",
-        "description": "Date for changes made after published???"
       }
     },
     "UpdatedCourseMemoDocumentData": {
