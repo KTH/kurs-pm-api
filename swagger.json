@@ -1,11 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Node API",
-    "description": "Template API project for Node.js",
+    "title": "Course memo/Kurs-PM API",
+    "description": "Api to store information about uploaded course memos to be used in course development and course info projects",
     "version": "1.0.0"
   },
-  "basePath": "/api/node",
+  "basePath": "/api/kurs-pm",
   "produces": [
     "application/json"
   ],
@@ -39,16 +39,16 @@
         ]
       }
     },
-    "/v1/data/{id}": {
+    "/v1/courseMemoDocumentData/{id}": {
       "get": {
-        "operationId": "getDataById",
-        "summary": "Get data",
+        "operationId": "getCourseMemoDocumentDataById",
+        "summary": "Get course memo document descriptive data by document unique id ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Id of data to get",
+            "description": "Id of the round.semester.year.x to course memo data",
             "required": true,
             "type": "string"
           }
@@ -60,7 +60,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/Data"
+              "$ref": "#/definitions/courseMemoDocumentData"
             }
           },
           "default": {
@@ -77,24 +77,17 @@
         }]
       },
       "post": {
-        "operationId": "postDataById",
-        "summary": "Saves an object in the database",
-        "description": "Saves changes to an object in the database",
+        "operationId": "courseMemoDocumentDataById",
+        "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
+        "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "Id of the data to save",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "data",
+            "name": "roundCourseMemoData",
             "in": "body",
-            "description": "The data to save",
+            "description": "Course Memo Data for specific term and course round",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Data"
+              "$ref": "#/definitions/RoundCourseMemo"
             }
           }
         ],
@@ -117,6 +110,76 @@
             "write"
           ]
         }]
+      },
+      "put": {
+        "operationId": "putCourseMemoDocumentDataById",
+        "summary": "Update an existing object in the database",
+        "description": "Update an existing object in the database",
+        "parameters": [
+          {
+            "name": "roundCourseMemoData",
+            "in": "body",
+            "description": "Course Memo Data for specific term and course round",
+            "schema": {
+              "$ref": "#/definitions/RoundCourseMemo"
+            }
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful update"
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": [
+            "write"
+          ]
+        }
+      },
+      "delete": {
+        "operationId": "deleteCourseMemoDocumentDataById",
+        "summary": "Delete a course memo",
+        "description": "Delete all information for course memo with sent id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of the round.semester.year.x to delete course memo data",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "responses": {
+          "200": {
+            "description": "The analysis was deleted",
+            "schema": {
+              "$ref": "#/definitions/courseMemoDocumentData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": [
+            "read"
+          ]
+        }
       }
     }
   },
