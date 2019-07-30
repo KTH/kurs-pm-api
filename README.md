@@ -19,47 +19,98 @@ The kurs-pm-web project use OpenID Connect and/or CAS as a mechanism for authori
 
 This API is independent and will not break other projects but it is important remember it is logically connected to the bigger picture of course information.
 
-#### How do I use this template project for a project of my own?
+#### How do I use this API project for a project of my own?
 
 1. Create a new repository on Gita or Github.
-2. Clone the node-api repository by using:
+2. Clone the newly created repository locally by using:
 
    ```bash
-   git clone git@github.com:KTH/node-api.git NEW_REPOSITORY_NAME
+   git clone git@github.com:KTH/kurs-pm-api.git
+   npm run start-dev
+   or
+   npm run start
    ```
+  Make sure that your .git/config file is pointing to the new NEW_REPOSITORY_NAME
+
 3. Navigate to the cloned project directory
 
-4. Change remote repo
-
-   ```bash
-   git remote add origin https://github.com/KTH/<NEW_REPOSITORY_NAME>.git
-   ```
 ### How to configure the applications
 
-Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone and start the following database repo on your local machine: https://gita.sys.kth.se/infosys/kth-node-backend
-
-
+1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex:
 
 ```
-# Logging
-LOGGING_ACCESS_LOG=/Users/hoyce/repos/github/node-api/logs
+KURSPM_API_KEYS_0=?name=kursutveckling-web&apiKey=1234&scope=read
+KURSPM_API_KEYS_1=?name=kurs-pm-web&apiKey=1234&scope=read
 ```
 
-Set your basePath property in `swagger.json`:
+### How API data look like in configure the applications
+
+Look at data definitions and paths in `swagger.json`.
+Here is one example
 
 ```
-{
-  "swagger": "2.0",
-  "info": {
-  "title": "Node API",
-    "description": "Template API project for Node.js",
-    "version": "1.0.0"
+.
+"ExistingData": {
+  "properties": {
+    "_id": {
+      "type": "string",
+      "description": "Unique identifier representing some specific data"
+    },
+    "memoName": {
+      "type": "string",
+      "description": "Kurstillfällen ska visas med kortnamn i första handalternativt kurstillfällets termin och kurstillfälleskod om kortnamn saknas. Därefter ska kurstillfällets startdatum och undervisningsspråk visas inom parentes.Formatet för visning av kurstillfälle är således:[kurstillfälle.kortnamn] alt. [termin-kurstillfälleskod] (Startdatum [kurstillfälle.startdatum], [kurstillfälle.undervisningsspråk])"
+    },
+    "courseCode": {
+      "type": "string",
+      "description": "Course code for which it is valid"
+    },
+    "commentChange": {
+      "type": "string",
+      "description": "Comments about changes which were introduced after publishing, f.e., why have teacher uploaded a new version, what changed there"
+    },
+    "isPublished": {
+      "type": "string",
+      "description": "If document is published or in draft version"
+    },
+    "publishedDate": {
+      "type": "string",
+      "description": "When document were published (first)?? time"         
+    },
+    "pdfPMDate": {
+      "type": "string",
+      "description": "Time when pdf were stored in storage (f.e., Azure blobstorage)"
+    },
+    "changedDate": {
+      "type": "string",
+      "description": "When data were changed??"
+    },
+    "changedBy": {
+      "type": "string",
+      "description": "Unique KTH id of user who uploaded or changed this document data, f.e., u1iooii,"
+    },
+    "semester": {
+      "type": "string",
+      "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
+    },
+    "roundIdList": {
+      "type": "string",
+      "description": "List of round id:s for which memo is valid (kurstillfälle)"
+    },
+    "courseMemoFileName": {
+      "type": "string",
+      "description": "Uploaded courseMemo file"
+    }
   },
-  "basePath": "/api/node/v1",
+  "ugKeys": {
+    "type": "array",
+    "description": "UG Keys for access to edit course memos???"
+  },
+  "changedAfterPublishedDate": {
+    "type": "array",
+    "description": "Date for changes made after published???"
+  }
+},
 ```
-
-Please, remember to set path to match your application.
-
 #### What is `swagger-ui`?
 
 The `swagger-ui` package is simply used to provide a basic UI for
