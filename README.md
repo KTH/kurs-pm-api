@@ -1,5 +1,5 @@
-# Node-api
-## Template project for RESTful API:s
+# Kurs-pm-api
+## Api to store information about uploaded course memos to be used in course development and course info projects
 
 In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects
 to use as a foundation.
