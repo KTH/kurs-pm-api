@@ -8,10 +8,10 @@ module.exports = {
   removeCourseMemoDataById: _removeCourseMemoDataById
 }
 
-function _fetchCourseMemoDataById (_id) {
-  if (!_id) throw new Error('id must be set')
-  log.debug('Fetching roundCourseMemoData by ID', { _id })
-  return CourseMemoDocument.findOne({ _id }).populate('courseMemoDocumentData').lean()
+function _fetchCourseMemoDataById (id) {
+  if (!id) throw new Error('id must be set')
+  log.debug('Fetching roundCourseMemoData by ID', { _id: id })
+  return CourseMemoDocument.findOne({ _id: id }).populate('courseMemoDocumentData').lean()
 }
 
 function _storeCourseMemoDataById (data) {
