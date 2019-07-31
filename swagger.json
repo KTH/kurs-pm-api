@@ -181,6 +181,107 @@
           ]
         }
       }
+    },
+    "/v1/courseMemoList/{courseCode}/{semester}": {
+      "get": {
+        "operationId": "getCourseMemoListByCourseCode",
+        "summary": "Get a list of analysis for a course",
+        "description": "Gets analysis for rounds in a course that only requires read access",
+        "parameters": [
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Id of the course code",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "semester",
+            "in": "path",
+            "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter results for that semester",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested data",
+            "schema": {
+              "$ref": "#/definitions/ExistingData"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": [
+            "read"
+          ]
+        }
+      }
+    },
+    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
+      "get":{
+        "operationId": "getUsedRounds",
+        "summary": "Gets a list of used round ids for a semester in a course",
+        "parameters":[
+          {
+            "name": "courseCode",
+            "in": "path",
+            "description": "Course code, six characters",
+            "required": true,
+            "type":"string"
+          },
+          {
+            "name": "semester",
+            "description": "Semester for rounds",
+            "in":"path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "v1"
+        ],
+        "responses": {
+          "200": {
+            "description": "Round ids",
+            "schema": {
+              "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
+            }
+          },
+          "400": {
+            "description": "Bad Request, something with the request is invalid",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "No organization or user matched the Ids",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": {
+          "api_key": [
+            "read"
+          ]
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -313,6 +414,16 @@
             "type": "array",
             "description": "Date for changes made after published???"
           }
+      }
+    },
+    "UsedRoundsForCourseAndSemester":{
+      "roundIdList": {
+        "type": "string",
+        "description": "List course rounds"
+      },
+      "changedBy": {
+        "type": "string",
+        "description": "Who made changes to documents"
       }
     },
     "Error": {
