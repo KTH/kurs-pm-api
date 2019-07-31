@@ -134,6 +134,9 @@ apiRoute.register(paths.api.postCourseMemoDocumentDataById, CourseMemoDocumentCt
 apiRoute.register(paths.api.putCourseMemoDocumentDataById, CourseMemoDocumentCtrl.putDataById)
 apiRoute.register(paths.api.deleteCourseMemoDocumentDataById, CourseMemoDocumentCtrl.deleteDataById)
 
+apiRoute.register(paths.api.getCourseMemoListByCourseCode, CourseMemoDocumentCtrl.getCourseMemoList)
+apiRoute.register(paths.api.getUsedRounds, CourseMemoDocumentCtrl.getUsedRounds)
+
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors
