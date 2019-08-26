@@ -11,7 +11,7 @@ module.exports = {
 function _fetchCourseMemoDataById (id) {
   if (!id) throw new Error('id must be set')
   log.debug('Fetching roundCourseMemoData by ID', { _id: id })
-  return CourseMemo.findOne({ _id: id }).populate('CourseMemoData').lean()
+  return CourseMemo.findOne({ _id: id }).populate('MemoData').lean()
 }
 
 function _storeNewCourseMemoData (data) {
@@ -23,7 +23,7 @@ function _storeNewCourseMemoData (data) {
   }
 }
 
-function _updateCourseMemoDataById (data) {
+async function _updateCourseMemoDataById (data) {
   if (data) {
     log.debug('Update of existing roundCourseMemoData: ', { data })
     return CourseMemo.findOneAndUpdate({ _id: data._id }, { $set: data })

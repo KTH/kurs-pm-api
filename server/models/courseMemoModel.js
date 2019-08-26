@@ -44,7 +44,12 @@ const schema = mongoose.Schema({
   lastChangeDate: {
     type: String,
     default: ''
+  },
+  previousFileList: {
+    type: Array,
+    default: []
   }
+
 })
 
 const CourseMemo = mongoose.model('CourseMemo', schema)

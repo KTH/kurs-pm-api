@@ -28,11 +28,26 @@ function * _postMemoData (req, res, next) {
     const listLength = req.body.length
     const memoList = req.body
     let dbResponse = []
+    let oldObject = {
+      previousFileName: '',
+      publishDate: ''
+    }
+
     for (let memo = 0; memo < listLength; memo++) {
       log.info('Posting new roundCourseMemoData', { memoList })
       const exists = yield dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
       memoList[memo].lastChangeDate = new Date()
+      if (!memoList[memo].hasOwnProperty('previousFileList')) {
+        memoList[memo]['previousFileList'] = []
+      }
+      console.log('exists!!!!', exists, 'memo!!!', memoList[memo])
       if (exists) {
+        oldObject = {
+          previousFileName: exists.courseMemoFileName,
+          publishDate: exists.lastChangeDate
+        }
+        exists.previousFileList.push(oldObject)
+        memoList[memo].previousFileList = exists.previousFileList
         log.info('roundCourseMemoData already exists, update' + memoList[memo]._id)
         dbResponse.push(yield dbOneDocument.updateCourseMemoDataById(memoList[memo]))
       } else {
@@ -111,9 +126,6 @@ function * _getUsedRounds (req, res, next) {
     let returnObject = {
       usedRoundsIdList: []
     }
-    console.log('!!!!dbResponse', dbResponse)
-    let roundIdList = {}
-    let tempObject = {}
     for (let index = 0; index < dbResponse.length; index++) {
       returnObject[dbResponse[index]._id] = dbResponse[index]
       returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)

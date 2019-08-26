@@ -328,13 +328,19 @@
         },
         "ugKeys": {
           "type": "array",
+          "items":{
+            "type": "string"
+          },
           "description": "UG Keys for access to edit course memos???"
         },
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change, set by API"
+        },
+        "previousFileList": {
+          "type": "array",
+          "description": "Array for object with previous memo file and publish date "
         }
-
       }
     },
     "UpdatedCourseMemoData": {
