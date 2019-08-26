@@ -39,9 +39,9 @@
         ]
       }
     },
-    "/v1/courseMemoDocumentData/{id}": {
+    "/v1/CourseMemoData/{id}": {
       "get": {
-        "operationId": "getCourseMemoDocumentDataById",
+        "operationId": "getCourseMemoDataById",
         "summary": "Get course memo document descriptive data by document unique id ",
         "description": "Gets some form of data that only requires read access",
         "parameters": [
@@ -60,7 +60,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/ExistingData"
+              "$ref": "#/definitions/MemoData"
             }
           },
           "default": {
@@ -77,17 +77,17 @@
         }]
       },
       "post": {
-        "operationId": "postCourseMemoDocumentDataById",
+        "operationId": "postCourseMemoData",
         "summary": "Saves an object of one course memo document descriptive data in the database per course and term",
         "description": "Saves a course memo document descriptive data in the database per course and term",
         "parameters": [
           {
             "name": "roundCourseMemoData",
             "in": "body",
-            "description": "Course Memo Data for specific term and course round",
+            "description": "Array with memo data objects",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UpdatedCourseMemoDocumentData"
+              "$ref": "#/definitions/MemoData"
             }
           }
         ],
@@ -112,7 +112,7 @@
         }]
       },
       "put": {
-        "operationId": "putCourseMemoDocumentDataById",
+        "operationId": "putCourseMemoDataById",
         "summary": "Update an existing object in the database",
         "description": "Update an existing object in the database",
         "parameters": [
@@ -121,7 +121,7 @@
             "in": "body",
             "description": "Course Memo Data for specific term and course round",
             "schema": {
-              "$ref": "#/definitions/UpdatedCourseMemoDocumentData"
+              "$ref": "#/definitions/MemoData"
             }
           }
         ],
@@ -146,7 +146,7 @@
         }
       },
       "delete": {
-        "operationId": "deleteCourseMemoDocumentDataById",
+        "operationId": "deleteCourseMemoDataById",
         "summary": "Delete a course memo",
         "description": "Delete all information for course memo with sent id",
         "parameters": [
@@ -165,7 +165,7 @@
           "200": {
             "description": "The analysis was deleted",
             "schema": {
-              "$ref": "#/definitions/UpdatedCourseMemoDocumentData"
+              "$ref": "#/definitions/UpdatedCourseMemoData"
             }
           },
           "default": {
@@ -210,7 +210,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/ExistingData"
+              "$ref": "#/definitions/MemoData"
             }
           },
           "default": {
@@ -296,39 +296,19 @@
     }
   },
   "definitions": {
-    "ExistingData": {
+    "MemoData": {
       "properties": {
         "_id": {
           "type": "string",
           "description": "Unique identifier representing some specific data"
         },
-        "memoName": {
-          "type": "string",
-          "description": "Kurstillfällen ska visas med kortnamn i första handalternativt kurstillfällets termin och kurstillfälleskod om kortnamn saknas. Därefter ska kurstillfällets startdatum och undervisningsspråk visas inom parentes.Formatet för visning av kurstillfälle är således:[kurstillfälle.kortnamn] alt. [termin-kurstillfälleskod] (Startdatum [kurstillfälle.startdatum], [kurstillfälle.undervisningsspråk])"
-        },
         "courseCode": {
           "type": "string",
           "description": "Course code for which it is valid"
         },
-        "commentChange": {
-          "type": "string",
-          "description": "Comments about changes which were introduced after publishing, f.e., why have teacher uploaded a new version, what changed there"
-        },
-        "isPublished": {
-          "type": "string",
-          "description": "If document is published or in draft version"
-        },
-        "publishedDate": {
+        "pdfMemoUploadDate": {
           "type": "string",
           "description": "When document were published (first)?? time"         
-        },
-        "pdfPMDate": {
-          "type": "string",
-          "description": "Time when pdf were stored in storage (f.e., Azure blobstorage)"
-        },
-        "changedDate": {
-          "type": "string",
-          "description": "When data were changed??"
         },
         "changedBy": {
           "type": "string",
@@ -338,7 +318,7 @@
           "type": "string",
           "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
-        "roundIdList": {
+        "koppsRoundId": {
           "type": "string",
           "description": "List of round id:s for which memo is valid (kurstillfälle)"
         },
@@ -350,45 +330,26 @@
           "type": "array",
           "description": "UG Keys for access to edit course memos???"
         },
-        "changedAfterPublishedDate": {
-          "type": "array",
-          "description": "Date for changes made after published???"
+        "lastChangeDate": {
+          "type": "string",
+          "description": "Date and time for last change, set by API"
         }
+
       }
     },
-    "UpdatedCourseMemoDocumentData": {
+    "UpdatedCourseMemoData": {
       "type": "object",
       "required": [
         "courseCode"
         ],
         "properties": {
-            "memoName": {
-              "type": "string",
-              "description": "Kurstillfällen ska visas med kortnamn i första handalternativt kurstillfällets termin och kurstillfälleskod om kortnamn saknas. Därefter ska kurstillfällets startdatum och undervisningsspråk visas inom parentes.Formatet för visning av kurstillfälle är således:[kurstillfälle.kortnamn] alt. [termin-kurstillfälleskod] (Startdatum [kurstillfälle.startdatum], [kurstillfälle.undervisningsspråk])"
-            },
             "courseCode": {
               "type": "string",
               "description": "Course code for which it is valid"
             },
-            "commentChange": {
-              "type": "string",
-              "description": "Comments about changes which were introduced after publishing, f.e., why have teacher uploaded a new version, what changed there"
-            },
-            "isPublished": {
-              "type": "string",
-              "description": "If document is published or in draft version"
-            },
             "publishedDate": {
               "type": "string",
               "description": "When document were published (first)?? time"         
-            },
-            "pdfPMDate": {
-              "type": "string",
-              "description": "Time when pdf were stored in storage (f.e., Azure blobstorage)"
-            },
-            "changedDate": {
-              "type": "string",
-              "description": "When data were changed??"
             },
             "changedBy": {
               "type": "string",
@@ -398,7 +359,7 @@
               "type": "string",
               "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
             },
-            "roundIdList": {
+            "koppsRoundId": {
               "type": "string",
               "description": "List of round id:s for which memo is valid (kurstillfälle)"
             },

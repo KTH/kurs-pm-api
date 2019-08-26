@@ -5,7 +5,7 @@ const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
 const co = require('co')
 
-function * _getDataById (req, res, next) {
+function * _getMemoDataById (req, res, next) {
   try {
     let doc = {}
     if (process.env.NODE_MOCK) {
@@ -23,7 +23,32 @@ function * _getDataById (req, res, next) {
   }
 }
 
-function * _posttDataById (req, res, next) {
+function * _postMemoData (req, res, next) {
+  try {
+    const listLength = req.body.length
+    const memoList = req.body
+    let dbResponse = []
+    for (let memo = 0; memo < listLength; memo++) {
+      log.info('Posting new roundCourseMemoData', { memoList })
+      const exists = yield dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
+      memoList[memo].lastChangeDate = new Date()
+      if (exists) {
+        log.info('roundCourseMemoData already exists, update' + memoList[memo]._id)
+        dbResponse.push(yield dbOneDocument.updateCourseMemoDataById(memoList[memo]))
+      } else {
+        log.info('saving new memo data' + memoList[memo]._id)
+        dbResponse.push(yield dbOneDocument.storeNewCourseMemoData(memoList[memo]))
+      }
+    }
+    log.info('dbResponse', dbResponse)
+    res.status(201).json(dbResponse)
+  } catch (error) {
+    log.error('Error in while trying to _posttDataById (postdocanization)', { error })
+    next(error)
+  }
+}
+
+function * _putMemoDataById (req, res, next) {
   try {
     const id = req.body._id
 
@@ -35,7 +60,7 @@ function * _posttDataById (req, res, next) {
       return res.status(400).json({ message: 'An roundCourseMemoData with that id already exist.' })
     }
     req.body.changedDate = new Date()
-    const dbResponse = yield dbOneDocument.storeCourseMemoDataById(req.body)
+    const dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
 
     res.status(201).json(dbResponse)
   } catch (error) {
@@ -44,31 +69,7 @@ function * _posttDataById (req, res, next) {
   }
 }
 
-function * _putDataById (req, res, next) {
-  try {
-    const id = req.body._id
-    log.info('Updating roundCourseMemoData', { id })
-
-    const doc = yield dbOneDocument.fetchCourseMemoDataById(id)
-
-    if (!doc) {
-      log.info('No roundCourseMemoData found, returning...', { doc })
-      return next()
-    }
-
-    req.body.changedDate = new Date()
-    let dbResponse = yield dbOneDocument.updateCourseMemoDataById(req.body)
-    // console.log('dbResponse', dbResponse)
-
-    log.info('Successfully updated roundCourseMemoData', { id: dbResponse._id })
-    res.json(dbResponse)
-  } catch (error) {
-    log.error('Error while trying to _putDataById', { error })
-    next(error)
-  }
-}
-
-function * _deleteDataById (req, res, next) {
+function * _deleteMemoDataById (req, res, next) {
   try {
     const id = req.params.id
     log.info('Hard delete roundCourseMemoData by id:', { id })
@@ -108,31 +109,14 @@ function * _getUsedRounds (req, res, next) {
   try {
     const dbResponse = yield dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
     let returnObject = {
-      usedRounds: [],
-      publishedMemo: [],
-      draftMemo: []
+      usedRoundsIdList: []
     }
-
-    let roundIdList = []
+    console.log('!!!!dbResponse', dbResponse)
+    let roundIdList = {}
     let tempObject = {}
     for (let index = 0; index < dbResponse.length; index++) {
-      tempObject = {
-        user: dbResponse[index].changedBy,
-        isPublished: dbResponse[index].isPublished,
-        memoId: dbResponse[index]._id,
-        memoName: dbResponse[index].memoName,
-        ugKeys: dbResponse[index].ugKeys
-      }
-      if (tempObject.isPublished) {
-        returnObject.publishedMemo.push(tempObject)
-      } else {
-        returnObject.draftMemo.push(tempObject)
-      }
-
-      roundIdList = dbResponse[index].roundIdList && dbResponse[index].roundIdList.length > 0 ? dbResponse[index].roundIdList.split(',') : [dbResponse[index].roundIdList]
-      for (let index2 = 0; index2 < roundIdList.length; index2++) {
-        returnObject.usedRounds.push(roundIdList[index2])
-      }
+      returnObject[dbResponse[index]._id] = dbResponse[index]
+      returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)
     }
     log.info('Successfully got used round ids for', { courseCode: courseCode, semester: semester, result: returnObject })
     res.json(returnObject)
@@ -142,10 +126,10 @@ function * _getUsedRounds (req, res, next) {
 }
 
 module.exports = {
-  getDataById: co.wrap(_getDataById),
-  posttDataById: co.wrap(_posttDataById),
-  putDataById: co.wrap(_putDataById),
-  deleteDataById: co.wrap(_deleteDataById),
+  getMemoDataById: co.wrap(_getMemoDataById),
+  postMemoData: co.wrap(_postMemoData),
+  putMemoDataById: co.wrap(_putMemoDataById),
+  deleteMemoDataById: co.wrap(_deleteMemoDataById),
   getCourseMemoList: co.wrap(_getCourseMemoListByCourseCode),
   getUsedRounds: co.wrap(_getUsedRounds)
 }

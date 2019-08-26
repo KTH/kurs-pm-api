@@ -1,4 +1,4 @@
 module.exports = {
   sample: require('./sample'),
-  courseMemoDocumentModel: require('./courseMemoDocumentModel')
+  courseMemoModel: require('./courseMemoModel')
 }
