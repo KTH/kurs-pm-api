@@ -14,5 +14,5 @@ function _fetchAllByCourseCode (courseCode) {
 
 function _fetchAllByCourseCodeAndSemester (courseCode, semester) {
   log.debug('Fetching all courseMemos for ' + courseCode + ' filtered by semester: ' + semester)
-  return CourseMemo.find({ courseCode, semester }).populate('MemoData').lean()
+  return CourseMemo.find({ courseCode, semester }).populate('MemoDataListForCourseCode').lean()
 }

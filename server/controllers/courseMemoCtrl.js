@@ -108,6 +108,7 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
       dbResponse = yield dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode, semester)
     } else {
       dbResponse = yield dbCollectedData.fetchAllByCourseCode(courseCode)
+      console.log(dbResponse)
     }
 
     log.info('Successfully got all analysis for', { courseCode: courseCode })

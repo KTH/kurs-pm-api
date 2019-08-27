@@ -165,7 +165,7 @@
           "200": {
             "description": "The analysis was deleted",
             "schema": {
-              "$ref": "#/definitions/UpdatedCourseMemoData"
+              "$ref": "#/definitions/MemoData"
             }
           },
           "default": {
@@ -210,51 +210,7 @@
           "200": {
             "description": "The requested data",
             "schema": {
-              "$ref": "#/definitions/MemoData"
-            }
-          },
-          "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        },
-        "security": {
-          "api_key": [
-            "read"
-          ]
-        }
-      }
-    },
-    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
-      "get":{
-        "operationId": "getUsedRounds",
-        "summary": "Gets a list of used round ids for a semester in a course",
-        "parameters":[
-          {
-            "name": "courseCode",
-            "in": "path",
-            "description": "Course code, six characters",
-            "required": true,
-            "type":"string"
-          },
-          {
-            "name": "semester",
-            "description": "Semester for rounds",
-            "in":"path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "v1"
-        ],
-        "responses": {
-          "200": {
-            "description": "Round ids",
-            "schema": {
-              "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
+              "$ref": "#/definitions/MemoDataListForCourseCode"
             }
           },
           "400": {
@@ -282,7 +238,63 @@
           ]
         }
       }
-    }
+      },
+      "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
+        "get":{
+          "operationId": "getUsedRounds",
+          "summary": "Gets a list of used round ids for a semester in a course",
+          "parameters":[
+            {
+              "name": "courseCode",
+              "in": "path",
+              "description": "Course code, six characters",
+              "required": true,
+              "type":"string"
+            },
+            {
+              "name": "semester",
+              "description": "Semester for rounds",
+              "in":"path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "tags": [
+            "v1"
+          ],
+          "responses": {
+            "200": {
+              "description": "Round ids",
+              "schema": {
+                "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
+              }
+            },
+            "400": {
+              "description": "Bad Request, something with the request is invalid",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            },
+            "404": {
+              "description": "No organization or user matched the Ids",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            },
+            "default": {
+              "description": "Unexpected error",
+              "schema": {
+                "$ref": "#/definitions/Error"
+              }
+            }
+          },
+          "security": {
+            "api_key": [
+              "read"
+            ]
+          }
+        }
+      }
   },
   "securityDefinitions": {
     "api_key": {
@@ -326,13 +338,6 @@
           "type": "string",
           "description": "Uploaded courseMemo file"
         },
-        "ugKeys": {
-          "type": "array",
-          "items":{
-            "type": "string"
-          },
-          "description": "UG Keys for access to edit course memos???"
-        },
         "lastChangeDate": {
           "type": "string",
           "description": "Date and time for last change, set by API"
@@ -343,67 +348,59 @@
         }
       }
     },
-    "UpdatedCourseMemoData": {
-      "type": "object",
-      "required": [
-        "courseCode"
-        ],
-        "properties": {
-            "courseCode": {
-              "type": "string",
-              "description": "Course code for which it is valid"
-            },
-            "publishedDate": {
-              "type": "string",
-              "description": "When document were published (first)?? time"         
-            },
-            "changedBy": {
-              "type": "string",
-              "description": "Unique KTH id of user who uploaded or changed this document data, f.e., u1iooii,"
-            }, 
-            "semester": {
-              "type": "string",
-              "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
-            },
-            "koppsRoundId": {
-              "type": "string",
-              "description": "List of round id:s for which memo is valid (kurstillfälle)"
-            },
-            "courseMemoFileName": {
-              "type": "string",
-              "description": "Uploaded courseMemo file"
-            },    
-          "ugKeys": {
-            "type": "array",
-            "description": "UG Keys for access to edit course memos???"
-          },
-          "changedAfterPublishedDate": {
-            "type": "array",
-            "description": "Date for changes made after published???"
-          }
-      }
-    },
-    "UsedRoundsForCourseAndSemester":{
-      "roundIdList": {
-        "type": "string",
-        "description": "List course rounds"
-      },
-      "changedBy": {
-        "type": "string",
-        "description": "Who made changes to documents"
-      }
-    },
-    "Error": {
+    "MemoDataListForCourseCode": {
       "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
+        "_id": {
+          "type": "string",
+          "description": "Unique identifier representing some specific data"
         },
-        "message": {
-          "type": "string"
+        "courseCode": {
+          "type": "string",
+          "description": "Course code for which it is valid"
         },
-        "fields": {
-          "type": "string"
+        "pdfMemoUploadDate": {
+          "type": "string",
+          "description": "When document were published (first)?? time"         
+        },
+        "koppsRoundId": {
+          "type": "string",
+          "description": "List of round id:s for which memo is valid (kurstillfälle)"
+        },
+        "courseMemoFileName": {
+          "type": "string",
+          "description": "Uploaded courseMemo file"
+        },    
+        "ugKeys": {
+          "type": "array",
+          "description": "UG Keys for access to edit course memos???"
+        },
+        "changedAfterPublishedDate": {
+          "type": "array",
+          "description": "Date for changes made after published???"
+        }
+    }
+  },
+  "UsedRoundsForCourseAndSemester":{
+    "roundIdList": {
+      "type": "string",
+      "description": "List course rounds"
+    },
+    "memoList": {
+      "type": "string",
+      "description": "Who made changes to documents"
+    }
+  },
+  "Error": {
+    "properties": {
+      "code": {
+        "type": "integer",
+        "format": "int32"
+      },
+      "message": {
+        "type": "string"
+      },
+      "fields": {
+        "type": "string"
         }
       }
     },

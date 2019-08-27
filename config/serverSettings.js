@@ -17,7 +17,8 @@ const devPort = devDefaults(3001)
 const devMongodb = devDefaults('mongodb://localhost:27017/kurs-pm')
 
 // EXAMPLE: const devApiKeys = devDefaults('?name=devClient&apiKey=SET_YOUR_API_KEY&scope=write&scope=read')
-const devApiKeys = devDefaults('?name=devClient&apiKey=1234&scope=write&scope=read')
+const devApiKeys = devDefaults('?name=devClient&apiKey=' + getEnv('KURS_PM_TEMP_API_KEYS') + '&scope=write&scope=read')
+console.log(devApiKeys)
 
 // END DEFAULT SETTINGS
 
@@ -36,10 +37,10 @@ module.exports = {
   },
 
   // API keys
-  kurs_pm_api_keys: unpackApiKeysConfig('KURSPM_API_KEYS', devApiKeys),
+  kurs_pm_api_keys: unpackApiKeysConfig('KURS_PM_API_KEYS', devApiKeys),
 
   // Services
-  db: unpackMongodbConfig('MONGODB_URI', devMongodb),
+  db: unpackMongodbConfig('KURS_PM_MONGODB_URI', devMongodb),
 
   // Logging
   logging: {
