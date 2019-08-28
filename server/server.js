@@ -120,7 +120,7 @@ addPaths('api', createApiPaths({
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API enpoints
-const { CourseMemoCtrl } = require('./controllers')
+const { CourseMemo } = require('./controllers')
 const ApiRouter = require('kth-node-express-routing').ApiRouter
 const apiRoute = ApiRouter(authByApiKey)
 const paths = getPaths()
@@ -132,9 +132,9 @@ apiRoute.register(paths.api.postCourseMemoData, CourseMemoCtrl.postMemoData)
 apiRoute.register(paths.api.putCourseMemoDataById, CourseMemoCtrl.putMemoDataById)
 apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemoCtrl.deleteMemoDataById)
 */
-apiRoute.register(paths.api.postCourseMemoData, CourseMemoCtrl.postMemoData)
-apiRoute.register(paths.api.getCourseMemoListByCourseCode, CourseMemoCtrl.getCourseMemoList)
-apiRoute.register(paths.api.getUsedRounds, CourseMemoCtrl.getUsedRounds)
+apiRoute.register(paths.api.postCourseMemoData, CourseMemo.postMemoData)
+apiRoute.register(paths.api.getCourseMemoListByCourseCode, CourseMemo.getCourseMemoList)
+apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds)
 
 server.use('/', apiRoute.getRouter())
 
