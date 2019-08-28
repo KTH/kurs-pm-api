@@ -9,7 +9,7 @@ module.exports = {
 function _fetchAllByCourseCode (courseCode) {
   if (!courseCode) throw new Error('courseCode must be set')
   log.debug('Fetching all courseMemos for ' + courseCode)
-  return CourseMemo.find({ courseCode }).populate('MemoData').lean()
+  return CourseMemo.find({ courseCode }).populate('MemoDataListForCourseCode').lean()
 }
 
 function _fetchAllByCourseCodeAndSemester (courseCode, semester) {

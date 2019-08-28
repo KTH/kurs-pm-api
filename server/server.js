@@ -127,13 +127,13 @@ const paths = getPaths()
 
 // Api enpoints
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
-apiRoute.register(paths.api.getCourseMemoDataById, CourseMemoCtrl.getMemoDataById)
+/*apiRoute.register(paths.api.getCourseMemoDataById, CourseMemoCtrl.getMemoDataById)
 apiRoute.register(paths.api.postCourseMemoData, CourseMemoCtrl.postMemoData)
 apiRoute.register(paths.api.putCourseMemoDataById, CourseMemoCtrl.putMemoDataById)
 apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemoCtrl.deleteMemoDataById)
 
 apiRoute.register(paths.api.getCourseMemoListByCourseCode, CourseMemoCtrl.getCourseMemoList)
-apiRoute.register(paths.api.getUsedRounds, CourseMemoCtrl.getUsedRounds)
+apiRoute.register(paths.api.getUsedRounds, CourseMemoCtrl.getUsedRounds) */
 
 server.use('/', apiRoute.getRouter())
 
