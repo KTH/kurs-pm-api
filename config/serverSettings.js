@@ -18,7 +18,6 @@ const devMongodb = devDefaults('mongodb://localhost:27017/kurs-pm')
 
 // EXAMPLE: const devApiKeys = devDefaults('?name=devClient&apiKey=SET_YOUR_API_KEY&scope=write&scope=read')
 const devApiKeys = devDefaults('?name=devClient&apiKey=9876&scope=write&scope=read')
-console.log(devApiKeys)
 
 // END DEFAULT SETTINGS
 
