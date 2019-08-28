@@ -5,6 +5,6 @@ module.exports = {
   System: require('./systemCtrl'),
 
   // Replace with actual API controller
-  Sample: require('./sampleCtrl'),
-  CourseMemoCtrl: require('./CourseMemoCtrl')
+  Sample: require('./sampleCtrl')
+  // CourseMemoCtrl: require('./CourseMemoCtrl')
 }
