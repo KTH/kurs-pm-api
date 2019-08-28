@@ -33,7 +33,7 @@
     "mongoose": "^5.4.17",
     "passport": "^0.4.0",
     "safe-utils": "0.2.1",
-    "swagger-ui-dist": "^3.21.0"
+    "swagger-ui": "^2.1.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",

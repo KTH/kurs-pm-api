@@ -344,6 +344,7 @@
         },
         "previousFileList": {
           "type": "array",
+          "items":"string",
           "description": "Array for object with previous memo file and publish date "
         }
       }
@@ -370,12 +371,8 @@
           "type": "string",
           "description": "Uploaded courseMemo file"
         },    
-        "ugKeys": {
-          "type": "array",
-          "description": "UG Keys for access to edit course memos???"
-        },
         "changedAfterPublishedDate": {
-          "type": "array",
+          "type": "string",
           "description": "Date for changes made after published???"
         }
     }

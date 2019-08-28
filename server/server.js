@@ -106,11 +106,9 @@ server.use('/', systemRoute.getRouter())
 // Swagger UI
 const express = require('express')
 const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
-const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 const redirectUrl = `${swaggerUrl}?url=${getPaths().system.swagger.uri}`
-
 server.use(swaggerUrl, createSwaggerRedirectHandler(redirectUrl, config.proxyPrefixPath.uri))
-server.use(swaggerUrl, express.static(pathToSwaggerUi))
+server.use(swaggerUrl, express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API enpoint handlers
 addPaths('api', createApiPaths({
