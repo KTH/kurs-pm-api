@@ -39,7 +39,7 @@
         ]
       }
     },
-    "/v1/CourseMemoData/{id}": {
+    "/v1/courseMemoData/{id}": {
       "get": {
         "operationId": "getCourseMemoDataById",
         "summary": "Get course memo document descriptive data by document unique id ",
@@ -198,7 +198,7 @@
           {
             "name": "semester",
             "in": "path",
-            "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter results for that semester",
+            "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter so the result only has memo data from that semester and all subsequent semesters",
             "required": false,
             "type": "string"
           }

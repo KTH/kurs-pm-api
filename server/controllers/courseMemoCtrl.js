@@ -6,17 +6,11 @@ const dbCollectedData = require('../lib/dbCollectedData')
 const co = require('co')
 
 function * _getMemoDataById (req, res, next) {
+  const id = req.params.id
   try {
-    let doc = {}
-    if (process.env.NODE_MOCK) {
-      doc = yield { _id: 0, courseCode: 'xx1122' }
-    } else {
-      doc = yield dbOneDocument.fetchCourseMemoDataById(req.params.id)
-    }
-    if (!doc) {
-      return next()
-    }
-    res.json(doc)
+    const dbResponse = yield dbOneDocument.fetchCourseMemoDataById(req.params.id)
+
+    res.json(dbResponse)
   } catch (err) {
     log.error('Failed to _getDataById, error:', { err })
     next(err)
@@ -40,7 +34,6 @@ function * _postMemoData (req, res, next) {
       if (!memoList[memo].hasOwnProperty('previousFileList')) {
         memoList[memo]['previousFileList'] = []
       }
-      console.log('exists!!!!', exists, 'memo!!!', memoList[memo])
       if (exists) {
         oldObject = {
           previousFileName: exists.courseMemoFileName,
@@ -66,16 +59,17 @@ function * _postMemoData (req, res, next) {
 function * _putMemoDataById (req, res, next) {
   try {
     const id = req.body._id
-
+    let dbResponse
     log.info('Posting new roundCourseMemoData', { id })
     const exists = yield dbOneDocument.fetchCourseMemoDataById(id)
-
-    if (exists) {
-      log.info('roundCourseMemoData already exists, returning...', { id })
-      return res.status(400).json({ message: 'An roundCourseMemoData with that id already exist.' })
-    }
     req.body.changedDate = new Date()
-    const dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
+    if (exists) {
+      log.info('Updating Course Memo Data :', { id })
+      dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
+    } else {
+      log.info('Creating new Course Memo Data :', { id })
+      dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
+    }
 
     res.status(201).json(dbResponse)
   } catch (error) {
@@ -101,18 +95,32 @@ function * _deleteMemoDataById (req, res, next) {
 
 function * _getCourseMemoListByCourseCode (req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
-  const semester = req.params.semester || ''
+  let semester = req.params.semester
   let dbResponse
-  try {
-    if (semester.length === 5) {
-      dbResponse = yield dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode, semester)
-    } else {
-      dbResponse = yield dbCollectedData.fetchAllByCourseCode(courseCode)
-      console.log(dbResponse)
-    }
+  let returnList = []
+  let tempObj = {}
 
-    log.info('Successfully got all analysis for', { courseCode: courseCode })
-    res.json(dbResponse)
+  semester = isNaN(semester) ? '19001' : semester
+
+  try {
+    dbResponse = yield dbCollectedData.fetchAllByCourseCode(courseCode)
+    console.log('semester', semester)
+
+    log.info('Successfully got all memos for', { courseCode: courseCode })
+
+    for (let index = 0; index < dbResponse.length; index++) {
+      if (dbResponse[index].semester >= semester) {
+        tempObj[dbResponse[index]._id] = {
+          courseCode: dbResponse[index].courseCode,
+          pdfMemoUploadDate: dbResponse[index].pdfMemoUploadDate,
+          koppsRoundId: dbResponse[index].koppsRoundId,
+          courseMemoFileName: dbResponse[index].courseMemoFileName,
+          semseter: dbResponse[index].semester
+        }
+      }
+      returnList.push(tempObj)
+    }
+    res.json(tempObj)
   } catch (error) {
     log.error('Error in _getCourseMemoListByCourseCode', { error })
     next(error)
