@@ -30,7 +30,7 @@
     "kth-node-mongo": "^2.0.3",
     "kth-node-monitor": "^0.1.11",
     "kth-node-server": "^3.1.2",
-    "mongoose": "^4.5.8",
+    "mongoose": "^5.7.5",
     "passport": "^0.4.0",
     "safe-utils": "0.2.1",
     "swagger-ui": "^2.1.5"
