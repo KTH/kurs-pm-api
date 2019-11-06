@@ -7,12 +7,14 @@ const co = require('co')
 
 function * _getMemoDataById (req, res, next) {
   const id = req.params.id
+  log.info('Received request for memo with id: ', id)
   try {
-    const dbResponse = yield dbOneDocument.fetchCourseMemoDataById(req.params.id)
+    const dbResponse = yield dbOneDocument.fetchCourseMemoDataById(id)
 
     res.json(dbResponse)
+    log.info('Responded to request for memo with id: ', id)
   } catch (err) {
-    log.error('Failed to _getDataById, error:', { err })
+    log.error('Failed request for memo, error:', { err })
     next(err)
   }
 }
@@ -21,7 +23,7 @@ function * _postMemoData (req, res, next) {
   try {
     const listLength = req.body.length
     const memoList = req.body
-    let dbResponse = []
+    const dbResponse = []
     let oldObject = {
       previousFileName: '',
       publishDate: ''
@@ -32,7 +34,7 @@ function * _postMemoData (req, res, next) {
       const exists = yield dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
       memoList[memo].lastChangeDate = new Date()
       if (!memoList[memo].hasOwnProperty('previousFileList')) {
-        memoList[memo]['previousFileList'] = []
+        memoList[memo].previousFileList = []
       }
       if (exists) {
         oldObject = {
@@ -97,10 +99,12 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
   const courseCode = req.params.courseCode.toUpperCase()
   let semester = req.params.semester
   let dbResponse
-  let returnList = []
-  let tempObj = {}
+  const returnList = []
+  const tempObj = {}
 
   semester = isNaN(semester) ? '19001' : semester
+
+  log.info('Received request for all memos with: ', { courseCode: courseCode })
 
   try {
     dbResponse = yield dbCollectedData.fetchAllByCourseCode(courseCode)
@@ -121,6 +125,7 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
       returnList.push(tempObj)
     }
     res.json(tempObj)
+    log.info('Responded to request for all memos with: ', { courseCode: courseCode })
   } catch (error) {
     log.error('Error in _getCourseMemoListByCourseCode', { error })
     next(error)
@@ -130,17 +135,19 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
 function * _getUsedRounds (req, res, next) {
   const courseCode = req.params.courseCode
   const semester = req.params.semester
+  log.info('Received request for used rounds for: ', { courseCode: courseCode })
   try {
     const dbResponse = yield dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
-    let returnObject = {
+    const returnObject = {
       usedRoundsIdList: []
     }
     for (let index = 0; index < dbResponse.length; index++) {
       returnObject[dbResponse[index]._id] = dbResponse[index]
       returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)
     }
-    log.info('Successfully got used round ids for', { courseCode: courseCode, semester: semester, result: returnObject })
+    log.info('Successfully got used rounds for', { courseCode: courseCode, semester: semester, result: returnObject })
     res.json(returnObject)
+    log.info('Responded to request for used rounds for: ', { courseCode: courseCode })
   } catch (error) {
     next(error)
   }
