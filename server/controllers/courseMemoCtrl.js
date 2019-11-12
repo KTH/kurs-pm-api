@@ -5,21 +5,21 @@ const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
 const co = require('co')
 
-function * _getMemoDataById (req, res, next) {
+async function _getMemoDataById (req, res) {
   const id = req.params.id
   log.info('Received request for memo with id: ', id)
   try {
-    const dbResponse = yield dbOneDocument.fetchCourseMemoDataById(id)
+    const dbResponse = await dbOneDocument.fetchCourseMemoDataById(id)
 
     res.json(dbResponse)
     log.info('Responded to request for memo with id: ', id)
   } catch (err) {
     log.error('Failed request for memo, error:', { err })
-    next(err)
+    return err
   }
 }
 
-function * _postMemoData (req, res, next) {
+async function _postMemoData (req, res) {
   try {
     const listLength = req.body.length
     const memoList = req.body
@@ -31,7 +31,7 @@ function * _postMemoData (req, res, next) {
 
     for (let memo = 0; memo < listLength; memo++) {
       log.info('Posting new roundCourseMemoData', { memoList })
-      const exists = yield dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
+      const exists = await dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
       memoList[memo].lastChangeDate = new Date()
       if (!memoList[memo].hasOwnProperty('previousFileList')) {
         memoList[memo].previousFileList = []
@@ -44,58 +44,58 @@ function * _postMemoData (req, res, next) {
         exists.previousFileList.push(oldObject)
         memoList[memo].previousFileList = exists.previousFileList
         log.info('roundCourseMemoData already exists, update' + memoList[memo]._id)
-        dbResponse.push(yield dbOneDocument.updateCourseMemoDataById(memoList[memo]))
+        dbResponse.push(await dbOneDocument.updateCourseMemoDataById(memoList[memo]))
       } else {
         log.info('saving new memo data' + memoList[memo]._id)
-        dbResponse.push(yield dbOneDocument.storeNewCourseMemoData(memoList[memo]))
+        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(memoList[memo]))
       }
     }
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to _posttDataById (postdocanization)', { error })
-    next(error)
+    return error
   }
 }
 
-function * _putMemoDataById (req, res, next) {
+async function _putMemoDataById (req, res) {
   try {
     const id = req.body._id
     let dbResponse
     log.info('Posting new roundCourseMemoData', { id })
-    const exists = yield dbOneDocument.fetchCourseMemoDataById(id)
+    const exists = await dbOneDocument.fetchCourseMemoDataById(id)
     req.body.changedDate = new Date()
     if (exists) {
       log.info('Updating Course Memo Data :', { id })
-      dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
+      dbResponse = await dbOneDocument.storeNewCourseMemoData(req.body)
     } else {
       log.info('Creating new Course Memo Data :', { id })
-      dbResponse = yield dbOneDocument.storeNewCourseMemoData(req.body)
+      dbResponse = await dbOneDocument.storeNewCourseMemoData(req.body)
     }
 
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to _posttDataById (postdocanization)', { error })
-    next(error)
+    return error
   }
 }
 
-function * _deleteMemoDataById (req, res, next) {
+async function _deleteMemoDataById (req, res) {
   try {
     const id = req.params.id
     log.info('Hard delete roundCourseMemoData by id:', { id })
 
-    const dbResponse = yield dbOneDocument.removeCourseMemoDataById(id)
+    const dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
 
     log.info('Successfully removed roundCourseMemoData by id: ', { id })
     res.json(dbResponse)
   } catch (error) {
     log.error('Error in _deleteDataById', { error })
-    next(error)
+    return error
   }
 }
 
-function * _getCourseMemoListByCourseCode (req, res, next) {
+async function _getCourseMemoListByCourseCode (req, res) {
   const courseCode = req.params.courseCode.toUpperCase()
   let semester = req.params.semester
   let dbResponse
@@ -107,12 +107,12 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
   log.info('Received request for all memos with: ', { courseCode: courseCode })
 
   try {
-    dbResponse = yield dbCollectedData.fetchAllByCourseCode(courseCode)
+    dbResponse = await dbCollectedData.fetchAllByCourseCode(courseCode)
 
     log.info('Successfully got all memos for', { courseCode: courseCode }, 'dbResponse length', dbResponse.length)
     if (!dbResponse) {
       log.info('dbResponse IS EMPTY for course', courseCode)
-      return next()
+      return
     }
     for (let index = 0; index < dbResponse.length; index++) {
       if (dbResponse[index].semester >= semester) {
@@ -130,16 +130,16 @@ function * _getCourseMemoListByCourseCode (req, res, next) {
     log.info('Responded to request for all memos with: ', { courseCode: courseCode })
   } catch (error) {
     log.error('Error in _getCourseMemoListByCourseCode', { error })
-    next(error)
+    return error
   }
 }
 
-function * _getUsedRounds (req, res, next) {
+async function _getUsedRounds (req, res) {
   const courseCode = req.params.courseCode
   const semester = req.params.semester
   log.info('Received request for used rounds for: ', { courseCode: courseCode })
   try {
-    const dbResponse = yield dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
+    const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
     const returnObject = {
       usedRoundsIdList: []
     }
@@ -151,7 +151,7 @@ function * _getUsedRounds (req, res, next) {
     res.json(returnObject)
     log.info('Responded to request for used rounds for: ', { courseCode: courseCode })
   } catch (error) {
-    next(error)
+    return error
   }
 }
 
