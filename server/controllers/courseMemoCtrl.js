@@ -112,7 +112,7 @@ async function _getCourseMemoListByCourseCode (req, res) {
     log.info('Successfully got all memos for', { courseCode: courseCode }, 'dbResponse length', dbResponse.length)
     if (!dbResponse) {
       log.info('dbResponse IS EMPTY for course', courseCode)
-      return
+      return res.json()
     }
     for (let index = 0; index < dbResponse.length; index++) {
       if (dbResponse[index].semester >= semester) {
