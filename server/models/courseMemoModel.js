@@ -1,59 +1,60 @@
-'use strict'
+"use strict";
 
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
   _id: String,
   courseCode: {
     type: String,
-    required: [true, 'Enter Course Code']
+    required: [true, "Enter Course Code"],
   },
   pdfMemoUploadDate: {
     type: String, // TODO: DATE
     trim: true,
     minlength: 0,
-    default: ''
+    default: "",
   },
   changedBy: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: "",
   },
   semester: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: "",
   },
   koppsRoundId: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: "",
   },
   courseMemoFileName: {
     type: String,
     trim: true,
-    default: ''
+    default: "",
   },
   ugKeys: {
     type: Array,
-    default: []
+    default: [],
   },
   lastChangeDate: {
     type: String,
-    default: ''
+    default: "",
   },
   previousFileList: {
     type: Array,
-    default: []
-  }
+    default: [],
+  },
+});
 
-})
+const CourseMemo = mongoose.model("CourseMemo", schema);
 
-const CourseMemo = mongoose.model('CourseMemo', schema)
+// const CourseMemo = mongoose.model("PdfCourseMemo", schema);
 module.exports = {
   CourseMemo,
-  schema: schema
-}
+  schema,
+};

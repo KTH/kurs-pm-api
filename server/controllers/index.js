@@ -1,10 +1,11 @@
-'use strict'
+"use strict";
 
 module.exports = {
   // Do not remove the System controller!
-  System: require('./systemCtrl'),
+  System: require("./systemCtrl"),
 
   // Replace with actual API controller
-  Sample: require('./sampleCtrl'),
-  CourseMemo: require('./courseMemoCtrl')
-}
+  Sample: require("./sampleCtrl"),
+  CourseMemo: require("./courseMemoCtrl"),
+  MigrateMemo: require("./migrateCtrl"),
+};
