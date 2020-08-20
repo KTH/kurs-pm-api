@@ -46,7 +46,7 @@ async function migrate(req, res) {
   console.log("Length", allMemos.length);
   console.log("first ", allMemos[0]);
   log.debug("ALL MEMOS ARE FETCHED");
-  const chunkSize = 20;
+  const chunkSize = 10;
 
   try {
     const iterations = Math.round(allMemos.length / chunkSize);
