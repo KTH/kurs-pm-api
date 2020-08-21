@@ -9,15 +9,17 @@ const mongoOptions = {
   pass: config.db.password,
   ssl: config.db.ssl,
   dbUri: config.db.authDatabase !== '' ? config.db.uri + `?authSource=${config.db.authDatabase}` : config.db.uri,
-  logger: log
+  logger: log,
+  useUnifiedTopology: true
 }
 
 module.exports.connect = function () {
-  nodeMongo.connect(mongoOptions)
-    .then(data => {
+  nodeMongo
+    .connect(mongoOptions)
+    .then((data) => {
       log.info({ data: data }, 'MongoDB: connected')
     })
-    .catch(err => {
+    .catch((err) => {
       log.error({ err: err }, 'MongoDB: ERROR connecting DB')
     })
 }

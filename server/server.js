@@ -106,15 +106,19 @@ server.use('/', systemRoute.getRouter())
 // Swagger UI
 const express = require('express')
 const swaggerUrl = config.proxyPrefixPath.uri + '/swagger'
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 const redirectUrl = `${swaggerUrl}?url=${getPaths().system.swagger.uri}`
 server.use(swaggerUrl, createSwaggerRedirectHandler(redirectUrl, config.proxyPrefixPath.uri))
-server.use(swaggerUrl, express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
+server.use(swaggerUrl, express.static(pathToSwaggerUi))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API enpoint handlers
-addPaths('api', createApiPaths({
-  swagger: swaggerData,
-  proxyPrefixPathUri: config.proxyPrefixPath.uri
-}))
+addPaths(
+  'api',
+  createApiPaths({
+    swagger: swaggerData,
+    proxyPrefixPathUri: config.proxyPrefixPath.uri
+  })
+)
 
 // Middleware to protect enpoints with apiKey
 const authByApiKey = passport.authenticate('apikey', { session: false })
@@ -141,5 +145,22 @@ server.use('/', apiRoute.getRouter())
 // Catch not found and errors
 server.use(notFoundHandler)
 server.use(errorHandler)
+
+/* **********************************
+ * ******* INIT AZURE CLIENT  *******
+ * **********************************
+ */
+
+const { getClient } = require('@kth/kth-node-cosmos-db')
+
+getClient({
+  username: config.db.username,
+  password: config.db.password,
+  host: config.db.host,
+  db: 'kursinfo',
+  defaultThroughput: 200,
+  maxThroughput: 400,
+  collections: [{ name: 'memofiles' }]
+})
 
 module.exports = server
