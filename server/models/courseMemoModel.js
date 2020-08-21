@@ -49,10 +49,9 @@ const schema = mongoose.Schema({
     type: Array,
     default: []
   }
-
 })
 
-const CourseMemo = mongoose.model('CourseMemo', schema)
+const CourseMemo = mongoose.model('MemoFile', schema)
 module.exports = {
   CourseMemo,
   schema: schema
