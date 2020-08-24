@@ -5,7 +5,7 @@ const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
 const co = require('co')
 
-async function _getMemoDataById (req, res) {
+async function _getMemoDataById(req, res) {
   const id = req.params.id
   log.info('Received request for memo with id: ', id)
   try {
@@ -19,7 +19,7 @@ async function _getMemoDataById (req, res) {
   }
 }
 
-async function _postMemoData (req, res) {
+async function _postMemoData(req, res) {
   try {
     const listLength = req.body.length
     const memoList = req.body
@@ -58,7 +58,7 @@ async function _postMemoData (req, res) {
   }
 }
 
-async function _putMemoDataById (req, res) {
+async function _putMemoDataById(req, res) {
   try {
     const id = req.body._id
     let dbResponse
@@ -80,14 +80,19 @@ async function _putMemoDataById (req, res) {
   }
 }
 
-async function _deleteMemoDataById (req, res) {
+async function _deleteMemoDataById(req, res) {
   try {
     const id = req.params.id
     log.info('Hard delete roundCourseMemoData by id:', { id })
+    const exists = await dbOneDocument.fetchCourseMemoDataById(id)
 
-    const dbResponse = await dbOneDocument.removeCourseMemoDataById(id)
+    if (exists) {
+      const dbResponse = await dbOneDocument.removeCourseMemoDataById(id, exists.courseCode)
+      log.info('Successfully removed roundCourseMemoData by id: ', { id })
+    }
 
-    log.info('Successfully removed roundCourseMemoData by id: ', { id })
+    log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
+
     res.json(dbResponse)
   } catch (error) {
     log.error('Error in _deleteDataById', { error })
@@ -95,7 +100,7 @@ async function _deleteMemoDataById (req, res) {
   }
 }
 
-async function _getCourseMemoListByCourseCode (req, res) {
+async function _getCourseMemoListByCourseCode(req, res) {
   const courseCode = req.params.courseCode.toUpperCase()
   let semester = req.params.semester
   let dbResponse
@@ -134,7 +139,7 @@ async function _getCourseMemoListByCourseCode (req, res) {
   }
 }
 
-async function _getUsedRounds (req, res) {
+async function _getUsedRounds(req, res) {
   const courseCode = req.params.courseCode
   const semester = req.params.semester
   log.info('Received request for used rounds for: ', { courseCode: courseCode })
