@@ -1,5 +1,5 @@
 const log = require('kth-node-log')
-const { CourseMemo } = require('../models/courseMemoModel')
+const { CourseMemoData } = require('../models/courseMemoModel')
 
 module.exports = {
   fetchCourseMemoDataById: _fetchCourseMemoDataById,

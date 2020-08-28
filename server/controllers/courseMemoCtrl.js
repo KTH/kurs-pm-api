@@ -3,6 +3,8 @@
 const log = require('kth-node-log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
+const { CourseMemoData } = require('../models/dynamicMemosModel')
+
 const co = require('co')
 
 async function _getMemoDataById(req, res) {
@@ -100,57 +102,27 @@ async function _deleteMemoDataById(req, res) {
   }
 }
 
-async function _getCourseMemoListByCourseCode(req, res) {
-  const courseCode = req.params.courseCode.toUpperCase()
-  let semester = req.params.semester
-  let dbResponse
-  const returnList = []
-  const tempObj = {}
-
-  semester = isNaN(semester) ? '19001' : semester
-
-  log.info('Received request for all memos with: ', { courseCode: courseCode })
-
-  try {
-    dbResponse = await dbCollectedData.fetchAllByCourseCode(courseCode)
-
-    log.info('Successfully got all memos for', { courseCode: courseCode }, 'dbResponse length', dbResponse.length)
-    if (!dbResponse) {
-      log.info('dbResponse IS EMPTY for course', courseCode)
-      return res.json()
-    }
-    for (let index = 0; index < dbResponse.length; index++) {
-      if (dbResponse[index].semester >= semester) {
-        tempObj[dbResponse[index]._id] = {
-          courseCode: dbResponse[index].courseCode,
-          pdfMemoUploadDate: dbResponse[index].pdfMemoUploadDate,
-          koppsRoundId: dbResponse[index].koppsRoundId,
-          courseMemoFileName: dbResponse[index].courseMemoFileName,
-          semseter: dbResponse[index].semester
-        }
-      }
-      returnList.push(tempObj)
-    }
-    res.json(tempObj)
-    log.info('Responded to request for all memos with: ', { courseCode: courseCode })
-  } catch (error) {
-    log.error('Error in _getCourseMemoListByCourseCode', { error })
-    return error
-  }
-}
-
 async function _getUsedRounds(req, res) {
   const courseCode = req.params.courseCode
   const semester = req.params.semester
   log.info('Received request for used rounds for: ', { courseCode: courseCode })
   try {
     const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
+    const _dbDynamicMemos = await CourseMemoData.aggregate([
+      { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
+    ])
+    log.debug('-----> _dbDynamicMemos', { _dbDynamicMemos })
+
     const returnObject = {
       usedRoundsIdList: []
     }
     for (let index = 0; index < dbResponse.length; index++) {
       returnObject[dbResponse[index]._id] = dbResponse[index]
       returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)
+    }
+    for (let index = 0; index < _dbDynamicMemos.length; index++) {
+      const { ladokRoundIds } = _dbDynamicMemos[index]
+      returnObject.usedRoundsIdList.push(...ladokRoundIds)
     }
     log.info('Successfully got used rounds for', { courseCode: courseCode, semester: semester, result: returnObject })
     res.json(returnObject)
@@ -165,6 +137,5 @@ module.exports = {
   postMemoData: co.wrap(_postMemoData),
   putMemoDataById: co.wrap(_putMemoDataById),
   deleteMemoDataById: co.wrap(_deleteMemoDataById),
-  getCourseMemoList: co.wrap(_getCourseMemoListByCourseCode),
   getUsedRounds: co.wrap(_getUsedRounds)
 }

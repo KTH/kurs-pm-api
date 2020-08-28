@@ -1,4 +1,5 @@
 module.exports = {
   sample: require('./sample'),
-  courseMemoModel: require('./courseMemoModel')
+  courseMemoModel: require('./courseMemoModel'),
+  CourseMemoData: require('./dynamicMemosModel')
 }
