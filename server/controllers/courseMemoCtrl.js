@@ -5,9 +5,7 @@ const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
 const { CourseMemoData } = require('../models/dynamicMemosModel')
 
-const co = require('co')
-
-async function _getMemoDataById(req, res) {
+async function getMemoDataById(req, res) {
   const id = req.params.id
   log.info('Received request for memo with id: ', id)
   try {
@@ -21,7 +19,7 @@ async function _getMemoDataById(req, res) {
   }
 }
 
-async function _postMemoData(req, res) {
+async function postMemoData(req, res) {
   try {
     const listLength = req.body.length
     const memoList = req.body
@@ -60,7 +58,7 @@ async function _postMemoData(req, res) {
   }
 }
 
-async function _putMemoDataById(req, res) {
+async function putMemoDataById(req, res) {
   try {
     const id = req.body._id
     let dbResponse
@@ -82,7 +80,7 @@ async function _putMemoDataById(req, res) {
   }
 }
 
-async function _deleteMemoDataById(req, res) {
+async function deleteMemoDataById(req, res) {
   try {
     const id = req.params.id
     log.info('Hard delete roundCourseMemoData by id:', { id })
@@ -102,7 +100,7 @@ async function _deleteMemoDataById(req, res) {
   }
 }
 
-async function _getUsedRounds(req, res) {
+async function getUsedRounds(req, res) {
   const courseCode = req.params.courseCode
   const semester = req.params.semester
   log.info('Received request for used rounds for: ', { courseCode: courseCode })
@@ -133,9 +131,9 @@ async function _getUsedRounds(req, res) {
 }
 
 module.exports = {
-  getMemoDataById: co.wrap(_getMemoDataById),
-  postMemoData: co.wrap(_postMemoData),
-  putMemoDataById: co.wrap(_putMemoDataById),
-  deleteMemoDataById: co.wrap(_deleteMemoDataById),
-  getUsedRounds: co.wrap(_getUsedRounds)
+  getMemoDataById,
+  postMemoData,
+  putMemoDataById,
+  deleteMemoDataById,
+  getUsedRounds
 }
