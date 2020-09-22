@@ -137,7 +137,6 @@ apiRoute.register(paths.api.putCourseMemoDataById, CourseMemo.putMemoDataById)
 apiRoute.register(paths.api.deleteCourseMemoDataById, CourseMemo.deleteMemoDataById)
 
 apiRoute.register(paths.api.postCourseMemoData, CourseMemo.postMemoData)
-apiRoute.register(paths.api.getCourseMemoListByCourseCode, CourseMemo.getCourseMemoList)
 apiRoute.register(paths.api.getUsedRounds, CourseMemo.getUsedRounds)
 
 server.use('/', apiRoute.getRouter())
