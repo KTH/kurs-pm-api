@@ -1,6 +1,7 @@
 # Kurs-pm-api
 
-## Api to store information about uploaded course memos to be used in course development and course info projects
+## Api to Upload alternative course memo as PDF 
+To store information about uploaded course memos as PDF to be used in course memo as PDF project
 
 This API is made within course information projekt(kip) to support only one micro service to administrate uploading of memo as PDF in `kurs-pm-admin-web`.
 It is an alternative project to `kurs-pm-data-api` (preferably to use `kurs-pm-data-api` and `kurs-pm-data-admin-web`)
