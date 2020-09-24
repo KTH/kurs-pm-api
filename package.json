@@ -6,9 +6,10 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "codecheck": "standard",
-    "codefix": "standard --fix",
-    "test": "mocha --exit test/**/*.js",
+    "codefix": "pretty-quick",
+    "test": "is-ci \"test:jest\" \"test:watch\"",
+    "test:jest": "jest",
+    "test:watch": "jest --watch",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
@@ -23,37 +24,48 @@
     "express-handlebars": "^4.0.4",
     "kth-node-access-log": "^0.2.0",
     "kth-node-api-common": "^1.0.1",
-    "kth-node-api-key-strategy": "^1.0.8",
+    "kth-node-api-key-strategy": "^1.0.9",
     "kth-node-configuration": "^2.0.1",
     "kth-node-express-routing": "^2.0.3",
-    "kth-node-log": "^3.0.2",
+    "kth-node-log": "^3.1.0",
     "kth-node-mongo": "^3.2.3",
     "kth-node-monitor": "^1.1.6",
     "kth-node-server": "^3.1.2",
-    "mongoose": "^5.7.11",
-    "passport": "^0.4.0",
+    "mongoose": "^5.9.20",
+    "passport": "^0.4.1",
     "safe-utils": "0.2.1",
-    "swagger-ui-dist": "^3.24.2"
+    "swagger-ui-dist": "^3.27.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
-    "cross-env": "^6.0.3",
-    "husky": "^3.0.9",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "husky": "^4.2.5",
     "mocha": "^8.0.1",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.4",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "proxyquire": "^2.1.3"
+    "is-ci-cli": "^2.1.2",
+    "jest": "^26.1.0"
   },
   "engines": {
-    "node": "8.12.0"
+    "node": "12.0.0"
   },
   "prettier": {
-    "trailingComma": "none",
+    "trailingComma": "es5",
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
-    "printWidth": 120
+    "printWidth": 120,
+    "arrowParens": "avoid"
   },
   "husky": {
     "hooks": {
