@@ -6,9 +6,7 @@
     "version": "1.0.0"
   },
   "basePath": "/api/kurs-pm",
-  "produces": [
-    "application/json"
-  ],
+  "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
@@ -16,9 +14,7 @@
         "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
         "description": "",
         "parameters": [],
-        "tags": [
-          "system"
-        ],
+        "tags": ["system"],
         "responses": {
           "200": {
             "description": "An empty response"
@@ -32,9 +28,7 @@
         },
         "security": [
           {
-            "api_key": [
-              "read"
-            ]
+            "api_key": ["read"]
           }
         ]
       }
@@ -53,9 +47,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
@@ -70,11 +62,11 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "read"
-          ]
-        }]
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       },
       "post": {
         "operationId": "postCourseMemoData",
@@ -91,9 +83,7 @@
             }
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "A successful save"
@@ -105,11 +95,11 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "write"
-          ]
-        }]
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
       },
       "put": {
         "operationId": "putCourseMemoDataById",
@@ -125,9 +115,7 @@
             }
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "A successful update"
@@ -140,9 +128,7 @@
           }
         },
         "security": {
-          "api_key": [
-            "write"
-          ]
+          "api_key": ["write"]
         }
       },
       "delete": {
@@ -158,9 +144,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The analysis was deleted",
@@ -176,41 +160,36 @@
           }
         },
         "security": {
-          "api_key": [
-            "read"
-          ]
+          "api_key": ["read"]
         }
       }
     },
-    "/v1/courseMemoList/{courseCode}/{semester}": {
+    "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
       "get": {
-        "operationId": "getCourseMemoListByCourseCode",
-        "summary": "Get a list of analysis for a course",
-        "description": "Gets analysis for rounds in a course that only requires read access",
+        "operationId": "getUsedRounds",
+        "summary": "Gets a list of used round ids for a semester in a course",
         "parameters": [
           {
             "name": "courseCode",
             "in": "path",
-            "description": "Id of the course code",
+            "description": "Course code, six characters",
             "required": true,
             "type": "string"
           },
           {
             "name": "semester",
+            "description": "Semester for rounds",
             "in": "path",
-            "description": "Semester code, five numbers as a string (year + 1 (spring) or 2 (fall). Filter so the result only has memo data from that semester and all subsequent semesters",
-            "required": false,
+            "required": true,
             "type": "string"
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
-            "description": "The requested data",
+            "description": "Round ids",
             "schema": {
-              "$ref": "#/definitions/MemoDataListForCourseCode"
+              "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
             }
           },
           "400": {
@@ -233,68 +212,10 @@
           }
         },
         "security": {
-          "api_key": [
-            "read"
-          ]
+          "api_key": ["read"]
         }
       }
-      },
-      "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
-        "get":{
-          "operationId": "getUsedRounds",
-          "summary": "Gets a list of used round ids for a semester in a course",
-          "parameters":[
-            {
-              "name": "courseCode",
-              "in": "path",
-              "description": "Course code, six characters",
-              "required": true,
-              "type":"string"
-            },
-            {
-              "name": "semester",
-              "description": "Semester for rounds",
-              "in":"path",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "tags": [
-            "v1"
-          ],
-          "responses": {
-            "200": {
-              "description": "Round ids",
-              "schema": {
-                "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
-              }
-            },
-            "400": {
-              "description": "Bad Request, something with the request is invalid",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
-            },
-            "404": {
-              "description": "No organization or user matched the Ids",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
-            },
-            "default": {
-              "description": "Unexpected error",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
-            }
-          },
-          "security": {
-            "api_key": [
-              "read"
-            ]
-          }
-        }
-      }
+    }
   },
   "securityDefinitions": {
     "api_key": {
@@ -320,7 +241,7 @@
         },
         "pdfMemoUploadDate": {
           "type": "string",
-          "description": "When document were published (first)?? time"         
+          "description": "When document were published (first)?? time"
         },
         "changedBy": {
           "type": "string",
@@ -344,7 +265,7 @@
         },
         "previousFileList": {
           "type": "array",
-          "items":"string",
+          "items": "string",
           "description": "Array for object with previous memo file and publish date "
         }
       }
@@ -361,7 +282,7 @@
         },
         "pdfMemoUploadDate": {
           "type": "string",
-          "description": "When document were published (first)?? time"         
+          "description": "When document were published (first)?? time"
         },
         "koppsRoundId": {
           "type": "string",
@@ -370,34 +291,34 @@
         "courseMemoFileName": {
           "type": "string",
           "description": "Uploaded courseMemo file"
-        },    
+        },
         "changedAfterPublishedDate": {
           "type": "string",
           "description": "Date for changes made after published???"
         }
-    }
-  },
-  "UsedRoundsForCourseAndSemester":{
-    "roundIdList": {
-      "type": "string",
-      "description": "List course rounds"
+      }
     },
-    "memoList": {
-      "type": "string",
-      "description": "Who made changes to documents"
-    }
-  },
-  "Error": {
-    "properties": {
-      "code": {
-        "type": "integer",
-        "format": "int32"
+    "UsedRoundsForCourseAndSemester": {
+      "roundIdList": {
+        "type": "string",
+        "description": "List course rounds"
       },
-      "message": {
-        "type": "string"
-      },
-      "fields": {
-        "type": "string"
+      "memoList": {
+        "type": "string",
+        "description": "Who made changes to documents"
+      }
+    },
+    "Error": {
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string"
         }
       }
     },

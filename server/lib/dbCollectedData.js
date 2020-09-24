@@ -1,18 +1,18 @@
 const log = require('kth-node-log')
-const { CourseMemo } = require('../models/courseMemoModel')
+const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 module.exports = {
   fetchAllByCourseCode: _fetchAllByCourseCode,
   fetchAllByCourseCodeAndSemester: _fetchAllByCourseCodeAndSemester
 }
 
-function _fetchAllByCourseCode (courseCode) {
+function _fetchAllByCourseCode(courseCode) {
   if (!courseCode) throw new Error('courseCode must be set')
   log.debug('Fetching all courseMemos for ' + courseCode)
-  return CourseMemo.find({ courseCode }).populate('MemoDataListForCourseCode').lean()
+  return StoredMemoPdfsModel.find({ courseCode }).populate('MemoDataListForCourseCode').lean()
 }
 
-function _fetchAllByCourseCodeAndSemester (courseCode, semester) {
+function _fetchAllByCourseCodeAndSemester(courseCode, semester) {
   log.debug('Fetching all courseMemos for ' + courseCode + ' filtered by semester: ' + semester)
-  return CourseMemo.find({ courseCode, semester }).populate('MemoDataListForCourseCode').lean()
+  return StoredMemoPdfsModel.find({ courseCode, semester }).populate('MemoDataListForCourseCode').lean()
 }
