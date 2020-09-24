@@ -3,7 +3,7 @@
 const log = require('kth-node-log')
 const dbOneDocument = require('../lib/dbDataById')
 const dbCollectedData = require('../lib/dbCollectedData')
-const { CourseMemoData } = require('../models/dynamicMemosModel')
+const { WebCourseMemoModel } = require('../models/dynamicMemosModel')
 
 async function getMemoDataById(req, res) {
   const id = req.params.id
@@ -106,7 +106,7 @@ async function getUsedRounds(req, res) {
   log.info('Received request for used rounds for: ', { courseCode: courseCode })
   try {
     const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
-    const _dbDynamicMemos = await CourseMemoData.aggregate([
+    const _dbDynamicMemos = await WebCourseMemoModel.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
     ])
     log.debug('-----> _dbDynamicMemos', { _dbDynamicMemos })

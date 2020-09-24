@@ -6,5 +6,5 @@ module.exports = {
 
   // Replace with actual API controller
   Sample: require('./sampleCtrl'),
-  CourseMemo: require('./courseMemoCtrl')
+  CourseMemoCtrl: require('./courseMemoCtrl')
 }
