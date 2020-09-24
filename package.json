@@ -2,9 +2,8 @@
   "//": "The production flag is added in the jenkins build script.",
   "name": "kurs-pm-api",
   "version": "2.0.0",
-  "description": "Node.js based API template application.",
+  "description": "Kurs-pm-api is an alternative api to upload memo as PDF and used by kurs-pm-admin-web",
   "main": "app.js",
-  "private": true,
   "scripts": {
     "codefix": "pretty-quick",
     "test": "is-ci \"test:jest\" \"test:watch\"",
