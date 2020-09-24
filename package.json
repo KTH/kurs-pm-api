@@ -8,7 +8,7 @@
   "scripts": {
     "codefix": "pretty-quick",
     "test": "is-ci \"test:jest\" \"test:watch\"",
-    "test:jest": "jest",
+    "test:jest": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
