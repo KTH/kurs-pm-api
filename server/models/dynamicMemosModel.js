@@ -50,9 +50,9 @@ const schema = mongoose.Schema({
   }
 })
 
-const CourseMemoData = wrap(mongoose.model('CourseMemo', schema))
+const WebCourseMemoModel = wrap(mongoose.model('CourseMemo', schema))
 
 module.exports = {
-  CourseMemoData,
+  WebCourseMemoModel,
   schema
 }

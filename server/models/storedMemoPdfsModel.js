@@ -51,8 +51,8 @@ const schema = mongoose.Schema({
   }
 })
 
-const CourseMemo = mongoose.model('MemoFile', schema)
+const StoredMemoPdfsModel = mongoose.model('MemoFile', schema)
 module.exports = {
-  CourseMemo,
-  schema: schema
+  StoredMemoPdfsModel,
+  schema
 }
