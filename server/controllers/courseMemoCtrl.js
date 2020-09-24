@@ -112,7 +112,8 @@ async function getUsedRounds(req, res) {
     log.debug('-----> _dbDynamicMemos', { _dbDynamicMemos })
 
     const returnObject = {
-      usedRoundsIdList: []
+      usedRoundsIdList: [],
+      roundsIdWithWebVersion: []
     }
     for (let index = 0; index < dbResponse.length; index++) {
       returnObject[dbResponse[index]._id] = dbResponse[index]
@@ -121,6 +122,7 @@ async function getUsedRounds(req, res) {
     for (let index = 0; index < _dbDynamicMemos.length; index++) {
       const { ladokRoundIds } = _dbDynamicMemos[index]
       returnObject.usedRoundsIdList.push(...ladokRoundIds)
+      returnObject.roundsIdWithWebVersion.push(...ladokRoundIds)
     }
     log.info('Successfully got used rounds for', { courseCode: courseCode, semester: semester, result: returnObject })
     res.json(returnObject)
