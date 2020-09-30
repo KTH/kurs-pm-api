@@ -41,7 +41,8 @@ Therefore it is connected only to admin part to save data and send it to the sam
 
 ### How to configure the applications
 
-1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex:
+1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex. 
+This api read data from the same database as kurs-pm-data-api, f.e., in stage it is kurs-pm-data-api-stage-mongodb-kthse:
 
 ```
 KURSPM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&scope=write&scope=read
