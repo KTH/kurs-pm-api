@@ -6,9 +6,10 @@
   "main": "app.js",
   "scripts": {
     "codefix": "pretty-quick",
-    "test": "is-ci \"test:jest\" \"test:watch\"",
-    "test:jest": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
+    "codecheck": "pretty-quick",
+    "test-ci": "is-ci \"test\" \"test:watch\"",
+    "test": "NODE_ENV=test jest test/*/*.js",
+    "test:watch": "NODE_ENV=test jest test/*/*.js --watch",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
