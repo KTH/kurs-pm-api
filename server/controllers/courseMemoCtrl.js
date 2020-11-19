@@ -6,7 +6,7 @@ const dbCollectedData = require('../lib/dbCollectedData')
 const { WebCourseMemoModel } = require('../models/dynamicMemosModel')
 
 async function getMemoDataById(req, res) {
-  const id = req.params.id
+  const { id } = req.params
   log.info('Received request for memo with id: ', id)
   try {
     const dbResponse = await dbOneDocument.fetchCourseMemoDataById(id)
@@ -26,7 +26,7 @@ async function postMemoData(req, res) {
     const dbResponse = []
     let oldObject = {
       previousFileName: '',
-      publishDate: ''
+      publishDate: '',
     }
 
     for (let memo = 0; memo < listLength; memo++) {
@@ -39,7 +39,7 @@ async function postMemoData(req, res) {
       if (exists) {
         oldObject = {
           previousFileName: exists.courseMemoFileName,
-          publishDate: exists.lastChangeDate
+          publishDate: exists.lastChangeDate,
         }
         exists.previousFileList.push(oldObject)
         memoList[memo].previousFileList = exists.previousFileList
@@ -82,18 +82,17 @@ async function putMemoDataById(req, res) {
 
 async function deleteMemoDataById(req, res) {
   try {
-    const id = req.params.id
+    const { id } = req.params
     log.info('Hard delete roundCourseMemoData by id:', { id })
     const exists = await dbOneDocument.fetchCourseMemoDataById(id)
 
     if (exists) {
-      const dbResponse = await dbOneDocument.removeCourseMemoDataById(id, exists.courseCode)
+      const dbResponseAfterDelete = await dbOneDocument.removeCourseMemoDataById(id, exists.courseCode)
       log.info('Successfully removed roundCourseMemoData by id: ', { id })
+      log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
+
+      res.json(dbResponseAfterDelete)
     }
-
-    log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
-
-    res.json(dbResponse)
   } catch (error) {
     log.error('Error in _deleteDataById', { error })
     return error
@@ -101,32 +100,33 @@ async function deleteMemoDataById(req, res) {
 }
 
 async function getUsedRounds(req, res) {
-  const courseCode = req.params.courseCode
-  const semester = req.params.semester
-  log.info('Received request for used rounds for: ', { courseCode: courseCode })
+  const { courseCode } = req.params
+  const { semester } = req.params
+  log.info('Received request for used rounds for: ', { courseCode })
   try {
     const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
-    const _dbDynamicMemos = await WebCourseMemoModel.aggregate([
-      { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } }
+    const dbDynamicMemos = await WebCourseMemoModel.aggregate([
+      { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
-    log.debug('-----> _dbDynamicMemos', { _dbDynamicMemos })
+    log.debug('Fethed dbDynamicMemos which are web-based memos', { dbDynamicMemos })
 
     const returnObject = {
       usedRoundsIdList: [],
-      roundsIdWithWebVersion: []
+      roundsIdWithWebVersion: [],
     }
     for (let index = 0; index < dbResponse.length; index++) {
-      returnObject[dbResponse[index]._id] = dbResponse[index]
+      const { _id: pdfFileId } = dbResponse[index]
+      returnObject[pdfFileId] = dbResponse[index]
       returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)
     }
-    for (let index = 0; index < _dbDynamicMemos.length; index++) {
-      const { ladokRoundIds } = _dbDynamicMemos[index]
+    for (let index = 0; index < dbDynamicMemos.length; index++) {
+      const { ladokRoundIds } = dbDynamicMemos[index]
       returnObject.usedRoundsIdList.push(...ladokRoundIds)
       returnObject.roundsIdWithWebVersion.push(...ladokRoundIds)
     }
-    log.info('Successfully got used rounds for', { courseCode: courseCode, semester: semester, result: returnObject })
+    log.info('Successfully got used rounds for', { courseCode, semester, result: returnObject })
     res.json(returnObject)
-    log.info('Responded to request for used rounds for: ', { courseCode: courseCode })
+    log.info('Responded to request for used rounds for: ', { courseCode })
   } catch (error) {
     return error
   }
@@ -137,5 +137,5 @@ module.exports = {
   postMemoData,
   putMemoDataById,
   deleteMemoDataById,
-  getUsedRounds
+  getUsedRounds,
 }

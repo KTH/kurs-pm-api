@@ -5,7 +5,7 @@ module.exports = {
   fetchCourseMemoDataById: _fetchCourseMemoDataById,
   storeNewCourseMemoData: _storeNewCourseMemoData,
   updateCourseMemoDataById: _updateCourseMemoDataById,
-  removeCourseMemoDataById: _removeCourseMemoDataById
+  removeCourseMemoDataById: _removeCourseMemoDataById,
 }
 
 function _fetchCourseMemoDataById(id) {
