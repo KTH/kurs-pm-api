@@ -127,9 +127,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["write"]
-        }
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteCourseMemoDataById",
@@ -159,9 +161,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
@@ -211,9 +215,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     }
   },
