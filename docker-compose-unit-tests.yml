@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  kursstatistik-api:
+    image: $LOCAL_IMAGE_ID
+    volumes:
+      - ./test:/application/test
+    tty: true
+    command: ['sh', '-c', 'npm install --development && npm test']
