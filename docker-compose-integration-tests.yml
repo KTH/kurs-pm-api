@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  kurs-pm-mongodb:
+    image: mongo:4.4.2
+
+  kurs-pm-api:
+    image: $LOCAL_IMAGE_ID
+    environment:
+      SERVICE_PUBLISH: '/api/kurs-pm'
+      SERVER_PORT: 3000
+      KURS_PM_MONGODB_URI: mongodb://mongodb/kurs-pm
+      KURS_PM_API_KEYS_0: '?name=test&apiKey=1234&scope=read'
+      LOGGING_ACCESS_LOG: 'true'
+    depends_on:
+      - kurs-pm-mongodb
+
+  kurs-pm-integration:
+    build: ./test/integration
+    depends_on:
+      - kurs-pm-api
