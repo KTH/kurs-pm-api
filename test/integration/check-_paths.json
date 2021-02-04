@@ -1,4 +1,4 @@
 {
   "expectedSingleResponses": [],
-  "expectedDefaultResponseCodes": [401]
+  "expectedDefaultResponseCodes": [401, 403]
 }

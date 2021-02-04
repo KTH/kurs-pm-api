@@ -1,4 +1,5 @@
 FROM node:14-alpine
+LABEL maintainer="KTH StudAdm studadm.developers@kth.se"
 
 RUN mkdir -p /npm && \
     mkdir -p /application
