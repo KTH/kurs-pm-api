@@ -17,7 +17,10 @@
         "tags": ["system"],
         "responses": {
           "200": {
-            "description": "An empty response"
+            "description": "The given authentication is **accepted**"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",
@@ -55,6 +58,9 @@
               "$ref": "#/definitions/MemoData"
             }
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -88,6 +94,9 @@
           "200": {
             "description": "A successful save"
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -120,6 +129,9 @@
           "200": {
             "description": "A successful update"
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -127,9 +139,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["write"]
-        }
+        "security": [
+          {
+            "api_key": ["write"]
+          }
+        ]
       },
       "delete": {
         "operationId": "deleteCourseMemoDataById",
@@ -152,6 +166,9 @@
               "$ref": "#/definitions/MemoData"
             }
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -159,9 +176,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     },
     "/v1/usedRoundsForCourse/{courseCode}/semester/{semester}": {
@@ -192,6 +211,9 @@
               "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
             }
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "400": {
             "description": "Bad Request, something with the request is invalid",
             "schema": {
@@ -211,9 +233,11 @@
             }
           }
         },
-        "security": {
-          "api_key": ["read"]
-        }
+        "security": [
+          {
+            "api_key": ["read"]
+          }
+        ]
       }
     }
   },
