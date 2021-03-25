@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo:4.4.2
+
+  api:
+    image: $LOCAL_IMAGE_ID
+    environment:
+      SERVICE_PUBLISH: '/api/kurs-pm'
+      SERVER_PORT: 3000
+      KURS_PM_MONGODB_URI: mongodb://mongodb/kurs-pm
+      KURS_PM_API_KEYS_0: '?name=test&apiKey=1234&scope=read'
+      WAIT_HOSTS: 'mongodbdb:27017'
+      WAIT_HOSTS_TIMEOUT: 30
+    depends_on:
+      - mongodb
+
+  integration:
+    build: ./test/integration
+    environment:
+      INTEGRATION_TEST_BASEURL: 'http://api:3000/api/kurs-pm'
+      INTEGRATION_TEST_SUCCESS_DELAY: '${SUCCESS_DELAY:-0}'
+      INTEGRATION_TEST_FAILURE_DELAY: '${FAILURE_DELAY:-0}'
+      WAIT_HOSTS: 'api:3000'
+      WAIT_HOSTS_TIMEOUT: 30
+    depends_on:
+      - api

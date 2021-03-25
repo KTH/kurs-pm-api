@@ -10,6 +10,8 @@
     "test-ci": "is-ci \"test\" \"test:watch\"",
     "test": "NODE_ENV=test jest test/*/*.js",
     "test:watch": "NODE_ENV=test jest test/*/*.js --watch",
+    "test:docker:unit": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate",
+    "test:docker:integration": "docker build --progress plain -t kurs-pm-api-integration . && bash -c 'LOCAL_IMAGE_ID=kurs-pm-api-integration SUCCESS_DELAY=5000 docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --build --remove-orphans'",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
   },
@@ -20,6 +22,7 @@
     "component-registry": "^1.3.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
+    "eslint-plugin-jest": "^24.1.3",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.1",
     "kth-node-access-log": "^0.2.2",

@@ -4,7 +4,5 @@ module.exports = {
   // Do not remove the System controller!
   System: require('./systemCtrl'),
 
-  // Replace with actual API controller
-  Sample: require('./sampleCtrl'),
-  CourseMemoCtrl: require('./courseMemoCtrl')
+  CourseMemoCtrl: require('./courseMemoCtrl'),
 }
