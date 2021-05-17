@@ -17,7 +17,10 @@
         "tags": ["system"],
         "responses": {
           "200": {
-            "description": "An empty response"
+            "description": "The given authentication is **accepted**"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",
@@ -55,6 +58,9 @@
               "$ref": "#/definitions/MemoData"
             }
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -88,6 +94,9 @@
           "200": {
             "description": "A successful save"
           },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
           "default": {
             "description": "Unexpected error",
             "schema": {
@@ -119,6 +128,9 @@
         "responses": {
           "200": {
             "description": "A successful update"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",
@@ -153,6 +165,9 @@
             "schema": {
               "$ref": "#/definitions/MemoData"
             }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
             "description": "Unexpected error",
@@ -195,6 +210,9 @@
             "schema": {
               "$ref": "#/definitions/UsedRoundsForCourseAndSemester"
             }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "400": {
             "description": "Bad Request, something with the request is invalid",
