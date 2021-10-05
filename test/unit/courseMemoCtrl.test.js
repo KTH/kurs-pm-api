@@ -95,7 +95,6 @@ jest.mock('../../server/configuration', () => {
           level: 'debug',
         },
       },
-      ldap: {},
       proxyPrefixPath: {
         uri: 'kursinfo',
       },
@@ -143,16 +142,15 @@ describe('Test functions of courseMemoCtrl.js', () => {
     jest.resetModules()
     jest.clearAllMocks()
   })
-  test('getMemoDataById', async done => {
+  test('getMemoDataById', async () => {
     const { getMemoDataById } = require('../../server/controllers/courseMemoCtrl')
     const req = buildReq({ params: { id: 'SF1624_20202_9' } })
     const res = buildRes()
     const response = await getMemoDataById(req, res)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('postMemoData, update existing', async done => {
+  test('postMemoData, update existing', async () => {
     const { postMemoData } = require('../../server/controllers/courseMemoCtrl')
     const req = buildReq({
       params: { id: 'SF1624_20202_9' },
@@ -162,10 +160,9 @@ describe('Test functions of courseMemoCtrl.js', () => {
     const response = await postMemoData(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 
-  test('postMemoData, handle req if database give empty object (course is not yet in db)', async done => {
+  test('postMemoData, handle req if database give empty object (course is not yet in db)', async () => {
     const { postMemoData } = require('../../server/controllers/courseMemoCtrl')
     const req = buildReq({
       params: { id: 'EF1111_20201_2' },
@@ -175,6 +172,5 @@ describe('Test functions of courseMemoCtrl.js', () => {
     const response = await postMemoData(req, res)
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
-    done()
   })
 })
