@@ -289,8 +289,22 @@
         },
         "previousFileList": {
           "type": "array",
-          "items": "string",
-          "description": "Array for object with previous memo file and publish date "
+          "items": "object",
+          "description": "Array for object with previous memo file and publish date",
+          "properties": {
+            "previousFileName": {
+              "type": "string",
+              "description": "File name of a previous course memo"
+            },
+            "publishDate": {
+              "type": "string",
+              "description": "Published date of a previous course memo"
+            },
+            "version": {
+              "type": "string",
+              "description": "Version number of course memo"
+            }
+          }
         }
       }
     },

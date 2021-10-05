@@ -24,36 +24,41 @@ async function postMemoData(req, res) {
     const listLength = req.body.length
     const memoList = req.body
     const dbResponse = []
-    let oldObject = {
-      previousFileName: '',
-      publishDate: '',
-    }
 
-    for (let memo = 0; memo < listLength; memo++) {
-      log.info('Posting new roundCourseMemoData', { memoList })
-      const exists = await dbOneDocument.fetchCourseMemoDataById(memoList[memo]._id)
-      memoList[memo].lastChangeDate = new Date()
-      if (!memoList[memo].hasOwnProperty('previousFileList')) {
-        memoList[memo].previousFileList = []
+    for (let memoIndex = 0; memoIndex < listLength; memoIndex++) {
+      log.info(' Posting new course memos ', { memoList })
+      const nextMemo = memoList[memoIndex]
+      const exists = await dbOneDocument.fetchCourseMemoDataById(nextMemo._id)
+      nextMemo.lastChangeDate = new Date()
+      if (!nextMemo.hasOwnProperty('previousFileList')) {
+        nextMemo.previousFileList = []
       }
       if (exists) {
-        oldObject = {
-          previousFileName: exists.courseMemoFileName,
-          publishDate: exists.lastChangeDate,
-        }
-        exists.previousFileList.push(oldObject)
-        memoList[memo].previousFileList = exists.previousFileList
-        log.info('roundCourseMemoData already exists, update' + memoList[memo]._id)
-        dbResponse.push(await dbOneDocument.updateCourseMemoDataById(memoList[memo]))
+        const {
+          courseMemoFileName: previousFileName,
+          lastChangeDate: publishDate,
+          previousFileList: oldPrevFileList,
+        } = exists
+        const nextPreviousFileList = [
+          {
+            previousFileName,
+            publishDate,
+            version: oldPrevFileList.length + 1,
+          },
+          ...oldPrevFileList,
+        ]
+        nextMemo.previousFileList = nextPreviousFileList
+        log.info('roundCourseMemoData already exists, update' + nextMemo._id)
+        dbResponse.push(await dbOneDocument.updateCourseMemoDataById(nextMemo))
       } else {
-        log.info('saving new memo data' + memoList[memo]._id)
-        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(memoList[memo]))
+        log.info('saving new memo data' + nextMemo._id)
+        dbResponse.push(await dbOneDocument.storeNewCourseMemoData(nextMemo))
       }
     }
     log.info('dbResponse', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to _posttDataById (postdocanization)', { error })
+    log.error('Error in while trying to postMemoData', { error })
     return error
   }
 }
@@ -75,7 +80,7 @@ async function putMemoDataById(req, res) {
 
     res.status(201).json(dbResponse)
   } catch (error) {
-    log.error('Error in while trying to _posttDataById (postdocanization)', { error })
+    log.error('Error in while trying to putMemoDataById', { error })
     return error
   }
 }
