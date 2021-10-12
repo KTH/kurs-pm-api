@@ -34,15 +34,11 @@ async function postMemoData(req, res) {
         nextMemo.previousFileList = []
       }
       if (exists) {
-        const {
-          courseMemoFileName: previousFileName,
-          lastChangeDate: publishDate,
-          previousFileList: oldPrevFileList,
-        } = exists
+        const { courseMemoFileName: previousFileName, lastChangeDate, previousFileList: oldPrevFileList = [] } = exists
         const nextPreviousFileList = [
           {
-            previousFileName,
-            publishDate,
+            courseMemoFileName,
+            lastChangeDate,
             version: oldPrevFileList.length + 1,
           },
           ...oldPrevFileList,
