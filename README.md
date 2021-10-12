@@ -1,10 +1,14 @@
 # Kurs-pm-api
 
-## Api to Upload alternative course memo as PDF 
-To store information about uploaded course memos as PDF to be used in course memo as PDF project
+## Api to Upload alternative course memo as PDF
+This API is made within course information projekt(kip) to **support only one admin micro service** to administrate uploading of memo as PDF in `kurs-pm-admin-web`.
 
-This API is made within course information projekt(kip) to support only one micro service to administrate uploading of memo as PDF in `kurs-pm-admin-web`.
-It is an alternative project to `kurs-pm-data-api` (preferably to use `kurs-pm-data-api` and `kurs-pm-data-admin-web`)
+This api is used only by `kurs-pm-admin-web` to upload memo files in PDF format to a common blobstorage and saves information about file in database.
+Important to know, **this api is not used by public pages**, instead use `kurs-pm-data-api`.
+
+Same blobstorage and database is used by another web admin service `kurs-pm-data-admin-web` which is used to create/edit web based memos (not uploaded pdf)
+
+As it was mentioned above, it is an alternative project to `kurs-pm-data-api` (preferably to use `kurs-pm-data-api` and `kurs-pm-data-admin-web`)
 
 The two projects are [kurs-pm-admin-web][web], a web server with express, and [kurs-pm-api][api], a RESTful API.
 The `kurs-pm-admin-web` project use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.
