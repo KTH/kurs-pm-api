@@ -34,16 +34,17 @@ async function postMemoData(req, res) {
         nextMemo.previousFileList = []
       }
       if (exists) {
-        const { courseMemoFileName: previousFileName, lastChangeDate, previousFileList: oldPrevFileList = [] } = exists
-        const nextPreviousFileList = [
-          {
-            courseMemoFileName,
-            lastChangeDate,
-            version: oldPrevFileList.length + 1,
-          },
-          ...oldPrevFileList,
-        ]
-        nextMemo.previousFileList = nextPreviousFileList
+        const {
+          courseMemoFileName: previousFileName,
+          pdfMemoUploadDate,
+          previousFileList: oldPrevFileList = [],
+        } = exists
+        const prevVersion = {
+          courseMemoFileName,
+          pdfMemoUploadDate,
+          version: oldPrevFileList.length + 1,
+        }
+        nextMemo.previousFileList = [prevVersion, ...oldPrevFileList]
         log.info('roundCourseMemoData already exists, update' + nextMemo._id)
         dbResponse.push(await dbOneDocument.updateCourseMemoDataById(nextMemo))
       } else {

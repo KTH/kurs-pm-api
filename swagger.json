@@ -290,13 +290,13 @@
         "previousFileList": {
           "type": "array",
           "items": "object",
-          "description": "Array for object with previous memo file and publish date",
+          "description": "Array for object with previous memo files and its upload date",
           "properties": {
-            "previousFileName": {
+            "courseMemoFileName": {
               "type": "string",
               "description": "File name of a previous course memo"
             },
-            "publishDate": {
+            "pdfMemoUploadDate": {
               "type": "string",
               "description": "Published date of a previous course memo"
             },
