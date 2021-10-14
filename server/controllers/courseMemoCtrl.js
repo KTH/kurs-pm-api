@@ -21,8 +21,9 @@ async function getMemoDataById(req, res) {
 
 async function postMemoData(req, res) {
   try {
-    const listLength = req.body.length
-    const memoList = req.body
+    const { body: memoList } = req
+    const { length: listLength } = memoList
+
     const dbResponse = []
 
     for (let memoIndex = 0; memoIndex < listLength; memoIndex++) {
@@ -39,20 +40,21 @@ async function postMemoData(req, res) {
           pdfMemoUploadDate,
           previousFileList: oldPrevFileList = [],
         } = exists
+
         const prevVersion = {
-          courseMemoFileName,
+          courseMemoFileName: previousFileName,
           pdfMemoUploadDate,
           version: oldPrevFileList.length + 1,
         }
         nextMemo.previousFileList = [prevVersion, ...oldPrevFileList]
-        log.info('roundCourseMemoData already exists, update' + nextMemo._id)
+        log.info(' roundCourseMemoData already exists, update' + nextMemo._id)
         dbResponse.push(await dbOneDocument.updateCourseMemoDataById(nextMemo))
       } else {
-        log.info('saving new memo data' + nextMemo._id)
+        log.info(' saving new memo data' + nextMemo._id)
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(nextMemo))
       }
     }
-    log.info('dbResponse', dbResponse)
+    log.info(' dbResponse IN postMemoData ', dbResponse)
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to postMemoData', { error })
@@ -64,14 +66,14 @@ async function putMemoDataById(req, res) {
   try {
     const id = req.body._id
     let dbResponse
-    log.info('Posting new roundCourseMemoData', { id })
+    log.info('Try to update or create a new memo ', { id })
     const exists = await dbOneDocument.fetchCourseMemoDataById(id)
     req.body.changedDate = new Date()
     if (exists) {
-      log.info('Updating Course Memo Data :', { id })
+      log.info(' Found the existing memo. Updating: ', { id })
       dbResponse = await dbOneDocument.storeNewCourseMemoData(req.body)
     } else {
-      log.info('Creating new Course Memo Data :', { id })
+      log.info(' Creating a  new memo : ', { id })
       dbResponse = await dbOneDocument.storeNewCourseMemoData(req.body)
     }
 
@@ -90,8 +92,8 @@ async function deleteMemoDataById(req, res) {
 
     if (exists) {
       const dbResponseAfterDelete = await dbOneDocument.removeCourseMemoDataById(id, exists.courseCode)
-      log.info('Successfully removed roundCourseMemoData by id: ', { id })
-      log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
+      if (dbResponseAfterDelete) log.info('Successfully removed roundCourseMemoData by id: ', { id })
+      if (!dbResponseAfterDelete) log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
 
       res.json(dbResponseAfterDelete)
     }
