@@ -47,14 +47,14 @@ async function postMemoData(req, res) {
           version: oldPrevFileList.length + 1,
         }
         nextMemo.previousFileList = [prevVersion, ...oldPrevFileList]
-        log.info(' roundCourseMemoData already exists, update' + nextMemo._id)
+        log.info(` memo already exists, update ${nextMemo._id}`)
         dbResponse.push(await dbOneDocument.updateCourseMemoDataById(nextMemo))
       } else {
-        log.info(' saving new memo data' + nextMemo._id)
+        log.info(` saving new memo data ${nextMemo._id}`)
         dbResponse.push(await dbOneDocument.storeNewCourseMemoData(nextMemo))
       }
     }
-    log.info(' dbResponse IN postMemoData ', dbResponse)
+    log.info(` dbResponse IN postMemoData ${dbResponse}`)
     res.status(201).json(dbResponse)
   } catch (error) {
     log.error('Error in while trying to postMemoData', { error })
@@ -87,18 +87,18 @@ async function putMemoDataById(req, res) {
 async function deleteMemoDataById(req, res) {
   try {
     const { id } = req.params
-    log.info('Hard delete roundCourseMemoData by id:', { id })
+    log.info(' Hard delete of roundCourseMemoData by id: ', { id })
     const exists = await dbOneDocument.fetchCourseMemoDataById(id)
 
     if (exists) {
       const dbResponseAfterDelete = await dbOneDocument.removeCourseMemoDataById(id, exists.courseCode)
-      if (dbResponseAfterDelete) log.info('Successfully removed roundCourseMemoData by id: ', { id })
-      if (!dbResponseAfterDelete) log.info('Have not found for deletion roundCourseMemoData by id: ', { id })
+      if (dbResponseAfterDelete) log.info(' Successfully removed roundCourseMemoData by id: ', { id })
+      if (!dbResponseAfterDelete) log.info(' Have not found for deletion roundCourseMemoData by id: ', { id })
 
       res.json(dbResponseAfterDelete)
     }
   } catch (error) {
-    log.error('Error in _deleteDataById', { error })
+    log.error(' Error in _deleteDataById ', { error })
     return error
   }
 }
@@ -106,13 +106,13 @@ async function deleteMemoDataById(req, res) {
 async function getUsedRounds(req, res) {
   const { courseCode } = req.params
   const { semester } = req.params
-  log.info('Received request for used rounds for: ', { courseCode })
+  log.info(' Received request for used rounds for: ', { courseCode })
   try {
     const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
     const dbDynamicMemos = await WebCourseMemoModel.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
-    log.debug('Fethed dbDynamicMemos which are web-based memos', { dbDynamicMemos })
+    log.debug(' Fethed dbDynamicMemos which are web-based memos', { dbDynamicMemos })
 
     const returnObject = {
       usedRoundsIdList: [],
