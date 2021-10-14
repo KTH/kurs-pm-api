@@ -296,7 +296,7 @@
               "type": "string",
               "description": "File name of a previous course memo"
             },
-            "pdfMemoUploadDate": {
+            "lastChangeDate": {
               "type": "string",
               "description": "Published date of a previous course memo"
             },
