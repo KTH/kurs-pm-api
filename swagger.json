@@ -292,11 +292,11 @@
           "items": "object",
           "description": "Array for object with previous memo files and its upload date",
           "properties": {
-            "courseMemoFileName": {
+            "previousFileName": {
               "type": "string",
               "description": "File name of a previous course memo"
             },
-            "lastChangeDate": {
+            "publishDate": {
               "type": "string",
               "description": "Published date of a previous course memo"
             },
