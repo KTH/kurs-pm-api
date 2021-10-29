@@ -121,8 +121,33 @@ Here is one example
   "changedAfterPublishedDate": {
     "type": "array",
     "description": "Date for changes made after published???"
-  }
+  },
+  
 },
+```
+Vesion handles:
+```json
+  { 
+    "previousFileList": {
+       "type": "array",
+       "items": "object",
+       "description": "Array for object with previous memo files and its upload date",
+       "properties": {
+         "courseMemoFileName": {
+           "type": "string",
+           "description": "File name of a previous course memo"
+         },
+         "lastChangeDate": {
+           "type": "string",
+           "description": "Published date of a previous course memo"
+         },
+         "version": {
+           "type": "string",
+           "description": "Version number of course memo"
+         }
+       }
+     }
+  }
 ```
 
 #### What is `swagger-ui-dist`?
