@@ -104,7 +104,7 @@ async function getUsedRounds(req, res) {
   const { semester } = req.params
   log.info(' Received request for used rounds for: ', { courseCode })
   try {
-    const dbResponse = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
+    const dbStoredPdfMemos = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
     const dbDynamicMemos = await WebCourseMemoModel.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
@@ -113,15 +113,19 @@ async function getUsedRounds(req, res) {
     const returnObject = {
       usedRoundsIdList: [],
       roundsIdWithWebVersion: {},
+      roundsIdWithPdfVersion: {},
     }
-    for (let index = 0; index < dbResponse.length; index++) {
-      const { _id: pdfFileId } = dbResponse[index]
-      returnObject[pdfFileId] = dbResponse[index]
-      returnObject.usedRoundsIdList.push(dbResponse[index].koppsRoundId)
+    for (let index = 0; index < dbStoredPdfMemos.length; index++) {
+      const { _id: pdfFileId, koppsRoundId, previousFileList = [] } = dbStoredPdfMemos[index]
+      const version = previousFileList.length + 1
+      returnObject[pdfFileId] = dbStoredPdfMemos[index]
+      returnObject.usedRoundsIdList.push(koppsRoundId)
+      returnObject.roundsIdWithPdfVersion[koppsRoundId] = { version }
     }
     for (let index = 0; index < dbDynamicMemos.length; index++) {
       const { memoEndPoint, status, ladokRoundIds, version } = dbDynamicMemos[index]
       returnObject.usedRoundsIdList.push(...ladokRoundIds)
+
       returnObject.roundsIdWithWebVersion[ladokRoundIds] = { memoEndPoint, status, version }
     }
     log.info('Successfully got used rounds for', { courseCode, semester, result: returnObject })
