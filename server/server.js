@@ -35,7 +35,7 @@ let logConfiguration = {
   level: config.logging.log.level,
   console: config.logging.console,
   stdout: config.logging.stdout,
-  src: config.logging.src
+  src: config.logging.src,
 }
 log.init(logConfiguration)
 
@@ -45,7 +45,7 @@ log.init(logConfiguration)
  */
 const exphbs = require('express-handlebars')
 server.set('views', path.join(__dirname, '/views'))
-server.engine('handlebars', exphbs())
+server.engine('handlebars', exphbs.engine())
 server.set('view engine', 'handlebars')
 
 /* ******************************
@@ -116,7 +116,7 @@ addPaths(
   'api',
   createApiPaths({
     swagger: swaggerData,
-    proxyPrefixPathUri: config.proxyPrefixPath.uri
+    proxyPrefixPathUri: config.proxyPrefixPath.uri,
   })
 )
 
@@ -159,7 +159,7 @@ getClient({
   db: 'kursinfo',
   defaultThroughput: 200,
   maxThroughput: 400,
-  collections: [{ name: 'memofiles' }]
+  collections: [{ name: 'memofiles' }],
 })
 
 module.exports = server
