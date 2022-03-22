@@ -1,5 +1,7 @@
 'use strict'
 
+const fs = require('fs')
+
 const packageFile = require('../../package.json')
 const getPaths = require('kth-node-express-routing').getPaths
 const db = require('kth-node-mongo')
@@ -7,7 +9,7 @@ const version = require('../../config/version')
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
 const { IHealthCheck } = require('kth-node-monitor').interfaces
-const config = require('../configuration').server
+const configServer = require('../configuration').server
 
 /**
  * System controller for functions such as about and monitor.
@@ -19,15 +21,35 @@ module.exports = {
   robotsTxt: getRobotsTxt,
   paths: getPathsHandler,
   checkAPIKey: checkAPIKey,
-  swagger: getSwagger
+  swagger: getSwagger,
+  swaggerUI: getSwaggerUI,
 }
 
 /**
  * GET /swagger.json
  * Swagger config
  */
-function getSwagger (req, res) {
+function getSwagger(req, res) {
   res.json(require('../../swagger.json'))
+}
+
+/**
+ * GET /swagger
+ * Swagger
+ */
+function getSwaggerUI(req, res) {
+  if (req.url === configServer.proxyPrefixPath.uri + '/swagger') {
+    // This redirect is needed since swagger js & css files to get right paths
+    return res.redirect(configServer.proxyPrefixPath.uri + '/swagger/')
+  }
+
+  const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
+  const swaggerUrl = configServer.proxyPrefixPath.uri + '/swagger.json'
+  const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
+
+  const indexContent = fs.readFileSync(`${pathToSwaggerUi}/index.html`).toString().replace(petstoreUrl, swaggerUrl)
+
+  return res.type('text/html').send(indexContent)
 }
 
 /**
@@ -38,7 +60,7 @@ function getSwagger (req, res) {
  * GET /_about
  * About page
  */
-function getAbout (req, res) {
+function getAbout(req, res) {
   const paths = getPaths()
   res.render('system/about', {
     layout: '', // must be empty by some reason
@@ -46,7 +68,7 @@ function getAbout (req, res) {
     appVersion: JSON.stringify(packageFile.version),
     appDescription: JSON.stringify(packageFile.description),
     version: JSON.stringify(version),
-    config: JSON.stringify(config.templateConfig),
+    config: JSON.stringify(configServer.templateConfig),
     gitBranch: JSON.stringify(version.gitBranch),
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
@@ -54,7 +76,7 @@ function getAbout (req, res) {
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
     monitorUri: paths.system.monitor.uri,
-    robotsUri: paths.system.robots.uri
+    robotsUri: paths.system.robots.uri,
   })
 }
 
@@ -62,7 +84,7 @@ function getAbout (req, res) {
  * GET /_monitor
  * Monitor page
  */
-function getMonitor (req, res) {
+function getMonitor(req, res) {
   // Check MongoDB
   const mongodbHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-mongodb')
   const subSystems = [mongodbHealthUtil.status(db, { required: true })]
@@ -80,25 +102,27 @@ function getMonitor (req, res) {
   const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
   const systemStatus = systemHealthUtil.status(localSystems, subSystems)
 
-  systemStatus.then((status) => {
-    // Return the result either as JSON or text
-    if (req.headers['accept'] === 'application/json') {
-      let outp = systemHealthUtil.renderJSON(status)
-      res.status(status.statusCode).json(outp)
-    } else {
-      let outp = systemHealthUtil.renderText(status)
-      res.type('text').status(status.statusCode).send(outp)
-    }
-  }).catch((err) => {
-    res.type('text').status(500).send(err)
-  })
+  systemStatus
+    .then(status => {
+      // Return the result either as JSON or text
+      if (req.headers['accept'] === 'application/json') {
+        let outp = systemHealthUtil.renderJSON(status)
+        res.status(status.statusCode).json(outp)
+      } else {
+        let outp = systemHealthUtil.renderText(status)
+        res.type('text').status(status.statusCode).send(outp)
+      }
+    })
+    .catch(err => {
+      res.type('text').status(500).send(err)
+    })
 }
 
 /**
  * GET /robots.txt
  * Robots.txt page
  */
-function getRobotsTxt (req, res) {
+function getRobotsTxt(req, res) {
   res.type('text').render('system/robots')
 }
 
@@ -106,10 +130,10 @@ function getRobotsTxt (req, res) {
  * GET /_paths
  * Return all paths for the system
  */
-function getPathsHandler (req, res) {
+function getPathsHandler(req, res) {
   res.json(getPaths())
 }
 
-function checkAPIKey (req, res) {
+function checkAPIKey(req, res) {
   res.end()
 }
