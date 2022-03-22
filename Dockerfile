@@ -15,6 +15,17 @@ RUN chmod +x /wait
 #
 RUN apk add --no-cache bash
 
+RUN mkdir -p /npm && \
+    mkdir -p /application
+
+# We do this to avoid npm install when we're only changing code
+WORKDIR /npm
+COPY ["package-lock.json", "package-lock.json"]
+COPY ["package.json", "package.json"]
+
+RUN npm install --production --no-optional --unsafe-perm && \
+    npm audit fix --only=prod
+
 #
 # Put the application into a directory in the root.
 # This will prevent file polution and possible overwriting of files.
@@ -28,22 +39,10 @@ ENV NODE_PATH /application
 ENV TZ Europe/Stockholm
 
 
-
-# RUN mkdir -p /npm && \
-#    mkdir -p /application
-
-# We do this to avoid npm install when we're only changing code
-#WORKDIR /npm
-COPY ["package-lock.json", "package-lock.json"]
-COPY ["package.json", "package.json"]
-
-RUN npm install --production --no-optional --unsafe-perm && \
-    npm audit fix --only=prod
-
 # Add the code and copy over the node_modules-catalog
 # WORKDIR /application
-# RUN cp -a /npm/node_modules /application && \
-#     rm -rf /npm
+RUN cp -a /npm/node_modules /application && \
+    rm -rf /npm
 
 # Copy files used by Gulp.
 COPY ["config", "config"]
@@ -54,8 +53,6 @@ COPY ["package.json", "package.json"]
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]
-
-ENV NODE_PATH /application
 
 EXPOSE 3001
 
