@@ -13,8 +13,10 @@
     "test:watch": "NODE_ENV=test jest test/*/*.js --watch",
     "test:docker:unit": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --build --abort-on-container-exit --always-recreate-deps --force-recreate",
     "test:docker:integration": "docker build --progress plain -t kurs-pm-api-integration . && bash -c 'LOCAL_IMAGE_ID=kurs-pm-api-integration SUCCESS_DELAY=5000 docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --build --remove-orphans'",
-    "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development nodemon app.js"
+    "validate:swagger": "node ./test/swagger-validate.js",
+    "validate:swagger-watch": "nodemon --watch swagger.json ./test/swagger-validate.js",
+    "start": "bash -c '/wait; cat /KTH_NODEJS; NODE_ENV=production node app.js'",
+    "start-dev": "bash -c 'NODE_ENV=development nodemon app.js'"
   },
   "dependencies": {
     "@kth/kth-node-cosmos-db": "^3.0.6",
