@@ -26,6 +26,7 @@
     "eslint-plugin-jest": "^26.1.0",
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
+    "fs": "0.0.1-security",
     "kth-node-access-log": "^0.2.7",
     "kth-node-api-common": "^1.0.10",
     "kth-node-api-key-strategy": "^1.0.14",
@@ -39,7 +40,7 @@
     "passport": "^0.4.1",
     "safe-utils": "1.0.1",
     "saslprep": "^1.0.3",
-    "swagger-ui-dist": "^3.51.1"
+    "swagger-ui-dist": "^4.6.2"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^2.0.2",
