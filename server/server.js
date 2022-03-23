@@ -1,5 +1,5 @@
 'use strict'
-const server = require('kth-node-server')
+const server = require('@kth/server')
 const path = require('path')
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
@@ -25,7 +25,7 @@ module.exports.getPaths = () => getPaths()
  * ******* LOGGING *******
  * ***********************
  */
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const packageFile = require('../package.json')
 
 let logConfiguration = {
@@ -90,7 +90,7 @@ require('./database').connect()
  * **********************************
  */
 const addPaths = require('kth-node-express-routing').addPaths
-const { createApiPaths, notFoundHandler, errorHandler } = require('kth-node-api-common')
+const { createApiPaths, notFoundHandler, errorHandler } = require('@kth/kth-node-api-common')
 const swaggerData = require('../swagger.json')
 const { System } = require('./controllers')
 
@@ -153,21 +153,21 @@ server.use('/', apiRoute.getRouter())
 server.use(notFoundHandler)
 server.use(errorHandler)
 
-/* **********************************
- * ******* INIT AZURE CLIENT  *******
- * **********************************
- */
+// /* **********************************
+//  * ******* INIT AZURE CLIENT  *******
+//  * **********************************
+//  */
 
-const { getClient } = require('@kth/kth-node-cosmos-db')
+// const { getClient } = require('@kth/kth-node-cosmos-db')
 
-getClient({
-  username: config.db.username,
-  password: config.db.password,
-  host: config.db.host,
-  db: 'kursinfo',
-  defaultThroughput: 200,
-  maxThroughput: 400,
-  collections: [{ name: 'memofiles' }],
-})
+// getClient({
+//   username: config.db.username,
+//   password: config.db.password,
+//   host: config.db.host,
+//   db: 'kursinfo',
+//   defaultThroughput: 200,
+//   maxThroughput: 400,
+//   collections: [{ name: 'memofiles' }],
+// })
 
 module.exports = server

@@ -1,58 +1,60 @@
 'use strict'
 
-const { wrap } = require('@kth/kth-node-cosmos-db')
 const mongoose = require('mongoose')
 
 const schema = mongoose.Schema({
   courseCode: {
     type: String,
     trim: true,
-    required: [true, 'Enter course code']
+    required: [true, 'Enter course code'],
   },
   courseTitle: {
     type: String,
-    trim: true
+    trim: true,
     // required: [true, 'Enter course name']
   },
   departmentName: {
     type: String,
-    trim: true
+    trim: true,
   },
   ladokRoundIds: {
     type: Array,
     items: String,
     trim: true,
-    required: [true, 'Enter course rounds']
+    required: [true, 'Enter course rounds'],
   },
   memoEndPoint: {
     type: String,
     trim: true,
-    required: [true, 'Enter course memo endpoint to use for bookmark']
+    required: [true, 'Enter course memo endpoint to use for bookmark'],
   },
   memoName: {
     type: String,
     trim: true,
-    required: [false, 'Enter well readable memo name to use to describe which course offering included in course memo.']
+    required: [
+      false,
+      'Enter well readable memo name to use to describe which course offering included in course memo.',
+    ],
   },
   semester: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   status: {
     type: String,
-    default: 'draft'
+    default: 'draft',
   },
   version: {
     type: Number,
-    default: 1
-  }
+    default: 1,
+  },
 })
 
-const WebCourseMemoModel = wrap(mongoose.model('CourseMemo', schema))
+const WebCourseMemoModel = mongoose.model('CourseMemo', schema)
 
 module.exports = {
   WebCourseMemoModel,
-  schema
+  schema,
 }

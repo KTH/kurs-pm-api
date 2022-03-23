@@ -1,14 +1,15 @@
 'use strict'
 
-const log = require('kth-node-log')
-const config = require('./configuration').server
-const passport = require('passport')
-const server = require('./server')
+const log = require('@kth/log')
 const apiKey = require('kth-node-api-key-strategy')
+const passport = require('passport')
+const config = require('./configuration').server
+const server = require('./server')
+
 const ApiKeyStrategy = apiKey.Strategy
-const options = { log: log }
+const options = { log }
 const verify = (req, apikey, done) => {
-  apiKey.verifyApiKey(req, apikey, config.kurs_pm_api_keys, done)
+  apiKey.verifyApiKey(req, apikey, config.api_keys, done)
 }
 const strategy = new ApiKeyStrategy(options, verify)
 

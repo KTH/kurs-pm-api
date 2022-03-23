@@ -1,8 +1,8 @@
 'use strict'
 
+const log = require('@kth/log')
+const nodeMongo = require('@kth/mongo')
 const config = require('./configuration').server
-const log = require('kth-node-log')
-const nodeMongo = require('kth-node-mongo')
 
 const mongoOptions = {
   user: config.db.username,
@@ -10,16 +10,15 @@ const mongoOptions = {
   ssl: config.db.ssl,
   dbUri: config.db.authDatabase !== '' ? config.db.uri + `?authSource=${config.db.authDatabase}` : config.db.uri,
   logger: log,
-  useUnifiedTopology: true
 }
 
-module.exports.connect = function () {
+module.exports.connect = function connect() {
   nodeMongo
     .connect(mongoOptions)
-    .then((data) => {
-      log.info({ data: data }, 'MongoDB: connected')
+    .then(() => {
+      log.info('MongoDB: connected')
     })
-    .catch((err) => {
-      log.error({ err: err }, 'MongoDB: ERROR connecting DB')
+    .catch(err => {
+      log.error({ err }, 'MongoDB: ERROR connecting DB')
     })
 }

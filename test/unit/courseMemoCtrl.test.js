@@ -129,7 +129,7 @@ function buildNext(impl) {
   return jest.fn(impl).mockName('next')
 }
 
-jest.mock('kth-node-log', () => {
+jest.mock('@kth/log', () => {
   return {
     init: jest.fn(),
     debug: jest.fn(),

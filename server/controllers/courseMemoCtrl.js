@@ -1,9 +1,9 @@
 'use strict'
 
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const dbOneDocument = require('../lib/dbDataById')
-const dbCollectedData = require('../lib/dbCollectedData')
 const { WebCourseMemoModel } = require('../models/dynamicMemosModel')
+const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 async function getMemoDataById(req, res) {
   const { id } = req.params
@@ -104,26 +104,28 @@ async function getUsedRounds(req, res) {
   const { semester } = req.params
   log.info(' Received request for used rounds for: ', { courseCode })
   try {
-    const dbStoredPdfMemos = await dbCollectedData.fetchAllByCourseCodeAndSemester(courseCode.toUpperCase(), semester)
-    const dbDynamicMemos = await WebCourseMemoModel.aggregate([
+    log.warn('1')
+    const dbWebBasedMemos = await WebCourseMemoModel.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
-    log.debug(' Fethed dbDynamicMemos which are web-based memos', { dbDynamicMemos })
+    const dbPdfMemoFiles = await StoredMemoPdfsModel.aggregate([{ $match: { courseCode, semester } }])
+
+    log.debug(' Fethed dbWebBasedMemos which are web-based memos', { dbWebBasedMemos })
 
     const returnObject = {
       usedRoundsIdList: [],
       roundsIdWithWebVersion: {},
       roundsIdWithPdfVersion: {},
     }
-    for (let index = 0; index < dbStoredPdfMemos.length; index++) {
-      const { _id: pdfFileId, koppsRoundId, previousFileList = [] } = dbStoredPdfMemos[index]
+    for (let index = 0; index < dbPdfMemoFiles.length; index++) {
+      const { _id: pdfFileId, koppsRoundId, previousFileList = [] } = dbPdfMemoFiles[index]
       const version = previousFileList.length + 1
-      returnObject[pdfFileId] = dbStoredPdfMemos[index]
+      returnObject[pdfFileId] = dbPdfMemoFiles[index]
       returnObject.usedRoundsIdList.push(koppsRoundId)
       returnObject.roundsIdWithPdfVersion[koppsRoundId] = { version }
     }
-    for (let index = 0; index < dbDynamicMemos.length; index++) {
-      const { memoEndPoint, status, ladokRoundIds, version } = dbDynamicMemos[index]
+    for (let index = 0; index < dbWebBasedMemos.length; index++) {
+      const { memoEndPoint, status, ladokRoundIds, version } = dbWebBasedMemos[index]
       returnObject.usedRoundsIdList.push(...ladokRoundIds)
 
       returnObject.roundsIdWithWebVersion[ladokRoundIds] = { memoEndPoint, status, version }

@@ -1,4 +1,4 @@
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
 function _fetchCourseMemoDataById(id) {
   if (!id) throw new Error('id must be set')
   log.debug('Fetching roundCourseMemoData by ID', { _id: id })
-  return StoredMemoPdfsModel.findOne({ _id: id }).populate('MemoData').lean()
+  return StoredMemoPdfsModel.findOne({ _id: id })
 }
 
 function _storeNewCourseMemoData(data) {
