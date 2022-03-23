@@ -3,7 +3,7 @@
 # Versions: https://hub.docker.com/r/kthse/kth-nodejs/tags
 #
 FROM kthse/kth-nodejs:16.0.0
-LABEL maintainer="KTH Webb <web-developers@kth.se>"
+LABEL maintainer="KTH-studadm studadm.developers@kth.se"
 
 #
 # During integration-tests running with docker-compose in the pipeline
