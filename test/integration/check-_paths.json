@@ -1,6 +1,7 @@
 {
   "expectedDefaultResponseCodes": [401, 403],
   "expectedSingleResponses": [
-    { "method": "GET", "statusCode": 200, "uri": "http://api:3000/api/kurs-pm/swagger/swagger-initializer.js" }
+    { "method": "GET", "statusCode": 200, "uri": "http://api:3000/api/kurs-pm/swagger/swagger-initializer.js" },
+    { "method": "GET", "statusCode": 200, "uri": "http://api:3000/api/kurs-pm/swagger/" }
   ]
 }
