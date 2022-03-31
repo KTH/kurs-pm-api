@@ -104,7 +104,6 @@ async function getUsedRounds(req, res) {
   const { semester } = req.params
   log.info(' Received request for used rounds for: ', { courseCode })
   try {
-    log.warn('1')
     const dbWebBasedMemos = await WebCourseMemoModel.aggregate([
       { $match: { courseCode, semester, $or: [{ status: 'draft' }, { status: 'published' }] } },
     ])
