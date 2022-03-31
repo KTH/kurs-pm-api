@@ -102,6 +102,8 @@ systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
 systemRoute.get('system.about', _addProxy('/_about'), System.about)
 systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.swaggerUI', _addProxy('/swagger/swagger-initializer.js'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger/'), System.swaggerUI)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 systemRoute.get('system.swagger', _addProxy('/swagger.json'), System.swagger)
 server.use('/', systemRoute.getRouter())
@@ -150,22 +152,5 @@ server.use('/', apiRoute.getRouter())
 // Catch not found and errors
 server.use(notFoundHandler)
 server.use(errorHandler)
-
-// /* **********************************
-//  * ******* INIT AZURE CLIENT  *******
-//  * **********************************
-//  */
-
-// const { getClient } = require('@kth/kth-node-cosmos-db')
-
-// getClient({
-//   username: config.db.username,
-//   password: config.db.password,
-//   host: config.db.host,
-//   db: 'kursinfo',
-//   defaultThroughput: 200,
-//   maxThroughput: 400,
-//   collections: [{ name: 'memofiles' }],
-// })
 
 module.exports = server
