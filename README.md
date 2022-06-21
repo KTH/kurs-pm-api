@@ -56,6 +56,16 @@ SERVER_PORT=[server port is optional, mostly for local use, f.e., 3003]
 USE_COSMOS_DB='true'
 ```
 
+## Prepara Database in Azure
+
+Create database `kursinfo` and manually set Throughput: 400 (Shared),
+In this database create a collection `coursememos` where a shard key is `/courseCode`.
+Change a connection string:
+
+`mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true&replicaSet=globaldb~~`/kursinfo?ssl=true&authSource=kursinfo`
+
+Mer information finns i Confluence: https://confluence.sys.kth.se/confluence/x/a4_KC
+
 ### How API data look like in configure the applications
 
 Look at data definitions and paths in `swagger.json` and in [http://localhost:3003/api/kurs-pm/swagger][localhost swagger].
