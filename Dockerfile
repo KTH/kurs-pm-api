@@ -53,7 +53,6 @@ RUN npm pkg delete scripts.prepare && \
 # Copy files used by Gulp.
 COPY --chown=node:node ["config", "config"]
 
-# Copy source files, so changes does not trigger gulp.
 COPY --chown=node:node ["app.js", "app.js"]
 COPY --chown=node:node ["swagger.json", "swagger.json"]
 COPY --chown=node:node ["server", "server"]
