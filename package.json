@@ -21,9 +21,9 @@
   "dependencies": {
     "@kth/kth-node-api-common": "^2.0.3",
     "@kth/log": "^4.0.4",
-    "@kth/mongo": "^4.0.11",
+    "@kth/mongo": "^4.0.12",
     "@kth/monitor": "^3.0.25",
-    "@kth/server": "^4.0.3",
+    "@kth/server": "^4.0.4",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.2",
