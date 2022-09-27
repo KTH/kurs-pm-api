@@ -40,7 +40,7 @@
     "swagger-ui-dist": "^4.14.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.18.9",
+    "@babel/eslint-parser": "^7.19.1",
     "@kth/eslint-config-kth": "^3.0.10",
     "cross-env": "^7.0.3",
     "eslint": "^8.24.0",
