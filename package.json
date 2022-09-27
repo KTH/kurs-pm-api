@@ -34,7 +34,7 @@
     "kth-node-api-key-strategy": "^2.0.0",
     "kth-node-configuration": "^2.0.13",
     "kth-node-express-routing": "^2.0.15",
-    "mongoose": "^6.5.4",
+    "mongoose": "^6.6.2",
     "passport": "^0.6.0",
     "safe-utils": "1.0.1",
     "swagger-ui-dist": "^4.14.0"
@@ -43,7 +43,7 @@
     "@babel/eslint-parser": "^7.18.9",
     "@kth/eslint-config-kth": "^3.0.10",
     "cross-env": "^7.0.3",
-    "eslint": "^8.23.0",
+    "eslint": "^8.24.0",
     "eslint-plugin-jest": "^27.0.4",
     "husky": "^8.0.1",
     "is-ci-cli": "^2.2.0",
