@@ -43,7 +43,7 @@
     "@babel/eslint-parser": "^7.19.1",
     "@kth/eslint-config-kth": "^3.0.10",
     "cross-env": "^7.0.3",
-    "eslint": "^8.27.0",
+    "eslint": "^8.28.0",
     "eslint-plugin-jest": "^27.1.5",
     "husky": "^8.0.2",
     "is-ci-cli": "^2.2.0",
