@@ -21,7 +21,13 @@ const schema = mongoose.Schema({
     type: Array,
     items: String,
     trim: true,
-    required: [true, 'Enter course rounds'],
+    required: [false, 'Enter course rounds'],
+  },
+  applicationCodes: {
+    type: Array,
+    items: String,
+    trim: true,
+    required: [true, 'Enter course application codes'],
   },
   memoEndPoint: {
     type: String,

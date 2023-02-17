@@ -6,53 +6,59 @@ const schema = mongoose.Schema({
   _id: String,
   courseCode: {
     type: String,
-    required: [true, 'Enter Course Code']
+    required: [true, 'Enter Course Code'],
   },
   pdfMemoUploadDate: {
     type: String, // TODO: DATE
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   changedBy: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   semester: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
   },
   koppsRoundId: {
     type: String,
     trim: true,
     minlength: 0,
-    default: ''
+    default: '',
+  },
+  applicationCode: {
+    type: String,
+    trim: true,
+    minlength: 0,
+    default: '',
   },
   courseMemoFileName: {
     type: String,
     trim: true,
-    default: ''
+    default: '',
   },
   ugKeys: {
     type: Array,
-    default: []
+    default: [],
   },
   lastChangeDate: {
     type: String,
-    default: ''
+    default: '',
   },
   previousFileList: {
     type: Array,
-    default: []
-  }
+    default: [],
+  },
 })
 
 const StoredMemoPdfsModel = mongoose.model('MemoFile', schema)
 module.exports = {
   StoredMemoPdfsModel,
-  schema
+  schema,
 }
