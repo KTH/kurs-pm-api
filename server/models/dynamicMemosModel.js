@@ -17,12 +17,6 @@ const schema = mongoose.Schema({
     type: String,
     trim: true,
   },
-  ladokRoundIds: {
-    type: Array,
-    items: String,
-    trim: true,
-    required: [false, 'Enter course rounds'],
-  },
   applicationCodes: {
     type: Array,
     items: String,

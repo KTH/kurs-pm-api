@@ -1,6 +1,7 @@
 # Kurs-pm-api
 
 ## Api to Upload alternative course memo as PDF
+
 This API is made within course information projekt(kip) to **support only one admin micro service** to administrate uploading of memo as PDF in `kurs-pm-admin-web`.
 
 This api is used only by `kurs-pm-admin-web` to upload memo files in PDF format to a common blobstorage and saves information about file in database.
@@ -45,8 +46,8 @@ Therefore it is connected only to admin part to save data and send it to the sam
 
 ### How to configure the applications
 
-1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex. 
-This api read data from the same database as kurs-pm-data-api, f.e., in stage it is kurs-pm-data-api-stage-mongodb-kthse:
+1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex.
+   This api read data from the same database as kurs-pm-data-api, f.e., in stage it is kurs-pm-data-api-stage-mongodb-kthse:
 
 ```
 KURSPM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&scope=write&scope=read
@@ -65,7 +66,6 @@ USE_COSMOS_DB='true'
 `mongodb://kurs-pm-data-api-stage-mongodb-kthse:[password]==@kurs-pm-data-api-stage-mongodb-kthse.documents.azure.com:[port]`~~/?ssl=true~~`/kursinfo?ssl=true&authSource=kursinfo`
 
 More information can be found in Confluence: [Om kursen: Databas och API, connection string](https://confluence.sys.kth.se/confluence/x/a4_KC)
-
 
 ### How API data look like in configure the applications
 
@@ -116,10 +116,6 @@ Here is one example
       "type": "string",
       "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
     },
-    "roundIdList": {
-      "type": "string",
-      "description": "List of round id:s for which memo is valid (kurstillfälle)"
-    },
     "courseMemoFileName": {
       "type": "string",
       "description": "Uploaded courseMemo file"
@@ -133,32 +129,34 @@ Here is one example
     "type": "array",
     "description": "Date for changes made after published???"
   },
-  
+
 },
 ```
+
 Vesion handles:
+
 ```json
-  { 
-    "previousFileList": {
-       "type": "array",
-       "items": "object",
-       "description": "Array for object with previous memo files and its upload date",
-       "properties": {
-         "courseMemoFileName": {
-           "type": "string",
-           "description": "File name of a previous course memo"
-         },
-         "lastChangeDate": {
-           "type": "string",
-           "description": "Published date of a previous course memo"
-         },
-         "version": {
-           "type": "string",
-           "description": "Version number of course memo"
-         }
-       }
-     }
+{
+  "previousFileList": {
+    "type": "array",
+    "items": "object",
+    "description": "Array for object with previous memo files and its upload date",
+    "properties": {
+      "courseMemoFileName": {
+        "type": "string",
+        "description": "File name of a previous course memo"
+      },
+      "lastChangeDate": {
+        "type": "string",
+        "description": "Published date of a previous course memo"
+      },
+      "version": {
+        "type": "string",
+        "description": "Version number of course memo"
+      }
+    }
   }
+}
 ```
 
 #### What is `swagger-ui-dist`?

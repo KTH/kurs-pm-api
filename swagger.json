@@ -268,10 +268,6 @@
           "type": "string",
           "description": "Course start term year (spring(VT)-1, autumn(HT)-2) , f.e. 20182 or 20181 (termin)"
         },
-        "koppsRoundId": {
-          "type": "string",
-          "description": "List of round id:s for which memo is valid (kurstillfälle)"
-        },
         "courseMemoFileName": {
           "type": "string",
           "description": "Uploaded courseMemo file"
@@ -315,10 +311,6 @@
           "type": "string",
           "description": "When document were published (first)?? time"
         },
-        "koppsRoundId": {
-          "type": "string",
-          "description": "List of round id:s for which memo is valid (kurstillfälle)"
-        },
         "courseMemoFileName": {
           "type": "string",
           "description": "Uploaded courseMemo file"
@@ -330,10 +322,6 @@
       }
     },
     "UsedRoundsForCourseAndSemester": {
-      "roundIdList": {
-        "type": "string",
-        "description": "List course rounds"
-      },
       "memoList": {
         "type": "string",
         "description": "Who made changes to documents"
