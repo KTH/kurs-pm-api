@@ -2,7 +2,6 @@ function MockSample(doc) {
   this._id = doc.id
   this.courseCode = doc.courseCode
   this.semester = doc.semester
-  this.koppsRoundId = doc.koppsRoundId
   this.applicatinCode = doc.applicatinCode
   this.courseMemoFileName = doc.courseMemoFileName
   this.lastChangedDate = doc.lastChangedDate
@@ -14,7 +13,6 @@ MockSample.findOne = function ({ _id }) {
     doc = new MockSample({
       id: _id,
       courseCode: 'SF1624',
-      koppsRoundId: '9',
       applicatinCode: '9',
       semester: '20202',
       courseMemoFileName: 'memo-SF162420202-74552a9c31e7.pdf',
@@ -41,7 +39,6 @@ MockSample.findOneAndUpdate = function (params, data) {
     doc = new MockSample({
       id,
       courseCode: 'SF1624',
-      koppsRoundId: '9',
       applicatinCode: '9',
       semester: '20202',
       courseMemoFileName: 'memo-SF162420202-74552a9c31e7.pdf',
