@@ -112,22 +112,22 @@ async function getUsedRounds(req, res) {
     log.debug(' Fethed dbWebBasedMemos which are web-based memos', { dbWebBasedMemos })
 
     const returnObject = {
-      usedRoundsIdList: [],
-      roundsIdWithWebVersion: {},
-      roundsIdWithPdfVersion: {},
+      usedRoundsApplicationCodeList: [],
+      roundsApplicationCodeWithWebVersion: {},
+      roundsApplicationCodeWithPdfVersion: {},
     }
     for (let index = 0; index < dbPdfMemoFiles.length; index++) {
-      const { _id: pdfFileId, koppsRoundId, previousFileList = [] } = dbPdfMemoFiles[index]
+      const { _id: pdfFileId, applicationCode, previousFileList = [] } = dbPdfMemoFiles[index]
       const version = previousFileList.length + 1
       returnObject[pdfFileId] = dbPdfMemoFiles[index]
-      returnObject.usedRoundsIdList.push(koppsRoundId)
-      returnObject.roundsIdWithPdfVersion[koppsRoundId] = { version }
+      returnObject.usedRoundsApplicationCodeList.push(applicationCode)
+      returnObject.roundsApplicationCodeWithPdfVersion[applicationCode] = { version }
     }
     for (let index = 0; index < dbWebBasedMemos.length; index++) {
-      const { memoEndPoint, status, ladokRoundIds, version } = dbWebBasedMemos[index]
-      returnObject.usedRoundsIdList.push(...ladokRoundIds)
+      const { memoEndPoint, status, applicationCodes, version } = dbWebBasedMemos[index]
+      returnObject.usedRoundsApplicationCodeList.push(...applicationCodes)
 
-      returnObject.roundsIdWithWebVersion[ladokRoundIds] = { memoEndPoint, status, version }
+      returnObject.roundsApplicationCodeWithWebVersion[applicationCodes] = { memoEndPoint, status, version }
     }
     log.info('Successfully got used rounds for', { courseCode, semester, result: returnObject })
     res.json(returnObject)

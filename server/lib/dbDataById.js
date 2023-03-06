@@ -1,13 +1,6 @@
 const log = require('@kth/log')
 const { StoredMemoPdfsModel } = require('../models/storedMemoPdfsModel')
 
-module.exports = {
-  fetchCourseMemoDataById: _fetchCourseMemoDataById,
-  storeNewCourseMemoData: _storeNewCourseMemoData,
-  updateCourseMemoDataById: _updateCourseMemoDataById,
-  removeCourseMemoDataById: _removeCourseMemoDataById,
-}
-
 function _fetchCourseMemoDataById(id) {
   if (!id) throw new Error('id must be set')
   log.debug('Fetching roundCourseMemoData by ID', { _id: id })
@@ -35,4 +28,11 @@ async function _updateCourseMemoDataById(data) {
 function _removeCourseMemoDataById(id, courseCode) {
   log.debug('deleted roundCourseMemoData by ID: ', { id })
   return StoredMemoPdfsModel.deleteOne({ _id: id, courseCode })
+}
+
+module.exports = {
+  fetchCourseMemoDataById: _fetchCourseMemoDataById,
+  storeNewCourseMemoData: _storeNewCourseMemoData,
+  updateCourseMemoDataById: _updateCourseMemoDataById,
+  removeCourseMemoDataById: _removeCourseMemoDataById,
 }

@@ -17,11 +17,11 @@ const schema = mongoose.Schema({
     type: String,
     trim: true,
   },
-  ladokRoundIds: {
+  applicationCodes: {
     type: Array,
     items: String,
     trim: true,
-    required: [true, 'Enter course rounds'],
+    required: [true, 'Enter course application codes'],
   },
   memoEndPoint: {
     type: String,
