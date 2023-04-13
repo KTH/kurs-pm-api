@@ -4,6 +4,6 @@ services:
   kursstatistik-api:
     image: $LOCAL_IMAGE_ID
     volumes:
-      - ${WORKSPACE}/test:/application/test
+      - ./test:/application/test
     tty: true
     command: ['sh', '-c', 'npm install --development && npm test']
