@@ -59,6 +59,6 @@ COPY --chown=node:node ["server", "server"]
 
 ENV NODE_PATH /application
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["node", "app.js"]
