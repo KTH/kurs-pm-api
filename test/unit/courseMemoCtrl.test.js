@@ -173,4 +173,17 @@ describe('Test functions of courseMemoCtrl.js', () => {
     expect(res.status).toHaveBeenNthCalledWith(1, 201)
     expect(res.json).toHaveBeenCalledTimes(1)
   })
+
+  test('postMemoData throws error if missing parameters', async () => {
+    const { postMemoData } = require('../../server/controllers/courseMemoCtrl')
+    const memoList = [{}]
+    const req = buildReq({
+      params: { id: 'SF1624_20202_9' },
+      body: memoList,
+    })
+    const res = buildRes()
+    await postMemoData(req, res)
+    expect(res.status).toHaveBeenNthCalledWith(1, 400)
+    expect(res.json).not.toHaveBeenCalled()
+  })
 })

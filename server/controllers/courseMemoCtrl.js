@@ -24,6 +24,21 @@ async function postMemoData(req, res) {
     const { body: memoList } = req
     const { length: listLength } = memoList
 
+    try {
+      for (let memoIndex = 0; memoIndex < listLength; memoIndex++) {
+        const memo = memoList[memoIndex]
+        if (!memo.courseCode || !memo.applicationCode || !memo.semester) {
+          const errorMessage = `Trying to post data without courseCode, applicationCode or semester in postMemoData.`
+          log.error(errorMessage + ` Memo_id: ${memo._id}, changedBy: ${memo.changedBy}`)
+          throw new Error(errorMessage)
+        }
+      }
+    } catch (error) {
+      res.statusMessage = error.message
+      res.status(400).end()
+      return error
+    }
+
     const dbResponse = []
 
     for (let memoIndex = 0; memoIndex < listLength; memoIndex++) {
@@ -52,6 +67,7 @@ async function postMemoData(req, res) {
     }
     log.info(` dbResponse IN postMemoData ${dbResponse}`)
     res.status(201).json(dbResponse)
+    return dbResponse
   } catch (error) {
     log.error('Error in while trying to postMemoData', { error })
     return error
@@ -60,6 +76,18 @@ async function postMemoData(req, res) {
 
 async function putMemoDataById(req, res) {
   try {
+    try {
+      if (!req.body.courseCode || !req.body.applicationCode || !req.body.semester) {
+        const errorMessage = `Trying to put data without courseCode, applicationCode or semester in putMemoDataById.`
+        log.error(errorMessage + ` Memo_id: ${req.body._id}, changedBy: ${req.body.changedBy}`)
+        throw new Error(errorMessage)
+      }
+    } catch (error) {
+      res.statusMessage = error.message
+      res.status(400).end()
+      return error
+    }
+
     const id = req.body._id
     let dbResponse
     log.info('Try to update or create a new memo ', { id })
