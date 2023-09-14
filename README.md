@@ -1,4 +1,8 @@
-# Kurs-pm-api
+# Welcome to Kurs-pm-api 👋
+
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg?cacheSeconds=2592000)
+![Prerequisite](https://img.shields.io/badge/node-18-blue.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
 ## Api to Upload alternative course memo as PDF
 
