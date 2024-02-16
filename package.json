@@ -35,7 +35,7 @@
     "mongoose": "^8.0.3",
     "passport": "^0.7.0",
     "safe-utils": "1.0.1",
-    "swagger-ui-dist": "^5.10.4"
+    "swagger-ui-dist": "^5.11.7"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
