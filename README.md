@@ -54,7 +54,7 @@ Therefore it is connected only to admin part to save data and send it to the sam
    This api read data from the same database as kurs-pm-data-api, f.e., in stage it is kurs-pm-data-api-stage-mongodb-kthse:
 
 ```
-KURSPM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&scope=write&scope=read
+KURS_PM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&scope=write&scope=read
 #Azure connection string to mongodb uri
 KURS_PM_MONGODB_URI=mongodb://[db-name, f.e., kurs-pm-data-api-stage-mongodb-kthse]:[azure db password]@[db-name].documents.azure.com:[port]/kursinfo?ssl=true&authSource=kursinfo
 SERVER_PORT=[server port is optional, mostly for local use, f.e., 3003]
