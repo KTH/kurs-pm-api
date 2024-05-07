@@ -100,8 +100,6 @@ systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
 systemRoute.get('system.about', _addProxy('/_about'), System.about)
 systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.swaggerUI', _addProxy('/swagger/swagger-initializer.js'), System.swaggerUI)
-systemRoute.get('system.swaggerUI', _addProxy('/swagger'), System.swaggerUI)
-systemRoute.get('system.swaggerUI', _addProxy('/swagger/'), System.swaggerUI)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 systemRoute.get('system.swagger', _addProxy('/swagger.json'), System.swagger)
 server.use('/', systemRoute.getRouter())
@@ -109,11 +107,8 @@ server.use('/', systemRoute.getRouter())
 // Swagger UI
 const express = require('express')
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
-
 const swaggerUrl = _addProxy('/swagger')
-
 const { swaggerHandler } = require('./swagger')
-
 server.use(swaggerUrl, swaggerHandler)
 server.use(swaggerUrl, express.static(pathToSwaggerUi))
 
