@@ -58,7 +58,7 @@ KURS_PM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&sc
 #Azure connection string to mongodb uri
 KURS_PM_MONGODB_URI=mongodb://[db-name, f.e., kurs-pm-data-api-stage-mongodb-kthse]:[azure db password]@[db-name].documents.azure.com:[port]/kursinfo?ssl=true&authSource=kursinfo
 SERVER_PORT=[server port is optional, mostly for local use, f.e., 3003]
-USE_COSMOS_DB='true'
+APPLICATIONINSIGHTS_CONNECTION_STRING=[optional for localhost/dev env]
 ```
 
 ## Prepara Database in Azure
