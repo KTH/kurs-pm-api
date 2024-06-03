@@ -50,16 +50,7 @@ Therefore it is connected only to admin part to save data and send it to the sam
 
 ### How to configure the applications
 
-1. Create .env file and add keys there to show which applications can read or/and write to api, make apiKey unique and complex.
-   This api read data from the same database as kurs-pm-data-api, f.e., in stage it is kurs-pm-data-api-stage-mongodb-kthse:
-
-```
-KURS_PM_API_KEYS_0=?name=kurs-pm-admin-web&apiKey=[generate smth, f.e., 1234]&scope=write&scope=read
-#Azure connection string to mongodb uri
-KURS_PM_MONGODB_URI=mongodb://[db-name, f.e., kurs-pm-data-api-stage-mongodb-kthse]:[azure db password]@[db-name].documents.azure.com:[port]/kursinfo?ssl=true&authSource=kursinfo
-SERVER_PORT=[server port is optional, mostly for local use, f.e., 3003]
-APPLICATIONINSIGHTS_CONNECTION_STRING=[optional for localhost/dev env]
-```
+Secrets during local development are stored in a gitignored `.env` file (`env.in` can be used as template for your `.env` file). More details about environment variable setup and secrets can be found in [confluence](https://confluence.sys.kth.se/confluence/x/OYKBDQ).
 
 ## Prepara Database in Azure
 
@@ -173,8 +164,8 @@ It cannot be stressed enough, **do not remove this package**!
 #### What url to use locally?
 
 ```
-localhost:3003/api/kurs-pm/_about
-localhost:3003/api/kurs-pm/_monitor
-localhost:3003/api/kurs-pm/swagger
+localhost:3001/api/kurs-pm/_about
+localhost:3001/api/kurs-pm/_monitor
+localhost:3001/api/kurs-pm/swagger
 
 ```
